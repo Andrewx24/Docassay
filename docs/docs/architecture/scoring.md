@@ -27,7 +27,7 @@ Rules that apply to every scorer:
 - A score below 1 must come with at least one `Failure`.
 - Compute in float64; round to 4 decimals only when writing output.
 
-## Tables {#tables}
+## Tables
 
 For each expected table `E`, in golden-file order:
 
@@ -66,7 +66,7 @@ tableScore = (0.3·header + 0.2·shape + 0.5·cells) / (sum of weights of compon
 TEDS (tree edit distance on HTML tables) is planned as an additional `structure` component when a golden file labels a full table. It is out of scope for v0.1 because a parity-safe implementation in both languages is non-trivial.
 :::
 
-## Text {#text}
+## Text
 
 ```text
 score = (number of strings s in text_contains where norm(s) is a substring of norm(documentText(doc)))
@@ -75,7 +75,7 @@ score = (number of strings s in text_contains where norm(s) is a substring of no
 
 Matching is exact after normalization, which already handles case, whitespace, line-break hyphenation, ligatures, quote and dash variants. There is no fuzzy matching in v0.1, so results are explainable and identical in both languages. Failure reason: `"text not found"`, with the expected string.
 
-## Reading order {#reading-order}
+## Reading order
 
 Let `T = norm(documentText(doc))`. For each pair `[a, b]`:
 
@@ -84,7 +84,7 @@ Let `T = norm(documentText(doc))`. For each pair `[a, b]`:
 
 `score = passed / len(reading_order)`.
 
-## Fields {#fields}
+## Fields
 
 If `doc.fields` is absent, every expected field fails with `"parser returned no fields"`.
 
@@ -103,7 +103,7 @@ For each `key: expected` in golden order, let `actual = doc.fields[key].value` (
 YAML 1.1 turns `2026-11-01` into a date object in PyYAML but leaves it a string in the JS `yaml` package. Golden files **must be loaded with YAML 1.2 core-schema semantics in both languages**, so unquoted dates stay strings. The Python loader must not construct timestamps. See [Normalization](normalization.md).
 :::
 
-## Chunks {#chunks}
+## Chunks
 
 If `doc.chunks` is absent, the metric scores 0 with `"parser produced no chunks"`.
 
