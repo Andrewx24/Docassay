@@ -1,0 +1,48 @@
+name: Adapter request
+description: Ask for a parser adapter, or propose one you want to contribute.
+title: "[Adapter]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read [Adapters](https://andrewx24.github.io/Docassay/architecture/adapters) first. docassay does not parse documents itself. An adapter only maps a parser's output into a Document.
+  - type: input
+    id: parser
+    attributes:
+      label: Parser
+      description: Product name and the adapter id you propose (`llamaparse:agentic` style).
+      placeholder: docling
+    validations:
+      required: true
+  - type: input
+    id: docs-url
+    attributes:
+      label: API or library docs
+      description: Link to the current vendor API you would map from.
+      placeholder: https://
+    validations:
+      required: true
+  - type: dropdown
+    id: languages
+    attributes:
+      label: Languages
+      multiple: true
+      options:
+        - Python
+        - TypeScript
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this parser
+      description: Who needs it, and what output it has that the current adapters do not cover (tables, chunks, fields, citations).
+    validations:
+      required: true
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I can implement this and record at least two scrubbed vendor payloads.
+          required: false

@@ -1,0 +1,37 @@
+name: Metric proposal
+description: Propose a new score, or a change to how an existing score is computed.
+title: "[Metric]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Scoring rules live in [Scoring](https://andrewx24.github.io/Docassay/architecture/scoring). A metric change needs fixtures under `spec/fixtures/` and must match across Python and TypeScript to 4 decimal places. See [Parity](https://andrewx24.github.io/Docassay/architecture/parity).
+  - type: input
+    id: name
+    attributes:
+      label: Metric name
+      description: Short name, in the same style as `tables`, `text`, `order`, `fields`, `chunks`.
+      placeholder: tables
+    validations:
+      required: true
+  - type: textarea
+    id: measures
+    attributes:
+      label: What it measures
+      description: The input it reads (golden section and Document fields) and the score in [0, 1].
+    validations:
+      required: true
+  - type: textarea
+    id: fixture
+    attributes:
+      label: Fixture sketch
+      description: One passing case and one failing case. Enough that someone else could write the golden file and expected score.
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why the current metrics are not enough
+    validations:
+      required: true

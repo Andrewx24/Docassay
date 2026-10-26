@@ -1,0 +1,44 @@
+name: Bug
+description: A score, CLI command, or adapter does something the docs say it should not.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. Security issues belong in a [private advisory](https://github.com/Andrewx24/Docassay/security/advisories/new), not here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you run, what did you expect, and what did you get?
+      placeholder: docassay check failed a document that matches the golden file.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: A minimal golden file, config, and command. Do not include API keys or personal documents.
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: Where
+      options:
+        - Python package
+        - TypeScript package
+        - Both packages (parity)
+        - Docs
+        - GitHub Action
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `docassay --version`, or the git commit if you are on main.
+      placeholder: "0.0.0"
+    validations:
+      required: true
