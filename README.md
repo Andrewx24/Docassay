@@ -29,6 +29,8 @@ docassay never parses documents itself. It judges the parsers you already use.
 
 ## Docs
 
+Published site: <https://andrewx24.github.io/Docassay/>.
+
 - [Architecture](docs/docs/architecture/overview.md)
 - [Build plan](docs/docs/implementation/build-plan.md)
 - [Agent guide](AGENTS.md) for coding agents
