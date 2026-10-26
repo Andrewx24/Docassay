@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docassay.dev/spec/1.0/golden.schema.json",
+  "title": "GoldenFile",
+  "description": "What correct parser output looks like for one source file. specVersion is const 1.0.0 (carried by Documents and scorecards, not by this file). Humans write this as YAML with snake_case keys. additionalProperties is false except fields, whose keys are open and whose values are string, number, boolean, or null. Cell, number, and date matching follows the Normalization doc; labels keep the text as printed on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["file"],
+  "properties": {
+    "file": {
+      "description": "Source path relative to this golden file.",
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "description": "Defaults to the file stem when omitted.",
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "description": "Used for filtering and grouping.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "expect": { "$ref": "#/$defs/Expect" }
+  },
+  "$defs": {
+    "Expect": {
+      "description": "Every section is optional. A scorer runs only if its section is present.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tables": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TableExpect" }
+        },
+        "text_contains": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "reading_order": {
+          "description": "Each item is a pair [before, after] of non-empty strings.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "fields": {
+          "description": "Open map. The only object in this schema that allows additional properties. Values are string, number, boolean, or null.",
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean", "null"]
+          }
+        },
+        "chunks": { "$ref": "#/$defs/ChunkExpect" }
+      }
+    },
+    "TableExpect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page"],
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "header": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rows": {
+          "description": "Expected body-row count, not the rows themselves.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "cols": { "type": "integer", "minimum": 0 },
+        "cells": {
+          "description": "Spot-checked cells. Row indexes are 0-based body rows.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/CellExpect" }
+        }
+      }
+    },
+    "CellExpect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row", "col", "value"],
+      "properties": {
+        "row": { "type": "integer", "minimum": 0 },
+        "col": {
+          "description": "Header name or 0-based column index.",
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "string", "minLength": 1 }
+          ]
+        },
+        "value": {
+          "description": "Text as it appears on the page, before normalization.",
+          "type": "string"
+        }
+      }
+    },
+    "ChunkExpect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_tokens": { "type": "integer", "minimum": 1 },
+        "min_tokens": { "type": "integer", "minimum": 0 },
+        "no_split_tables": { "type": "boolean" },
+        "heading_paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text", "path"],
+            "properties": {
+              "text": {
+                "description": "A chunk containing this text must have path.",
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

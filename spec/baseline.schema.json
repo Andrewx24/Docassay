@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docassay.dev/spec/1.0/baseline.schema.json",
+  "title": "Baseline",
+  "description": "A scorecard saved as the reference for docassay check. specVersion is const 1.0.0. Wire format is camelCase. documents[].failures is omitted. pinnedAt is the time the baseline was written. additionalProperties is false.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "docassayVersion", "runId", "createdAt", "pinnedAt", "parsers"],
+  "properties": {
+    "specVersion": {
+      "description": "Spec semver. const 1.0.0.",
+      "const": "1.0.0"
+    },
+    "docassayVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "runId": {
+      "description": "Random. Excluded from comparisons.",
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "description": "ISO 8601. Excluded from comparisons.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "pinnedAt": {
+      "description": "ISO 8601 time this baseline was written.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "parsers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ParserResult" }
+    }
+  },
+  "$defs": {
+    "ParserResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser", "adapter", "parserVersion", "summary", "documents"],
+      "properties": {
+        "parser": { "type": "string", "minLength": 1 },
+        "adapter": { "type": "string", "minLength": 1 },
+        "parserVersion": { "type": "string", "minLength": 1 },
+        "summary": { "$ref": "#/$defs/MetricScores" },
+        "costUsd": { "type": "number", "minimum": 0 },
+        "latencyMsP50": { "type": "number", "minimum": 0 },
+        "latencyMsP95": { "type": "number", "minimum": 0 },
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DocumentResult" }
+        }
+      }
+    },
+    "DocumentResult": {
+      "description": "Scorecard document result with failures removed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "file", "scores"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 },
+        "error": { "type": "string", "minLength": 1 },
+        "scores": { "$ref": "#/$defs/MetricScores" }
+      }
+    },
+    "MetricScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tables": { "$ref": "#/$defs/Score" },
+        "text": { "$ref": "#/$defs/Score" },
+        "order": { "$ref": "#/$defs/Score" },
+        "fields": { "$ref": "#/$defs/Score" },
+        "chunks": { "$ref": "#/$defs/Score" },
+        "overall": { "$ref": "#/$defs/Score" }
+      }
+    },
+    "Score": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}

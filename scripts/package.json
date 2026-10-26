@@ -1,0 +1,14 @@
+{
+  "name": "@docassay/scripts",
+  "private": true,
+  "type": "module",
+  "description": "Spec validation and type generation. Not published.",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/invoice-acme.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf",
+    "pageCount": 1
+  },
+  "meta": {
+    "parser": "llamaparse:agentic",
+    "parserVersion": "2026-09-24",
+    "adapterVersion": "0.0.0",
+    "latencyMs": 840,
+    "costUsd": 0.012,
+    "createdAt": "2026-10-26T12:00:00Z",
+    "extra": {"jobId": "job_123"}
+  },
+  "pages": [{"number": 1, "width": 612, "height": 792}],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "heading",
+      "text": "Invoice",
+      "page": 1,
+      "level": 1,
+      "bbox": [72, 72, 200, 96]
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "text": "Payment due within 30 days",
+      "page": 1
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [72, 200, 540, 320],
+      "header": ["Item", "Qty", "Price"],
+      "rows": [["Widget", "2", "1,200.00"]],
+      "markdown": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 | 1,200.00 |"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "Invoice\n\nPayment due within 30 days",
+      "blockIds": ["b1", "b2"],
+      "pages": [1],
+      "headingPath": ["Invoice"],
+      "tokens": 12
+    }
+  ],
+  "fields": {
+    "total": {
+      "value": 4120,
+      "confidence": 0.98,
+      "citations": [{"page": 1, "blockId": "b2", "text": "Payment due within 30 days"}]
+    },
+    "vendor": {"value": "Acme Corp"},
+    "paid": {"value": false},
+    "note": {"value": null}
+  },
+  "warnings": []
+}

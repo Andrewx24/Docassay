@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "golden": "golden/",
+  "parsers": [{"id": "LlamaParse:Agentic"}]
+}

@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Spec
 
-The `spec/` folder holds five JSON Schemas (draft 2020-12). They are the contract between adapters, scorers, reporters and the two languages. This page is the design; the schema files themselves are built in **ALI-311**.
+The `spec/` folder holds five JSON Schemas (draft 2020-12). They are the contract between adapters, scorers, reporters and the two languages. `node scripts/validate-spec.mjs` checks the examples in `spec/examples/` against these schemas.
 
 | Schema | Describes | Written by | Read by |
 | --- | --- | --- | --- |
@@ -22,7 +22,8 @@ The `spec/` folder holds five JSON Schemas (draft 2020-12). They are the contrac
 - **Pages are 1-based.** Table rows and columns are **0-based**, and row 0 is the header row when `header` is present.
 - **Bounding boxes** are `[x0, y0, x1, y1]` in PDF points with the origin at the **top-left** of the page. Adapters convert from their native system.
 - **`specVersion`** is semver, stored in every Document, scorecard and baseline. Breaking changes bump the major.
-- **`additionalProperties: false`** everywhere except `meta.extra` and `fields`, so typos fail fast.
+- **`additionalProperties: false`** everywhere except `meta.extra`, `fields`, and parser `options` (passed through to the adapter), so typos fail fast.
+- **Labels stay literal.** Cell text, numbers, and dates are written as they appear on the page. How those values are matched is decided in [Normalization](normalization.md).
 
 ## Document
 

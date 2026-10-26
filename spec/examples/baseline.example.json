@@ -1,0 +1,25 @@
+{
+  "specVersion": "1.0.0",
+  "docassayVersion": "0.0.0",
+  "runId": "run_7f3a",
+  "createdAt": "2026-10-26T15:00:00Z",
+  "pinnedAt": "2026-10-26T15:05:00Z",
+  "parsers": [
+    {
+      "parser": "llamaparse:agentic",
+      "adapter": "llamaparse:agentic",
+      "parserVersion": "2026-09-24",
+      "summary": {"tables": 0.95, "text": 0.99, "order": 0.96, "fields": 0.98, "overall": 0.96},
+      "costUsd": 0.012,
+      "latencyMsP50": 840,
+      "latencyMsP95": 1200,
+      "documents": [
+        {
+          "id": "invoice-acme",
+          "file": "files/invoice-acme.pdf",
+          "scores": {"tables": 1, "text": 1, "order": 1, "fields": 1, "overall": 1}
+        }
+      ]
+    }
+  ]
+}

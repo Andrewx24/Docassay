@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docassay.dev/spec/1.0/config.schema.json",
+  "title": "Config",
+  "description": "A docassay.yaml file. specVersion is const 1.0.0 (the spec this config is written against; the file's own version field is the config format, const 1). Humans write this as YAML with snake_case keys. additionalProperties is false. parsers[].options is an open object because the Spec page passes options through to the adapter unchanged. Threshold metric names are the scorecard metrics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "golden", "parsers"],
+  "properties": {
+    "version": {
+      "description": "Config format. Not specVersion.",
+      "const": 1
+    },
+    "golden": {
+      "description": "Folder of *.yaml golden files, relative to this file.",
+      "type": "string",
+      "minLength": 1
+    },
+    "cache": {
+      "description": "Defaults to .docassay/cache.",
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline": {
+      "description": "Defaults to .docassay/baseline.json.",
+      "type": "string",
+      "minLength": 1
+    },
+    "parsers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Parser" }
+    },
+    "thresholds": { "$ref": "#/$defs/Thresholds" },
+    "normalize": { "$ref": "#/$defs/Normalize" },
+    "tokenizer": {
+      "description": "words, or tiktoken:<encoding> such as tiktoken:cl100k_base.",
+      "oneOf": [
+        { "const": "words" },
+        { "type": "string", "pattern": "^tiktoken:[A-Za-z0-9_]+$" }
+      ]
+    }
+  },
+  "$defs": {
+    "Parser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "description": "adapter or adapter:variant.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*(:[a-z0-9_]+)?$"
+        },
+        "name": {
+          "description": "Display name when one adapter is used twice.",
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "description": "Passed to the adapter as-is. Open object.",
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "default": { "$ref": "#/$defs/Threshold" },
+        "tables": { "$ref": "#/$defs/Threshold" },
+        "text": { "$ref": "#/$defs/Threshold" },
+        "order": { "$ref": "#/$defs/Threshold" },
+        "fields": { "$ref": "#/$defs/Threshold" },
+        "chunks": { "$ref": "#/$defs/Threshold" },
+        "overall": { "$ref": "#/$defs/Threshold" }
+      }
+    },
+    "Threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "drop": {
+          "description": "Fail if a score falls more than this far below the baseline.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "min": {
+          "description": "Absolute floor, regardless of the baseline.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "Normalize": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "date_order": {
+          "description": "How to read an ambiguous numeric date such as 03/04/2026.",
+          "enum": ["mdy", "dmy"]
+        },
+        "decimal": {
+          "description": "Decimal separator.",
+          "enum": [".", ","]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "invoice-acme",
+  "expect": {
+    "text_contains": ["Payment due within 30 days"]
+  }
+}
