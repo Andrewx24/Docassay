@@ -1,0 +1,33 @@
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Docusaurus
+docs/.docusaurus/
+docs/build/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+python/dist/
+
+# docassay local state (baseline.json is committed; cache is not, unless a project opts in)
+.docassay/cache/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Env
+.env
+.env.*
+!.env.example
