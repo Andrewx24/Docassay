@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "docassay"
+version = "0.0.0" # set from /VERSION by scripts/sync-version.sh
+description = "pytest for document ingestion"
+authors = ["Andrew Aliaj"]
+readme = "README.md"
+packages = [{ include = "docassay", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.14"
+pydantic = "^2.8"
+pyyaml = "^6.0"
+jsonschema = "^4.23"
+typer = ">=0.21,<0.22"
+rich = "^13.7"
+httpx = "^0.27"
+docling = { version = "2.87.0", optional = true }
+tiktoken = { version = "0.14.0", optional = true }
+
+[tool.poetry.extras]
+docling = ["docling"]
+tiktoken = ["tiktoken"]
+all = ["docling", "tiktoken"]
+
+[tool.poetry.scripts]
+docassay = "docassay.cli:app"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.8"
+mypy = "^1.13"
+pytest = "^8.3"
+pytest-cov = "^6.0"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["docassay"]
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

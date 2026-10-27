@@ -2,24 +2,13 @@
 #   filename:  scorecard.schema.json
 
 from __future__ import annotations
-
+from typing import Annotated, Any, Literal
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from enum import Enum
-from typing import Any, Literal
-
-from pydantic import (
-    AwareDatetime,
-    BaseModel,
-    ConfigDict,
-    Field,
-    RootModel,
-    confloat,
-    conint,
-    constr,
-)
 
 
-class Score(RootModel[confloat(ge=0.0, le=1.0)]):
-    root: confloat(ge=0.0, le=1.0)
+class Score(RootModel[float]):
+    root: Annotated[float, Field(ge=0.0, le=1.0)]
 
 
 class MetricName(Enum):
@@ -33,20 +22,20 @@ class MetricName(Enum):
 class Failure(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     metric: MetricName
-    check: constr(min_length=1) = Field(
-        ..., description="For example tables[0].cells[1]."
-    )
+    check: Annotated[str, Field(description="For example tables[0].cells[1].", min_length=1)]
     expected: Any | None = None
     actual: Any | None = None
-    reason: constr(min_length=1)
-    page: conint(ge=1) | None = None
+    reason: Annotated[str, Field(min_length=1)]
+    page: Annotated[int | None, Field(ge=1)] = None
 
 
 class MetricScores(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     tables: Score | None = None
     text: Score | None = None
@@ -59,12 +48,13 @@ class MetricScores(BaseModel):
 class DocumentResult(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(min_length=1) = Field(..., description="Golden id.")
-    file: constr(min_length=1)
-    error: constr(min_length=1) | None = Field(
-        None, description="Adapter failure. All metrics count as 0."
-    )
+    id: Annotated[str, Field(description="Golden id.", min_length=1)]
+    file: Annotated[str, Field(min_length=1)]
+    error: Annotated[
+        str | None, Field(description="Adapter failure. All metrics count as 0.", min_length=1)
+    ] = None
     scores: MetricScores
     failures: list[Failure]
 
@@ -72,18 +62,19 @@ class DocumentResult(BaseModel):
 class ParserResult(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    parser: constr(min_length=1) = Field(..., description="Display name.")
-    adapter: constr(min_length=1) = Field(..., description="Adapter id.")
-    parser_version: constr(min_length=1) = Field(..., alias="parserVersion")
-    summary: MetricScores = Field(
-        ..., description="Mean over documents that have each metric."
-    )
-    cost_usd: confloat(ge=0.0) | None = Field(
-        None, alias="costUsd", description="Total cost for this parser."
-    )
-    latency_ms_p50: confloat(ge=0.0) | None = Field(None, alias="latencyMsP50")
-    latency_ms_p95: confloat(ge=0.0) | None = Field(None, alias="latencyMsP95")
+    parser: Annotated[str, Field(description="Display name.", min_length=1)]
+    adapter: Annotated[str, Field(description="Adapter id.", min_length=1)]
+    parser_version: Annotated[str, Field(alias="parserVersion", min_length=1)]
+    summary: Annotated[
+        MetricScores, Field(description="Mean over documents that have each metric.")
+    ]
+    cost_usd: Annotated[
+        float | None, Field(alias="costUsd", description="Total cost for this parser.", ge=0.0)
+    ] = None
+    latency_ms_p50: Annotated[float | None, Field(alias="latencyMsP50", ge=0.0)] = None
+    latency_ms_p95: Annotated[float | None, Field(alias="latencyMsP95", ge=0.0)] = None
     documents: list[DocumentResult]
 
 
@@ -94,17 +85,18 @@ class Scorecard(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    spec_version: Literal["1.0.0"] = Field(
-        ..., alias="specVersion", description="Spec semver. const 1.0.0."
-    )
-    docassay_version: constr(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$") = Field(
-        ..., alias="docassayVersion"
-    )
-    run_id: constr(min_length=1) = Field(
-        ..., alias="runId", description="Random. Excluded from comparisons."
-    )
-    created_at: AwareDatetime = Field(
-        ..., alias="createdAt", description="ISO 8601. Excluded from comparisons."
-    )
+    spec_version: Annotated[
+        Literal["1.0.0"], Field(alias="specVersion", description="Spec semver. const 1.0.0.")
+    ]
+    docassay_version: Annotated[
+        str, Field(alias="docassayVersion", pattern="^[0-9]+\\.[0-9]+\\.[0-9]+$")
+    ]
+    run_id: Annotated[
+        str, Field(alias="runId", description="Random. Excluded from comparisons.", min_length=1)
+    ]
+    created_at: Annotated[
+        AwareDatetime, Field(alias="createdAt", description="ISO 8601. Excluded from comparisons.")
+    ]
     parsers: list[ParserResult]

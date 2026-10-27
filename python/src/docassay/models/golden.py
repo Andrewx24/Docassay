@@ -2,47 +2,68 @@
 #   filename:  golden.schema.json
 
 from __future__ import annotations
+from typing import Annotated
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
-from pydantic import BaseModel, ConfigDict, Field, RootModel, conint, constr
+
+class Tag(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
 
 
-class ReadingOrderItem(RootModel[constr(min_length=1)]):
-    root: constr(min_length=1)
+class TextContain(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
+
+
+class ReadingOrderItemItem(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
+
+
+class ReadingOrderItem(RootModel[list[ReadingOrderItemItem]]):
+    root: Annotated[list[ReadingOrderItemItem], Field(max_length=2, min_length=2)]
+
+
+class Col(RootModel[int]):
+    root: Annotated[int, Field(description="Header name or 0-based column index.", ge=0)]
+
+
+class Col1(RootModel[str]):
+    root: Annotated[str, Field(description="Header name or 0-based column index.", min_length=1)]
 
 
 class CellExpect(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    row: conint(ge=0)
-    col: conint(ge=0) | constr(min_length=1) = Field(
-        ..., description="Header name or 0-based column index."
-    )
-    value: str = Field(
-        ..., description="Text as it appears on the page, before normalization."
-    )
+    row: Annotated[int, Field(ge=0)]
+    col: Annotated[Col | Col1, Field(description="Header name or 0-based column index.")]
+    value: Annotated[
+        str, Field(description="Text as it appears on the page, before normalization.")
+    ]
 
 
-class PathItem(RootModel[constr(min_length=1)]):
-    root: constr(min_length=1)
+class PathItem(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
 
 
 class HeadingPath(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    text: constr(min_length=1) = Field(
-        ..., description="A chunk containing this text must have path."
-    )
-    path: list[PathItem] = Field(..., min_length=1)
+    text: Annotated[
+        str, Field(description="A chunk containing this text must have path.", min_length=1)
+    ]
+    path: Annotated[list[PathItem], Field(min_length=1)]
 
 
 class ChunkExpect(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    max_tokens: conint(ge=1) | None = None
-    min_tokens: conint(ge=0) | None = None
+    max_tokens: Annotated[int | None, Field(ge=1)] = None
+    min_tokens: Annotated[int | None, Field(ge=0)] = None
     no_split_tables: bool | None = None
     heading_paths: list[HeadingPath] | None = None
 
@@ -50,16 +71,18 @@ class ChunkExpect(BaseModel):
 class TableExpect(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    page: conint(ge=1)
+    page: Annotated[int, Field(ge=1)]
     header: list[str] | None = None
-    rows: conint(ge=0) | None = Field(
-        None, description="Expected body-row count, not the rows themselves."
-    )
-    cols: conint(ge=0) | None = None
-    cells: list[CellExpect] | None = Field(
-        None, description="Spot-checked cells. Row indexes are 0-based body rows."
-    )
+    rows: Annotated[
+        int | None, Field(description="Expected body-row count, not the rows themselves.", ge=0)
+    ] = None
+    cols: Annotated[int | None, Field(ge=0)] = None
+    cells: Annotated[
+        list[CellExpect] | None,
+        Field(description="Spot-checked cells. Row indexes are 0-based body rows."),
+    ] = None
 
 
 class Expect(BaseModel):
@@ -69,16 +92,20 @@ class Expect(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     tables: list[TableExpect] | None = None
-    text_contains: list[constr(min_length=1)] | None = None
-    reading_order: list[list[ReadingOrderItem]] | None = Field(
-        None, description="Each item is a pair [before, after] of non-empty strings."
-    )
-    fields: dict[str, str | float | bool | None] | None = Field(
-        None,
-        description="Open map. The only object in this schema that allows additional properties. Values are string, number, boolean, or null.",
-    )
+    text_contains: list[TextContain] | None = None
+    reading_order: Annotated[
+        list[ReadingOrderItem] | None,
+        Field(description="Each item is a pair [before, after] of non-empty strings."),
+    ] = None
+    fields: Annotated[
+        dict[str, str | float | bool | None] | None,
+        Field(
+            description="Open map. The only object in this schema that allows additional properties. Values are string, number, boolean, or null."
+        ),
+    ] = None
     chunks: ChunkExpect | None = None
 
 
@@ -89,14 +116,13 @@ class GoldenFile(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    file: constr(min_length=1) = Field(
-        ..., description="Source path relative to this golden file."
-    )
-    id: constr(min_length=1) | None = Field(
-        None, description="Defaults to the file stem when omitted."
-    )
-    tags: list[constr(min_length=1)] | None = Field(
-        None, description="Used for filtering and grouping."
-    )
+    file: Annotated[
+        str, Field(description="Source path relative to this golden file.", min_length=1)
+    ]
+    id: Annotated[
+        str | None, Field(description="Defaults to the file stem when omitted.", min_length=1)
+    ] = None
+    tags: Annotated[list[Tag] | None, Field(description="Used for filtering and grouping.")] = None
     expect: Expect | None = None
