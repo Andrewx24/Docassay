@@ -1,0 +1,178 @@
+[
+  {
+    "name": "thousands-equal",
+    "expected": "1,200",
+    "actual": "1200",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "thousands-comma-decimal",
+    "expected": "1,200",
+    "actual": "1200",
+    "decimal": ",",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "month-vs-iso",
+    "expected": "Nov. 1 2026",
+    "actual": "2026-11-01",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "month-vs-mdy",
+    "expected": "Nov. 1 2026",
+    "actual": "11/01/2026",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "mdy-order-differs",
+    "expected": "01/11/2026",
+    "actual": "11/01/2026",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "casefold",
+    "expected": "Hello",
+    "actual": "hello",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "text-mismatch",
+    "expected": "Hello",
+    "actual": "hello!",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "numeric-fraction",
+    "expected": "12",
+    "actual": "12.0",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "percent-same",
+    "expected": "12",
+    "actual": "12%",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "parens",
+    "expected": "(350)",
+    "actual": "-350",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "na-case",
+    "expected": "N/A",
+    "actual": "n/a",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "na-not-zero",
+    "expected": "N/A",
+    "actual": "0",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "date-vs-number",
+    "expected": "2026-01-02",
+    "actual": "20260102",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "number-vs-date",
+    "expected": "20260102",
+    "actual": "2026-01-02",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "within-tolerance",
+    "expected": "1.0000005",
+    "actual": "1",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "outside-tolerance",
+    "expected": "1.000002",
+    "actual": "1",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "euro-equal",
+    "expected": "1.200,00 €",
+    "actual": "1200",
+    "decimal": ",",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "euro-wrong-decimal",
+    "expected": "1.200,00 €",
+    "actual": "1200",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "invalid-dates-text",
+    "expected": "February 29, 2026",
+    "actual": "2026-02-29",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  },
+  {
+    "name": "empty",
+    "expected": "",
+    "actual": "",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "ligature-text",
+    "expected": "ﬁle",
+    "actual": "file",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": true
+  },
+  {
+    "name": "words-not-number",
+    "expected": "12 apples",
+    "actual": "12",
+    "decimal": ".",
+    "date_order": "mdy",
+    "equal": false
+  }
+]

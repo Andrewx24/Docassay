@@ -1,0 +1,257 @@
+[
+  {
+    "name": "empty",
+    "input": "",
+    "expected": ""
+  },
+  {
+    "name": "lowercase",
+    "input": "Hello",
+    "expected": "hello"
+  },
+  {
+    "name": "already-lower",
+    "input": "already",
+    "expected": "already"
+  },
+  {
+    "name": "ligature-fi",
+    "input": "ﬁle",
+    "expected": "file"
+  },
+  {
+    "name": "ligature-fl",
+    "input": "ﬂoor",
+    "expected": "floor"
+  },
+  {
+    "name": "soft-hyphen",
+    "input": "con­tinued",
+    "expected": "continued"
+  },
+  {
+    "name": "zero-width-space",
+    "input": "con​tinued",
+    "expected": "continued"
+  },
+  {
+    "name": "zero-width-non-joiner",
+    "input": "con‌tinued",
+    "expected": "continued"
+  },
+  {
+    "name": "zero-width-joiner",
+    "input": "con‍tinued",
+    "expected": "continued"
+  },
+  {
+    "name": "bom",
+    "input": "﻿Hello",
+    "expected": "hello"
+  },
+  {
+    "name": "curly-single",
+    "input": "‘Hello’",
+    "expected": "'hello'"
+  },
+  {
+    "name": "curly-double",
+    "input": "“Hello”",
+    "expected": "\"hello\""
+  },
+  {
+    "name": "single-quote-set",
+    "input": "‘’‚‛′",
+    "expected": "'''''"
+  },
+  {
+    "name": "double-quotes-prime-splits-in-nfkc",
+    "input": "“”„‟″",
+    "expected": "\"\"\"\"''"
+  },
+  {
+    "name": "en-dash",
+    "input": "10–20",
+    "expected": "10-20"
+  },
+  {
+    "name": "em-dash",
+    "input": "10—20",
+    "expected": "10-20"
+  },
+  {
+    "name": "minus-sign",
+    "input": "10−2",
+    "expected": "10-2"
+  },
+  {
+    "name": "figure-dash",
+    "input": "10‒20",
+    "expected": "10-20"
+  },
+  {
+    "name": "nonbreaking-hyphen",
+    "input": "10‑20",
+    "expected": "10-20"
+  },
+  {
+    "name": "unicode-hyphen",
+    "input": "10‐20",
+    "expected": "10-20"
+  },
+  {
+    "name": "horizontal-bar",
+    "input": "10―20",
+    "expected": "10-20"
+  },
+  {
+    "name": "line-break-hyphen",
+    "input": "conti-\n nued",
+    "expected": "continued"
+  },
+  {
+    "name": "line-break-more-space",
+    "input": "conti-  \n\tnued",
+    "expected": "continued"
+  },
+  {
+    "name": "en-dash-line-break",
+    "input": "conti–\n nued",
+    "expected": "continued"
+  },
+  {
+    "name": "nbsp",
+    "input": "hello world",
+    "expected": "hello world"
+  },
+  {
+    "name": "narrow-nbsp",
+    "input": "hello world",
+    "expected": "hello world"
+  },
+  {
+    "name": "ideographic-space",
+    "input": "hello　world",
+    "expected": "hello world"
+  },
+  {
+    "name": "line-separator",
+    "input": "hello world",
+    "expected": "hello world"
+  },
+  {
+    "name": "paragraph-separator",
+    "input": "hello world",
+    "expected": "hello world"
+  },
+  {
+    "name": "ogham-space",
+    "input": "hello world",
+    "expected": "hello world"
+  },
+  {
+    "name": "next-line",
+    "input": "helloworld",
+    "expected": "hello world"
+  },
+  {
+    "name": "tab",
+    "input": "a\tb",
+    "expected": "a b"
+  },
+  {
+    "name": "crlf-not-joined",
+    "input": "conti-\r\nnued",
+    "expected": "conti- nued"
+  },
+  {
+    "name": "hyphen-before-digit",
+    "input": "a-\n1",
+    "expected": "a- 1"
+  },
+  {
+    "name": "hyphen-no-space",
+    "input": "well-\nknown",
+    "expected": "wellknown"
+  },
+  {
+    "name": "trim",
+    "input": "  Hello  ",
+    "expected": "hello"
+  },
+  {
+    "name": "collapse",
+    "input": "a \t\n b",
+    "expected": "a b"
+  },
+  {
+    "name": "only-whitespace",
+    "input": " \n\t",
+    "expected": ""
+  },
+  {
+    "name": "fullwidth-letter",
+    "input": "Ａ",
+    "expected": "a"
+  },
+  {
+    "name": "trademark",
+    "input": "™",
+    "expected": "tm"
+  },
+  {
+    "name": "superscript",
+    "input": "x²",
+    "expected": "x2"
+  },
+  {
+    "name": "accented-join",
+    "input": "café-\n au",
+    "expected": "caféau"
+  },
+  {
+    "name": "letters-join-lower",
+    "input": "A-\nB",
+    "expected": "ab"
+  },
+  {
+    "name": "digit-before-hyphen",
+    "input": "1-\n a",
+    "expected": "1- a"
+  },
+  {
+    "name": "hair-space",
+    "input": "a b",
+    "expected": "a b"
+  },
+  {
+    "name": "em-space",
+    "input": "a b",
+    "expected": "a b"
+  },
+  {
+    "name": "vertical-tab",
+    "input": "a\u000bb",
+    "expected": "a b"
+  },
+  {
+    "name": "form-feed",
+    "input": "a\fb",
+    "expected": "a b"
+  },
+  {
+    "name": "quoted-trim",
+    "input": "  “QUOTE”  ",
+    "expected": "\"quote\""
+  },
+  {
+    "name": "double-newline-join",
+    "input": "conti-\n\nnued",
+    "expected": "continued"
+  },
+  {
+    "name": "curly-apostrophe-word",
+    "input": "it’s",
+    "expected": "it's"
+  }
+]
