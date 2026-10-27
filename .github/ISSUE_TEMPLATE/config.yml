@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://andrewx24.github.io/Docassay/
+    about: Read the architecture and build plan before opening an issue.
+  - name: Security report
+    url: https://github.com/Andrewx24/Docassay/security/advisories/new
+    about: Report a vulnerability in private. Do not open a public issue.
