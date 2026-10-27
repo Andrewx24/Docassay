@@ -1,0 +1,7 @@
+file: files/doc.pdf
+id: no-header
+expect:
+  tables:
+    - page: 1
+      cells:
+        - {row: 0, col: Price, value: "1"}
