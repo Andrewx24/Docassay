@@ -2,27 +2,18 @@
 #   filename:  baseline.schema.json
 
 from __future__ import annotations
-
-from typing import Literal
-
-from pydantic import (
-    AwareDatetime,
-    BaseModel,
-    ConfigDict,
-    Field,
-    RootModel,
-    confloat,
-    constr,
-)
+from typing import Annotated, Literal
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 
 
-class Score(RootModel[confloat(ge=0.0, le=1.0)]):
-    root: confloat(ge=0.0, le=1.0)
+class Score(RootModel[float]):
+    root: Annotated[float, Field(ge=0.0, le=1.0)]
 
 
 class MetricScores(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     tables: Score | None = None
     text: Score | None = None
@@ -39,24 +30,26 @@ class DocumentResult(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(min_length=1)
-    file: constr(min_length=1)
-    error: constr(min_length=1) | None = None
+    id: Annotated[str, Field(min_length=1)]
+    file: Annotated[str, Field(min_length=1)]
+    error: Annotated[str | None, Field(min_length=1)] = None
     scores: MetricScores
 
 
 class ParserResult(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    parser: constr(min_length=1)
-    adapter: constr(min_length=1)
-    parser_version: constr(min_length=1) = Field(..., alias="parserVersion")
+    parser: Annotated[str, Field(min_length=1)]
+    adapter: Annotated[str, Field(min_length=1)]
+    parser_version: Annotated[str, Field(alias="parserVersion", min_length=1)]
     summary: MetricScores
-    cost_usd: confloat(ge=0.0) | None = Field(None, alias="costUsd")
-    latency_ms_p50: confloat(ge=0.0) | None = Field(None, alias="latencyMsP50")
-    latency_ms_p95: confloat(ge=0.0) | None = Field(None, alias="latencyMsP95")
+    cost_usd: Annotated[float | None, Field(alias="costUsd", ge=0.0)] = None
+    latency_ms_p50: Annotated[float | None, Field(alias="latencyMsP50", ge=0.0)] = None
+    latency_ms_p95: Annotated[float | None, Field(alias="latencyMsP95", ge=0.0)] = None
     documents: list[DocumentResult]
 
 
@@ -67,20 +60,22 @@ class Baseline(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    spec_version: Literal["1.0.0"] = Field(
-        ..., alias="specVersion", description="Spec semver. const 1.0.0."
-    )
-    docassay_version: constr(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$") = Field(
-        ..., alias="docassayVersion"
-    )
-    run_id: constr(min_length=1) = Field(
-        ..., alias="runId", description="Random. Excluded from comparisons."
-    )
-    created_at: AwareDatetime = Field(
-        ..., alias="createdAt", description="ISO 8601. Excluded from comparisons."
-    )
-    pinned_at: AwareDatetime = Field(
-        ..., alias="pinnedAt", description="ISO 8601 time this baseline was written."
-    )
+    spec_version: Annotated[
+        Literal["1.0.0"], Field(alias="specVersion", description="Spec semver. const 1.0.0.")
+    ]
+    docassay_version: Annotated[
+        str, Field(alias="docassayVersion", pattern="^[0-9]+\\.[0-9]+\\.[0-9]+$")
+    ]
+    run_id: Annotated[
+        str, Field(alias="runId", description="Random. Excluded from comparisons.", min_length=1)
+    ]
+    created_at: Annotated[
+        AwareDatetime, Field(alias="createdAt", description="ISO 8601. Excluded from comparisons.")
+    ]
+    pinned_at: Annotated[
+        AwareDatetime,
+        Field(alias="pinnedAt", description="ISO 8601 time this baseline was written."),
+    ]
     parsers: list[ParserResult]

@@ -2,72 +2,66 @@
 #   filename:  document.schema.json
 
 from __future__ import annotations
-
+from typing import Annotated, Any, Literal
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, RootModel
 from enum import Enum
-from typing import Any, Literal
-
-from pydantic import (
-    AwareDatetime,
-    BaseModel,
-    ConfigDict,
-    Field,
-    PositiveFloat,
-    RootModel,
-    confloat,
-    conint,
-    constr,
-)
 
 
 class Source(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    path: constr(min_length=1) = Field(
-        ..., description="Path relative to the config file."
-    )
-    sha256: constr(pattern=r"^[a-f0-9]{64}$") = Field(
-        ..., description="Hash of the file bytes. Cache key."
-    )
-    mime: constr(min_length=1) = Field(..., examples=["application/pdf"])
-    page_count: conint(ge=0) | None = Field(None, alias="pageCount")
+    path: Annotated[str, Field(description="Path relative to the config file.", min_length=1)]
+    sha256: Annotated[
+        str, Field(description="Hash of the file bytes. Cache key.", pattern="^[a-f0-9]{64}$")
+    ]
+    mime: Annotated[str, Field(examples=["application/pdf"], min_length=1)]
+    page_count: Annotated[int | None, Field(alias="pageCount", ge=0)] = None
 
 
 class Meta(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    parser: constr(min_length=1) = Field(
-        ..., description="Adapter id, for example llamaparse:agentic."
-    )
-    parser_version: constr(min_length=1) = Field(
-        ...,
-        alias="parserVersion",
-        description="Vendor model or version that actually ran.",
-    )
-    adapter_version: constr(min_length=1) = Field(
-        ..., alias="adapterVersion", description="docassay version of the adapter."
-    )
-    latency_ms: confloat(ge=0.0) | None = Field(None, alias="latencyMs")
-    cost_usd: confloat(ge=0.0) | None = Field(None, alias="costUsd")
-    created_at: AwareDatetime | None = Field(
-        None,
-        alias="createdAt",
-        description="ISO 8601. Excluded from cache identity and scoring.",
-    )
-    extra: dict[str, Any] | None = Field(
-        None,
-        description="Open object. The only Document object that allows additional properties.",
-    )
+    parser: Annotated[
+        str, Field(description="Adapter id, for example llamaparse:agentic.", min_length=1)
+    ]
+    parser_version: Annotated[
+        str,
+        Field(
+            alias="parserVersion",
+            description="Vendor model or version that actually ran.",
+            min_length=1,
+        ),
+    ]
+    adapter_version: Annotated[
+        str,
+        Field(alias="adapterVersion", description="docassay version of the adapter.", min_length=1),
+    ]
+    latency_ms: Annotated[float | None, Field(alias="latencyMs", ge=0.0)] = None
+    cost_usd: Annotated[float | None, Field(alias="costUsd", ge=0.0)] = None
+    created_at: Annotated[
+        AwareDatetime | None,
+        Field(alias="createdAt", description="ISO 8601. Excluded from cache identity and scoring."),
+    ] = None
+    extra: Annotated[
+        dict[str, Any] | None,
+        Field(
+            description="Open object. The only Document object that allows additional properties."
+        ),
+    ] = None
 
 
 class Page(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    number: conint(ge=1) = Field(..., description="1-based page number.")
-    width: PositiveFloat | None = None
-    height: PositiveFloat | None = None
+    number: Annotated[int, Field(description="1-based page number.", ge=1)]
+    width: Annotated[float | None, Field(gt=0.0)] = None
+    height: Annotated[float | None, Field(gt=0.0)] = None
 
 
 class Type(Enum):
@@ -84,20 +78,32 @@ class Type(Enum):
     other = "other"
 
 
+class BlockId(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
+
+
+class Page1(RootModel[int]):
+    root: Annotated[int, Field(ge=1)]
+
+
+class HeadingPathItem(RootModel[str]):
+    root: Annotated[str, Field(min_length=1)]
+
+
 class Chunk(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(min_length=1)
+    id: Annotated[str, Field(min_length=1)]
     text: str
-    block_ids: list[constr(min_length=1)] = Field(
-        ...,
-        alias="blockIds",
-        description="Block ids or table ids (t3) the chunk came from.",
-    )
-    pages: list[conint(ge=1)]
-    heading_path: list[constr(min_length=1)] | None = Field(None, alias="headingPath")
-    tokens: conint(ge=0) | None = None
+    block_ids: Annotated[
+        list[BlockId],
+        Field(alias="blockIds", description="Block ids or table ids (t3) the chunk came from."),
+    ]
+    pages: list[Page1]
+    heading_path: Annotated[list[HeadingPathItem] | None, Field(alias="headingPath")] = None
+    tokens: Annotated[int | None, Field(ge=0)] = None
 
 
 class BBox(RootModel[list[float]]):
@@ -105,55 +111,61 @@ class BBox(RootModel[list[float]]):
     [x0, y0, x1, y1] in PDF points. Origin is the top-left of the page.
     """
 
-    root: list[float] = Field(
-        ...,
-        description="[x0, y0, x1, y1] in PDF points. Origin is the top-left of the page.",
-        max_length=4,
-        min_length=4,
-    )
+    root: Annotated[
+        list[float],
+        Field(
+            description="[x0, y0, x1, y1] in PDF points. Origin is the top-left of the page.",
+            max_length=4,
+            min_length=4,
+        ),
+    ]
 
 
 class Block(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(min_length=1) = Field(
-        ..., description="Stable within the document, for example b12."
-    )
+    id: Annotated[
+        str, Field(description="Stable within the document, for example b12.", min_length=1)
+    ]
     type: Type
     text: str
-    page: conint(ge=1)
-    level: conint(ge=1) | None = Field(None, description="Heading level. 1 is the top.")
+    page: Annotated[int, Field(ge=1)]
+    level: Annotated[int | None, Field(description="Heading level. 1 is the top.", ge=1)] = None
     bbox: BBox | None = None
 
 
 class Table(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(min_length=1)
-    page: conint(ge=1) = Field(
-        ..., description="First page the table appears on. 1-based."
-    )
+    id: Annotated[str, Field(min_length=1)]
+    page: Annotated[int, Field(description="First page the table appears on. 1-based.", ge=1)]
     bbox: BBox | None = None
-    header: list[str] | None = Field(
-        None,
-        description="Header row, when the parser identified one. Row index 0 in scoring is the first body row.",
-    )
-    rows: list[list[str]] = Field(
-        ..., description="Body rows only. Ragged rows are padded with empty strings."
-    )
-    markdown: str | None = Field(
-        None, description="Parser's own rendering. Informational only."
-    )
+    header: Annotated[
+        list[str] | None,
+        Field(
+            description="Header row, when the parser identified one. Row index 0 in scoring is the first body row."
+        ),
+    ] = None
+    rows: Annotated[
+        list[list[str]],
+        Field(description="Body rows only. Ragged rows are padded with empty strings."),
+    ]
+    markdown: Annotated[
+        str | None, Field(description="Parser's own rendering. Informational only.")
+    ] = None
 
 
 class Citation(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    page: conint(ge=1)
-    block_id: constr(min_length=1) | None = Field(None, alias="blockId")
+    page: Annotated[int, Field(ge=1)]
+    block_id: Annotated[str | None, Field(alias="blockId", min_length=1)] = None
     bbox: BBox | None = None
     text: str | None = None
 
@@ -161,11 +173,12 @@ class Citation(BaseModel):
 class FieldModel(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     value: str | float | bool | None
-    confidence: confloat(ge=0.0, le=1.0) | None = Field(
-        None, description="0 to 1 when the parser reports it."
-    )
+    confidence: Annotated[
+        float | None, Field(description="0 to 1 when the parser reports it.", ge=0.0, le=1.0)
+    ] = None
     citations: list[Citation] | None = None
 
 
@@ -176,24 +189,26 @@ class Document(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    spec_version: Literal["1.0.0"] = Field(
-        ...,
-        alias="specVersion",
-        description="Spec semver implemented by this document. const 1.0.0.",
-    )
+    spec_version: Annotated[
+        Literal["1.0.0"],
+        Field(
+            alias="specVersion",
+            description="Spec semver implemented by this document. const 1.0.0.",
+        ),
+    ]
     source: Source
     meta: Meta
     pages: list[Page]
-    blocks: list[Block] = Field(
-        ..., description="In reading order as the parser reports it."
-    )
+    blocks: Annotated[list[Block], Field(description="In reading order as the parser reports it.")]
     tables: list[Table]
-    chunks: list[Chunk] | None = Field(
-        None,
-        description="Present only if the parser or a user pipeline chunked the document.",
-    )
-    fields: dict[str, FieldModel] | None = Field(
-        None, description="Present only for extraction parsers. Keys are field names."
-    )
+    chunks: Annotated[
+        list[Chunk] | None,
+        Field(description="Present only if the parser or a user pipeline chunked the document."),
+    ] = None
+    fields: Annotated[
+        dict[str, FieldModel] | None,
+        Field(description="Present only for extraction parsers. Keys are field names."),
+    ] = None
     warnings: list[str] | None = None

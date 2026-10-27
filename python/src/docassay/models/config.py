@@ -2,38 +2,57 @@
 #   filename:  config.schema.json
 
 from __future__ import annotations
-
+from typing import Annotated, Any, Literal
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 from enum import Enum
-from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, confloat, constr
+
+class Tokenizer(RootModel[str]):
+    root: Annotated[
+        str,
+        Field(
+            description="words, or tiktoken:<encoding> such as tiktoken:cl100k_base.",
+            pattern="^tiktoken:[A-Za-z0-9_]+$",
+        ),
+    ]
 
 
 class Parser(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    id: constr(pattern=r"^[a-z][a-z0-9_-]*(:[a-z0-9_]+)?$") = Field(
-        ..., description="adapter or adapter:variant."
-    )
-    name: constr(min_length=1) | None = Field(
-        None, description="Display name when one adapter is used twice."
-    )
-    options: dict[str, Any] | None = Field(
-        None, description="Passed to the adapter as-is. Open object."
-    )
+    id: Annotated[
+        str,
+        Field(
+            description="adapter or adapter:variant.", pattern="^[a-z][a-z0-9_-]*(:[a-z0-9_]+)?$"
+        ),
+    ]
+    name: Annotated[
+        str | None, Field(description="Display name when one adapter is used twice.", min_length=1)
+    ] = None
+    options: Annotated[
+        dict[str, Any] | None, Field(description="Passed to the adapter as-is. Open object.")
+    ] = None
 
 
 class Threshold(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    drop: confloat(ge=0.0, le=1.0) | None = Field(
-        None, description="Fail if a score falls more than this far below the baseline."
-    )
-    min: confloat(ge=0.0, le=1.0) | None = Field(
-        None, description="Absolute floor, regardless of the baseline."
-    )
+    drop: Annotated[
+        float | None,
+        Field(
+            description="Fail if a score falls more than this far below the baseline.",
+            ge=0.0,
+            le=1.0,
+        ),
+    ] = None
+    min: Annotated[
+        float | None,
+        Field(description="Absolute floor, regardless of the baseline.", ge=0.0, le=1.0),
+    ] = None
 
 
 class DateOrder(Enum):
@@ -57,16 +76,19 @@ class Decimal(Enum):
 class Normalize(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    date_order: DateOrder | None = Field(
-        None, description="How to read an ambiguous numeric date such as 03/04/2026."
-    )
-    decimal: Decimal | None = Field(None, description="Decimal separator.")
+    date_order: Annotated[
+        DateOrder | None,
+        Field(description="How to read an ambiguous numeric date such as 03/04/2026."),
+    ] = None
+    decimal: Annotated[Decimal | None, Field(description="Decimal separator.")] = None
 
 
 class Thresholds(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
     default: Threshold | None = None
     tables: Threshold | None = None
@@ -84,23 +106,23 @@ class Config(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        populate_by_name=True,
     )
-    version: Literal[1] = Field(..., description="Config format. Not specVersion.")
-    golden: constr(min_length=1) = Field(
-        ..., description="Folder of *.yaml golden files, relative to this file."
-    )
-    cache: constr(min_length=1) | None = Field(
-        None, description="Defaults to .docassay/cache."
-    )
-    baseline: constr(min_length=1) | None = Field(
-        None, description="Defaults to .docassay/baseline.json."
-    )
-    parsers: list[Parser] = Field(..., min_length=1)
+    version: Annotated[Literal[1], Field(description="Config format. Not specVersion.")]
+    golden: Annotated[
+        str,
+        Field(description="Folder of *.yaml golden files, relative to this file.", min_length=1),
+    ]
+    cache: Annotated[
+        str | None, Field(description="Defaults to .docassay/cache.", min_length=1)
+    ] = None
+    baseline: Annotated[
+        str | None, Field(description="Defaults to .docassay/baseline.json.", min_length=1)
+    ] = None
+    parsers: Annotated[list[Parser], Field(min_length=1)]
     thresholds: Thresholds | None = None
     normalize: Normalize | None = None
-    tokenizer: Literal["words"] | constr(pattern=r"^tiktoken:[A-Za-z0-9_]+$") | None = (
-        Field(
-            None,
-            description="words, or tiktoken:<encoding> such as tiktoken:cl100k_base.",
-        )
-    )
+    tokenizer: Annotated[
+        Literal["words"] | Tokenizer | None,
+        Field(description="words, or tiktoken:<encoding> such as tiktoken:cl100k_base."),
+    ] = None

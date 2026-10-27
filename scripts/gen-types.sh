@@ -2,7 +2,7 @@
 # Generate Python and TypeScript models from spec/*.schema.json.
 # Safe to run before the packages exist: this script creates the output folders.
 #
-#   Python:  pip install 'datamodel-code-generator>=0.26'
+#   Python:  pip install 'datamodel-code-generator>=0.26' ruff
 #   Node:    npm ci --prefix scripts
 set -euo pipefail
 
@@ -15,6 +15,10 @@ mkdir -p "$py_out" "$js_out"
 
 if ! command -v datamodel-codegen >/dev/null 2>&1; then
   echo "datamodel-codegen not found. Install with: pip install 'datamodel-code-generator>=0.26'" >&2
+  exit 1
+fi
+if ! command -v ruff >/dev/null 2>&1; then
+  echo "ruff not found. Install it so generated models match ruff format." >&2
   exit 1
 fi
 if [[ ! -x "$json2ts" ]]; then
@@ -31,11 +35,14 @@ for name in "${names[@]}"; do
     --output "$py_out/${name}.py" \
     --output-model-type pydantic_v2.BaseModel \
     --target-python-version 3.10 \
+    --target-pydantic-version 2 \
+    --allow-population-by-field-name \
+    --use-annotated \
     --use-schema-description \
     --snake-case-field \
     --use-double-quotes \
     --disable-timestamp \
-    --formatters black isort \
+    --formatters ruff-format \
     --enum-field-as-literal one
   "$json2ts" \
     --input "$root/spec/${name}.schema.json" \
