@@ -1,10 +1,12 @@
 """Command line interface."""
 
+from pathlib import Path
 from typing import Annotated
 
 import typer
 
 from docassay import __version__
+from docassay.golden import validate_command
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
 
@@ -38,3 +40,22 @@ def main(
         docassay --version
     """
     del version
+
+
+@app.command()
+def validate(
+    path: Annotated[
+        Path,
+        typer.Argument(help="Golden set directory or a single golden file."),
+    ] = Path("golden"),
+    strict: Annotated[
+        bool,
+        typer.Option("--strict", help="Fail if a file still contains # TODO verify."),
+    ] = False,
+) -> None:
+    """Check golden files against the schema.
+
+    Example:
+        docassay validate --strict golden
+    """
+    raise typer.Exit(code=validate_command(path, strict=strict))
