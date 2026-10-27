@@ -1,0 +1,29 @@
+file: files/invoice-acme.pdf
+id: invoice-acme
+tags: [invoice, digital]
+expect:
+  tables:
+    - page: 1
+      header: [Item, Qty, Price]
+      rows: 4
+      cols: 3
+      cells:
+        - {row: 1, col: Price, value: "1,200.00"}
+        - {row: 0, col: 2, value: "1,200.00"}
+  text_contains:
+    - Payment due within 30 days
+  reading_order:
+    - [Bill To, Line Items]
+  fields:
+    total: 4120.00
+    due_date: 2026-11-01
+    vendor: Acme Corp
+    paid: false
+    note: null
+  chunks:
+    max_tokens: 800
+    min_tokens: 20
+    no_split_tables: true
+    heading_paths:
+      - text: Late fees accrue
+        path: [Terms, Late fees]

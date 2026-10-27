@@ -2,10 +2,16 @@
 
 JSON Schemas (draft 2020-12) shared by the Python and TypeScript packages, plus the parity fixture corpus.
 
-Planned contents (built in ALI-311 and ALI-321):
+- `document.schema.json`, `golden.schema.json`, `config.schema.json`, `scorecard.schema.json`, `baseline.schema.json` (`specVersion` 1.0.0)
+- `examples/` — one valid example per schema, JSON and YAML
+- `invalid/` — examples that must fail validation
+- `fixtures/` — parity corpus, added in ALI-321: `<case>/{document.json, golden.yaml, expected.json}`
 
-- `document.schema.json`, `golden.schema.json`, `config.schema.json`, `scorecard.schema.json`, `baseline.schema.json`
-- `examples/` — one valid example per schema
-- `fixtures/` — `<case>/{document.json, golden.yaml, expected.json}` used by both test suites
+Check the schemas:
+
+```bash
+npm ci --prefix scripts
+node scripts/validate-spec.mjs
+```
 
 Design: [docs/docs/architecture/spec.md](../docs/docs/architecture/spec.md)

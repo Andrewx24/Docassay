@@ -1,0 +1,6 @@
+{
+  "file": "files/invoice-acme.pdf",
+  "expect": {
+    "tables": [{"page": "one", "rows": 4}]
+  }
+}

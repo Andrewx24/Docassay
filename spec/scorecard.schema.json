@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docassay.dev/spec/1.0/scorecard.schema.json",
+  "title": "Scorecard",
+  "description": "Results of one docassay run. specVersion is const 1.0.0. Wire format is camelCase. Scores are in [0, 1] and are rounded to 4 decimal places only when written. additionalProperties is false. Metric names are tables, text, order, fields, chunks, and overall.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "docassayVersion", "runId", "createdAt", "parsers"],
+  "properties": {
+    "specVersion": {
+      "description": "Spec semver. const 1.0.0.",
+      "const": "1.0.0"
+    },
+    "docassayVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "runId": {
+      "description": "Random. Excluded from comparisons.",
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "description": "ISO 8601. Excluded from comparisons.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "parsers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ParserResult" }
+    }
+  },
+  "$defs": {
+    "ParserResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser", "adapter", "parserVersion", "summary", "documents"],
+      "properties": {
+        "parser": {
+          "description": "Display name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter": {
+          "description": "Adapter id.",
+          "type": "string",
+          "minLength": 1
+        },
+        "parserVersion": { "type": "string", "minLength": 1 },
+        "summary": {
+          "description": "Mean over documents that have each metric.",
+          "$ref": "#/$defs/MetricScores"
+        },
+        "costUsd": {
+          "description": "Total cost for this parser.",
+          "type": "number",
+          "minimum": 0
+        },
+        "latencyMsP50": { "type": "number", "minimum": 0 },
+        "latencyMsP95": { "type": "number", "minimum": 0 },
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DocumentResult" }
+        }
+      }
+    },
+    "DocumentResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "file", "scores", "failures"],
+      "properties": {
+        "id": {
+          "description": "Golden id.",
+          "type": "string",
+          "minLength": 1
+        },
+        "file": { "type": "string", "minLength": 1 },
+        "error": {
+          "description": "Adapter failure. All metrics count as 0.",
+          "type": "string",
+          "minLength": 1
+        },
+        "scores": { "$ref": "#/$defs/MetricScores" },
+        "failures": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Failure" }
+        }
+      }
+    },
+    "MetricScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tables": { "$ref": "#/$defs/Score" },
+        "text": { "$ref": "#/$defs/Score" },
+        "order": { "$ref": "#/$defs/Score" },
+        "fields": { "$ref": "#/$defs/Score" },
+        "chunks": { "$ref": "#/$defs/Score" },
+        "overall": { "$ref": "#/$defs/Score" }
+      }
+    },
+    "Score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "MetricName": {
+      "enum": ["tables", "text", "order", "fields", "chunks"]
+    },
+    "Failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "check", "reason"],
+      "properties": {
+        "metric": { "$ref": "#/$defs/MetricName" },
+        "check": {
+          "description": "For example tables[0].cells[1].",
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": true,
+        "actual": true,
+        "reason": { "type": "string", "minLength": 1 },
+        "page": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

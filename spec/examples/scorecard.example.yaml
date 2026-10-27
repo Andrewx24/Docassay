@@ -1,0 +1,34 @@
+specVersion: "1.0.0"
+docassayVersion: "0.0.0"
+runId: run_7f3a
+createdAt: "2026-10-26T15:00:00Z"
+parsers:
+  - parser: llamaparse:agentic
+    adapter: llamaparse:agentic
+    parserVersion: "2026-09-24"
+    summary:
+      tables: 0.95
+      text: 0.99
+      order: 0.96
+      fields: 0.98
+      chunks: 1
+      overall: 0.96
+    costUsd: 0.012
+    latencyMsP50: 840
+    latencyMsP95: 1200
+    documents:
+      - id: invoice-acme
+        file: files/invoice-acme.pdf
+        scores:
+          tables: 0.5
+          text: 1
+          order: 1
+          fields: 1
+          overall: 0.875
+        failures:
+          - metric: tables
+            check: tables[0].cells[1]
+            expected: "1,200.00"
+            actual: "1200.00"
+            reason: value not found in matched table
+            page: 1

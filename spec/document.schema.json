@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docassay.dev/spec/1.0/document.schema.json",
+  "title": "Document",
+  "description": "One parsed file, normalized by an adapter. specVersion is const 1.0.0. Wire format is camelCase. additionalProperties is false except meta.extra, which is an open object, and fields, which is an open map of Field values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "source", "meta", "pages", "blocks", "tables"],
+  "properties": {
+    "specVersion": {
+      "description": "Spec semver implemented by this document. const 1.0.0.",
+      "const": "1.0.0"
+    },
+    "source": { "$ref": "#/$defs/Source" },
+    "meta": { "$ref": "#/$defs/Meta" },
+    "pages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Page" }
+    },
+    "blocks": {
+      "description": "In reading order as the parser reports it.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Block" }
+    },
+    "tables": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Table" }
+    },
+    "chunks": {
+      "description": "Present only if the parser or a user pipeline chunked the document.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Chunk" }
+    },
+    "fields": {
+      "description": "Present only for extraction parsers. Keys are field names.",
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/Field" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "mime"],
+      "properties": {
+        "path": {
+          "description": "Path relative to the config file.",
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "description": "Hash of the file bytes. Cache key.",
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "mime": {
+          "type": "string",
+          "minLength": 1,
+          "examples": ["application/pdf"]
+        },
+        "pageCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser", "parserVersion", "adapterVersion"],
+      "properties": {
+        "parser": {
+          "description": "Adapter id, for example llamaparse:agentic.",
+          "type": "string",
+          "minLength": 1
+        },
+        "parserVersion": {
+          "description": "Vendor model or version that actually ran.",
+          "type": "string",
+          "minLength": 1
+        },
+        "adapterVersion": {
+          "description": "docassay version of the adapter.",
+          "type": "string",
+          "minLength": 1
+        },
+        "latencyMs": { "type": "number", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 },
+        "createdAt": {
+          "description": "ISO 8601. Excluded from cache identity and scoring.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "extra": {
+          "description": "Open object. The only Document object that allows additional properties.",
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number"],
+      "properties": {
+        "number": {
+          "description": "1-based page number.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "Block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "text", "page"],
+      "properties": {
+        "id": {
+          "description": "Stable within the document, for example b12.",
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "title",
+            "heading",
+            "paragraph",
+            "list_item",
+            "caption",
+            "footnote",
+            "header",
+            "footer",
+            "code",
+            "formula",
+            "other"
+          ]
+        },
+        "text": { "type": "string" },
+        "page": { "type": "integer", "minimum": 1 },
+        "level": {
+          "description": "Heading level. 1 is the top.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "bbox": { "$ref": "#/$defs/BBox" }
+      }
+    },
+    "Table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "page", "rows"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "page": {
+          "description": "First page the table appears on. 1-based.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "bbox": { "$ref": "#/$defs/BBox" },
+        "header": {
+          "description": "Header row, when the parser identified one. Row index 0 in scoring is the first body row.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rows": {
+          "description": "Body rows only. Ragged rows are padded with empty strings.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "markdown": {
+          "description": "Parser's own rendering. Informational only.",
+          "type": "string"
+        }
+      }
+    },
+    "Chunk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "blockIds", "pages"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "text": { "type": "string" },
+        "blockIds": {
+          "description": "Block ids or table ids (t3) the chunk came from.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "pages": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "headingPath": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "Field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value"],
+      "properties": {
+        "value": {
+          "type": ["string", "number", "boolean", "null"]
+        },
+        "confidence": {
+          "description": "0 to 1 when the parser reports it.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "citations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Citation" }
+        }
+      }
+    },
+    "Citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page"],
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "blockId": { "type": "string", "minLength": 1 },
+        "bbox": { "$ref": "#/$defs/BBox" },
+        "text": { "type": "string" }
+      }
+    },
+    "BBox": {
+      "description": "[x0, y0, x1, y1] in PDF points. Origin is the top-left of the page.",
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 4,
+      "maxItems": 4
+    }
+  }
+}
