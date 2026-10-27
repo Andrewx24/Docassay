@@ -1,0 +1,272 @@
+[
+  {
+    "name": "thousands-dot",
+    "input": "1,200.00",
+    "decimal": ".",
+    "expected": 1200
+  },
+  {
+    "name": "thousands-dot-rejected",
+    "input": "1,200.00",
+    "decimal": ",",
+    "expected": null
+  },
+  {
+    "name": "dollar-thousands",
+    "input": "$ 4,120.00",
+    "decimal": ".",
+    "expected": 4120
+  },
+  {
+    "name": "dollar-thousands-rejected",
+    "input": "$ 4,120.00",
+    "decimal": ",",
+    "expected": null
+  },
+  {
+    "name": "euro-suffix-rejected",
+    "input": "1.200,00 €",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "euro-suffix",
+    "input": "1.200,00 €",
+    "decimal": ",",
+    "expected": 1200
+  },
+  {
+    "name": "parens-dot",
+    "input": "(350)",
+    "decimal": ".",
+    "expected": -350
+  },
+  {
+    "name": "parens-comma",
+    "input": "(350)",
+    "decimal": ",",
+    "expected": -350
+  },
+  {
+    "name": "percent-dot",
+    "input": "12%",
+    "decimal": ".",
+    "expected": 12
+  },
+  {
+    "name": "percent-comma",
+    "input": "12%",
+    "decimal": ",",
+    "expected": 12
+  },
+  {
+    "name": "na-dot",
+    "input": "N/A",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "na-comma",
+    "input": "N/A",
+    "decimal": ",",
+    "expected": null
+  },
+  {
+    "name": "trailing-minus",
+    "input": "350-",
+    "decimal": ".",
+    "expected": -350
+  },
+  {
+    "name": "usd-prefix",
+    "input": "USD 10",
+    "decimal": ".",
+    "expected": 10
+  },
+  {
+    "name": "eur-suffix",
+    "input": "10 EUR",
+    "decimal": ".",
+    "expected": 10
+  },
+  {
+    "name": "apostrophe-thousands",
+    "input": "1'200.50",
+    "decimal": ".",
+    "expected": 1200.5
+  },
+  {
+    "name": "curly-apostrophe",
+    "input": "1’200",
+    "decimal": ".",
+    "expected": 1200
+  },
+  {
+    "name": "empty",
+    "input": "",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "two-dots",
+    "input": "1.2.3",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "leading-dot",
+    "input": ".5",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "double-percent",
+    "input": "12%%",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "comma-removed",
+    "input": "1,20",
+    "decimal": ".",
+    "expected": 120
+  },
+  {
+    "name": "comma-decimal",
+    "input": "12,50",
+    "decimal": ",",
+    "expected": 12.5
+  },
+  {
+    "name": "dot-thousands",
+    "input": "1.200",
+    "decimal": ",",
+    "expected": 1200
+  },
+  {
+    "name": "euro-prefix",
+    "input": "€100",
+    "decimal": ".",
+    "expected": 100
+  },
+  {
+    "name": "yen-suffix",
+    "input": "100¥",
+    "decimal": ".",
+    "expected": 100
+  },
+  {
+    "name": "parens-thousands",
+    "input": "(1,200.50)",
+    "decimal": ".",
+    "expected": -1200.5
+  },
+  {
+    "name": "percent-fraction",
+    "input": "12.5%",
+    "decimal": ".",
+    "expected": 12.5
+  },
+  {
+    "name": "padded-negative",
+    "input": "  -12 ",
+    "decimal": ".",
+    "expected": -12
+  },
+  {
+    "name": "letters",
+    "input": "abc",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "zero",
+    "input": "0",
+    "decimal": ".",
+    "expected": 0
+  },
+  {
+    "name": "pound",
+    "input": "£20",
+    "decimal": ".",
+    "expected": 20
+  },
+  {
+    "name": "cent",
+    "input": "20¢",
+    "decimal": ".",
+    "expected": 20
+  },
+  {
+    "name": "rupee",
+    "input": "₹ 15",
+    "decimal": ".",
+    "expected": 15
+  },
+  {
+    "name": "won",
+    "input": "₩3",
+    "decimal": ".",
+    "expected": 3
+  },
+  {
+    "name": "ruble",
+    "input": "₽8",
+    "decimal": ".",
+    "expected": 8
+  },
+  {
+    "name": "usd-suffix",
+    "input": "100USD",
+    "decimal": ".",
+    "expected": 100
+  },
+  {
+    "name": "eur-prefix",
+    "input": "EUR50",
+    "decimal": ".",
+    "expected": 50
+  },
+  {
+    "name": "symbol-and-code",
+    "input": "$100USD",
+    "decimal": ".",
+    "expected": 100
+  },
+  {
+    "name": "plus-rejected",
+    "input": "+12",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "fullwidth-digits",
+    "input": "１,２００.００",
+    "decimal": ".",
+    "expected": 1200
+  },
+  {
+    "name": "blank",
+    "input": " ",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "parens-inner-minus",
+    "input": "(350-)",
+    "decimal": ".",
+    "expected": -350
+  },
+  {
+    "name": "lone-minus",
+    "input": "-",
+    "decimal": ".",
+    "expected": null
+  },
+  {
+    "name": "inr",
+    "input": "INR 50",
+    "decimal": ".",
+    "expected": 50
+  }
+]
