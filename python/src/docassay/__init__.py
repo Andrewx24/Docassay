@@ -8,6 +8,8 @@ Example:
 
 from importlib.metadata import version
 
+from docassay.config import ConfigError, load_config
+
 __version__ = version("docassay")
 
-__all__ = ["__version__"]
+__all__ = ["ConfigError", "__version__", "load_config"]

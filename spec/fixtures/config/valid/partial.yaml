@@ -1,0 +1,12 @@
+version: 1
+golden: sets
+tokenizer: tiktoken:cl100k_base
+normalize:
+  date_order: dmy
+thresholds:
+  tables: {min: 1}
+parsers:
+  - id: reducto
+  - id: file
+    name: pipeline
+    options: {dir: ./parsed}

@@ -1,0 +1,7 @@
+version: 1
+golden: golden
+thresholds:
+  default: {drop: -0.1}
+  tables: {min: 2}
+parsers:
+  - id: docling

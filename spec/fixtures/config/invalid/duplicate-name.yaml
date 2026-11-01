@@ -1,0 +1,6 @@
+version: 1
+golden: golden
+parsers:
+  - id: docling
+  - id: file
+    name: docling

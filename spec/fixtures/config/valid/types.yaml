@@ -1,0 +1,14 @@
+version: 1
+golden: .
+parsers:
+  - id: llamaparse:fast
+    options:
+      note: yes
+      when: 2026-11-01
+      mode: 0o17
+      plain: 077
+      hex: 0x10
+      flag: true
+      off: no
+      on: on
+      quoted: "077"
