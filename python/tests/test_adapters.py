@@ -67,11 +67,14 @@ def test_builtin_is_unavailable_until_its_issue_lands() -> None:
         adapter.fetch(Path("missing.pdf"))
     with pytest.raises(AdapterError):
         adapter.to_document(object(), object())  # type: ignore[arg-type]
+    file_adapter = resolve("file")
+    assert file_adapter.available()[0] is False
+    assert "options.dir" in file_adapter.available()[1]
     with pytest.raises(AdapterUnavailable) as exc:
-        ensure_available([("docling", adapter), ("file", resolve("file"))])
+        ensure_available([("docling", adapter), ("file", file_adapter)])
     assert exc.value.exit_code == 3
     assert "docling: docling adapter is not available in this build" in str(exc.value)
-    assert "file: file adapter is not available in this build" in str(exc.value)
+    assert "options.dir" in str(exc.value)
 
 
 def test_entry_point_discovers_dummy_package(tmp_path: Path) -> None:
