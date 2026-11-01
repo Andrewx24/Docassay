@@ -17,6 +17,5 @@ export {
 } from "./adapters/base.js";
 export type { Adapter, RawResult } from "./adapters/base.js";
 export { registerAdapter, resolve } from "./adapters/registry.js";
-export { version } from "./version.js";
 export { loadGolden } from "./golden.js";
 export type { Document } from "./models/document.js";
