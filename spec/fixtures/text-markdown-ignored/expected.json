@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "text": 0.0
+  },
+  "failures": [
+    {
+      "metric": "text",
+      "check": "text_contains[0]",
+      "reason": "text not found",
+      "expected": "hidden",
+      "actual": "Visible\n\nItem\nShown"
+    }
+  ]
+}

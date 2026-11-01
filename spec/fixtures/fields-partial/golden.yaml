@@ -1,0 +1,7 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  fields:
+    vendor: "Acme Corp"
+    total: 10
+    paid: true

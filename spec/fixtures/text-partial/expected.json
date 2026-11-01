@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "text": 0.5
+  },
+  "failures": [
+    {
+      "metric": "text",
+      "check": "text_contains[1]",
+      "reason": "text not found",
+      "expected": "missing phrase",
+      "actual": "alpha is here"
+    }
+  ]
+}

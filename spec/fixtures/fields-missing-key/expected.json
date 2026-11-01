@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "fields": 0.0
+  },
+  "failures": [
+    {
+      "metric": "fields",
+      "check": "fields[vendor]",
+      "reason": "field missing",
+      "expected": "Acme",
+      "actual": null
+    }
+  ]
+}
