@@ -13,3 +13,8 @@ from docassay.config import ConfigError, load_config
 __version__ = version("docassay")
 
 __all__ = ["ConfigError", "__version__", "load_config"]
+from docassay.golden import load_golden
+
+__version__ = version("docassay")
+
+__all__ = ["__version__", "load_golden"]

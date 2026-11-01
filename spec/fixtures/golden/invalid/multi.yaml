@@ -1,0 +1,9 @@
+file: files/missing.pdf
+extra: true
+# TODO verify
+expect:
+  tables:
+    - page: 1
+      header: [Item]
+      cells:
+        - {row: 0, col: Price, value: "1"}

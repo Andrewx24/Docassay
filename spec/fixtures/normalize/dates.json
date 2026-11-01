@@ -1,0 +1,224 @@
+[
+  {
+    "name": "iso",
+    "input": "2026-11-01",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "iso-slash",
+    "input": "2026/11/01",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "iso-short",
+    "input": "2026-1-1",
+    "order": "mdy",
+    "expected": "2026-01-01"
+  },
+  {
+    "name": "invalid-feb-30",
+    "input": "2026-02-30",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "non-leap",
+    "input": "2026-02-29",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "leap",
+    "input": "2024-02-29",
+    "order": "mdy",
+    "expected": "2024-02-29"
+  },
+  {
+    "name": "century-non-leap",
+    "input": "1900-02-29",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "leap-400",
+    "input": "2000-02-29",
+    "order": "mdy",
+    "expected": "2000-02-29"
+  },
+  {
+    "name": "mdy-slash",
+    "input": "11/01/2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "dmy-slash",
+    "input": "11/01/2026",
+    "order": "dmy",
+    "expected": "2026-01-11"
+  },
+  {
+    "name": "mdy-dot",
+    "input": "01.11.2026",
+    "order": "mdy",
+    "expected": "2026-01-11"
+  },
+  {
+    "name": "dmy-dot",
+    "input": "01.11.2026",
+    "order": "dmy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "mdy-dash",
+    "input": "1-11-2026",
+    "order": "mdy",
+    "expected": "2026-01-11"
+  },
+  {
+    "name": "dmy-dash",
+    "input": "1-11-2026",
+    "order": "dmy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "month-comma",
+    "input": "November 1, 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "month-abbr",
+    "input": "Nov 1 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "month-abbr-dot",
+    "input": "Nov. 1 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "day-month",
+    "input": "1 November 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "day-abbr-dot",
+    "input": "1 Nov. 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "lower-month",
+    "input": "nov 1 2026",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "two-digit-year",
+    "input": "11/01/26",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "two-digit-month-name",
+    "input": "Nov 1 26",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "month-13",
+    "input": "2026-13-01",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "month-0",
+    "input": "2026-00-01",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "nov-31",
+    "input": "2026-11-31",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "mdy-day-as-month",
+    "input": "31/01/2026",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "dmy-31",
+    "input": "31/01/2026",
+    "order": "dmy",
+    "expected": "2026-01-31"
+  },
+  {
+    "name": "feb-29-name",
+    "input": "February 29, 2026",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "feb-29-leap-name",
+    "input": "February 29, 2024",
+    "order": "mdy",
+    "expected": "2024-02-29"
+  },
+  {
+    "name": "sept-rejected",
+    "input": "Sept 1 2026",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "may",
+    "input": "May 1 2026",
+    "order": "mdy",
+    "expected": "2026-05-01"
+  },
+  {
+    "name": "day-may",
+    "input": "1 May 2026",
+    "order": "mdy",
+    "expected": "2026-05-01"
+  },
+  {
+    "name": "month-then-word",
+    "input": "November foo 2026",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "empty",
+    "input": "",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "padded",
+    "input": "  Nov. 1 2026  ",
+    "order": "mdy",
+    "expected": "2026-11-01"
+  },
+  {
+    "name": "dot-year-first",
+    "input": "2026.11.01",
+    "order": "mdy",
+    "expected": null
+  },
+  {
+    "name": "full-month-dot-rejected",
+    "input": "November. 1 2026",
+    "order": "mdy",
+    "expected": null
+  }
+]

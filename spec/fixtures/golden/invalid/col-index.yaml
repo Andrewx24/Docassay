@@ -1,0 +1,8 @@
+file: files/doc.pdf
+id: col-index
+expect:
+  tables:
+    - page: 1
+      header: [Item, Qty, Price]
+      cells:
+        - {row: 0, col: 3, value: "x"}
