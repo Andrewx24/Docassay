@@ -1,0 +1,12 @@
+file: files/invoice.pdf
+id: cell-mismatch
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    rows: 1
+    cells:
+    - row: 0
+      col: Item
+      value: Gadget

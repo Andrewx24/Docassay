@@ -1,0 +1,5 @@
+file: files/invoice.pdf
+id: page-only
+expect:
+  tables:
+  - page: 1

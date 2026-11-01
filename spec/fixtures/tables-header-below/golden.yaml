@@ -1,0 +1,9 @@
+file: files/invoice.pdf
+id: header-below
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    - Qty
+    - Price

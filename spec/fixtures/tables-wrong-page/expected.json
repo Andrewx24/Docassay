@@ -1,0 +1,13 @@
+{
+  "scores": {
+    "tables": 0.0
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[0]",
+      "reason": "no table found on page 2",
+      "page": 2
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+file: files/invoice.pdf
+id: col-fallback
+expect:
+  tables:
+  - page: 1
+    header:
+    - Amount
+    - Price
+    cells:
+    - row: 0
+      col: Price
+      value: '1200'

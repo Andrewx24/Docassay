@@ -1,0 +1,31 @@
+{
+  "scores": {
+    "tables": 0.375
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[0].cells[0]",
+      "reason": "cell out of range",
+      "expected": "Widget",
+      "actual": null,
+      "page": 1
+    },
+    {
+      "metric": "tables",
+      "check": "tables[0].cells[1]",
+      "reason": "cell out of range",
+      "expected": "x",
+      "actual": null,
+      "page": 1
+    },
+    {
+      "metric": "tables",
+      "check": "tables[0].cells[2]",
+      "reason": "cell out of range",
+      "expected": "x",
+      "actual": null,
+      "page": 1
+    }
+  ]
+}
