@@ -1,0 +1,62 @@
+[
+  {
+    "name": "zero",
+    "input": "0",
+    "expected": 0
+  },
+  {
+    "name": "one",
+    "input": "1",
+    "expected": 1
+  },
+  {
+    "name": "neg-one",
+    "input": "-1",
+    "expected": -1
+  },
+  {
+    "name": "up",
+    "input": "1.23456",
+    "expected": 1.2346
+  },
+  {
+    "name": "down",
+    "input": "1.23454",
+    "expected": 1.2345
+  },
+  {
+    "name": "half",
+    "input": "1.23455",
+    "expected": 1.2346
+  },
+  {
+    "name": "negative",
+    "input": "-1.23456",
+    "expected": -1.2346
+  },
+  {
+    "name": "tiny-down",
+    "input": "0.00004",
+    "expected": 0
+  },
+  {
+    "name": "tiny-up",
+    "input": "0.00005",
+    "expected": 0.0001
+  },
+  {
+    "name": "just-over-one",
+    "input": "1.00005",
+    "expected": 1.0001
+  },
+  {
+    "name": "exact",
+    "input": "12.5",
+    "expected": 12.5
+  },
+  {
+    "name": "neg-tiny",
+    "input": "-0.00005",
+    "expected": 0
+  }
+]
