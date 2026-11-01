@@ -8,4 +8,5 @@
  * ```
  */
 export { version } from "./version.js";
+export { loadGolden } from "./golden.js";
 export type { Document } from "./models/document.js";

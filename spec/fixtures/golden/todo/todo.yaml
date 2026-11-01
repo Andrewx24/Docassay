@@ -1,0 +1,5 @@
+file: files/todo.pdf
+# TODO verify
+expect:
+  text_contains:
+    - Please review
