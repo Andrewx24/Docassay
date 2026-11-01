@@ -1,0 +1,8 @@
+file: files/invoice.pdf
+id: header-half
+expect:
+  tables:
+  - page: 1
+    header:
+    - Alpha
+    - Beta

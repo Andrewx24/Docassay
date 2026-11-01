@@ -1,0 +1,8 @@
+file: files/invoice.pdf
+id: overflow
+expect:
+  tables:
+  - page: 1
+    header:
+    - A
+    rows: 1

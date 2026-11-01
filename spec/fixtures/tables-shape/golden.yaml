@@ -1,0 +1,11 @@
+file: files/invoice.pdf
+id: shape
+expect:
+  tables:
+  - page: 1
+    header:
+    - A
+    - B
+    - C
+    rows: 4
+    cols: 3

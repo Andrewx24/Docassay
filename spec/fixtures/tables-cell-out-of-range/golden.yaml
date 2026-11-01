@@ -1,0 +1,18 @@
+file: files/invoice.pdf
+id: cell-out-of-range
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    - Qty
+    cells:
+    - row: 3
+      col: 0
+      value: Widget
+    - row: 0
+      col: Missing
+      value: x
+    - row: 0
+      col: 5
+      value: x

@@ -1,0 +1,9 @@
+file: files/invoice.pdf
+id: blank-header
+expect:
+  tables:
+  - page: 1
+    header: []
+    rows: 2
+    cols: 2
+    cells: []

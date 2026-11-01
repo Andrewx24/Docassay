@@ -1,0 +1,14 @@
+file: files/invoice.pdf
+id: cell-name
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    - Price
+    rows: 1
+    cols: 2
+    cells:
+    - row: 0
+      col: Price
+      value: '1200'

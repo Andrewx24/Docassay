@@ -1,0 +1,12 @@
+file: files/invoice.pdf
+id: zero-rows
+expect:
+  tables:
+  - page: 1
+    header:
+    - A
+    rows: 0
+  - page: 1
+    header:
+    - B
+    rows: 0

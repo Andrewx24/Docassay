@@ -1,0 +1,11 @@
+file: files/invoice.pdf
+id: wrong-page
+expect:
+  tables:
+  - page: 2
+    header:
+    - Item
+    cells:
+    - row: 0
+      col: 0
+      value: Widget

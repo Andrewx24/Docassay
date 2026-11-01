@@ -1,0 +1,21 @@
+file: files/invoice.pdf
+id: greedy
+expect:
+  tables:
+  - page: 1
+    header:
+    - Note
+    rows: 1
+    cells:
+    - row: 0
+      col: 0
+      value: right
+  - page: 1
+    header:
+    - Note
+    - Extra
+    rows: 1
+    cells:
+    - row: 0
+      col: 0
+      value: wrong

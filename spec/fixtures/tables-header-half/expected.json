@@ -1,0 +1,21 @@
+{
+  "scores": {
+    "tables": 0.5
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[0].header",
+      "reason": "header does not match",
+      "expected": [
+        "Alpha",
+        "Beta"
+      ],
+      "actual": [
+        "alpha",
+        "Gamma"
+      ],
+      "page": 1
+    }
+  ]
+}

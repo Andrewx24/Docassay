@@ -1,0 +1,23 @@
+{
+  "scores": {
+    "tables": 0.0
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[0]",
+      "reason": "no table with matching header",
+      "expected": [
+        "Item",
+        "Qty",
+        "Price"
+      ],
+      "actual": [
+        "Item",
+        "Foo",
+        "Bar"
+      ],
+      "page": 1
+    }
+  ]
+}

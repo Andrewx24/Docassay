@@ -1,0 +1,19 @@
+{
+  "scores": {
+    "tables": 0.8
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[1].shape",
+      "reason": "shape does not match",
+      "expected": {
+        "rows": 0
+      },
+      "actual": {
+        "rows": 2
+      },
+      "page": 1
+    }
+  ]
+}

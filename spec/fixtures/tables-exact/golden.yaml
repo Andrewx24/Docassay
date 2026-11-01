@@ -1,0 +1,18 @@
+file: files/invoice.pdf
+id: exact
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    - Qty
+    - Price
+    rows: 1
+    cols: 3
+    cells:
+    - row: 0
+      col: Item
+      value: Widget
+    - row: 0
+      col: Price
+      value: 1,200.00
