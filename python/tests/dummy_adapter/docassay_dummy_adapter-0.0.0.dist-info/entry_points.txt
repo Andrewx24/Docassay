@@ -1,0 +1,2 @@
+[docassay.adapters]
+dummy = dummy_adapter:DummyAdapter
