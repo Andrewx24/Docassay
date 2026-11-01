@@ -1,0 +1,6 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  fields:
+    total: 4120
+    qty: 2

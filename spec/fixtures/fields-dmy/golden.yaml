@@ -1,0 +1,5 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  fields:
+    due_date: "2026-11-01"

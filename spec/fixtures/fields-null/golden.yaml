@@ -1,0 +1,9 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  fields:
+    note: null
+    blank: null
+    gone: null
+    bad: null
+    flag: null

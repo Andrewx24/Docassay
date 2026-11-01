@@ -1,0 +1,17 @@
+{
+  "scores": {
+    "order": 0.0
+  },
+  "failures": [
+    {
+      "metric": "order",
+      "check": "reading_order[0]",
+      "reason": "second string not found",
+      "expected": [
+        "alpha",
+        "beta"
+      ],
+      "actual": "only alpha is here"
+    }
+  ]
+}
