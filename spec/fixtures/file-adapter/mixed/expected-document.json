@@ -1,0 +1,114 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/invoice.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "file",
+    "parserVersion": "file",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1
+    },
+    {
+      "number": 2
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "heading",
+      "text": "Invoice",
+      "page": 1,
+      "level": 1
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "text": "Payment due within 30 days.",
+      "page": 1
+    },
+    {
+      "id": "b3",
+      "type": "list_item",
+      "text": "Widget",
+      "page": 1
+    },
+    {
+      "id": "b4",
+      "type": "list_item",
+      "text": "Gadget",
+      "page": 1
+    },
+    {
+      "id": "b5",
+      "type": "list_item",
+      "text": "Spare",
+      "page": 1
+    },
+    {
+      "id": "b6",
+      "type": "list_item",
+      "text": "First",
+      "page": 1
+    },
+    {
+      "id": "b7",
+      "type": "list_item",
+      "text": "Second",
+      "page": 1
+    },
+    {
+      "id": "b8",
+      "type": "heading",
+      "text": "Terms",
+      "page": 2,
+      "level": 2
+    },
+    {
+      "id": "b9",
+      "type": "paragraph",
+      "text": "Late fees accrue.",
+      "page": 2
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "header": [
+        "Item",
+        "Qty",
+        "Price"
+      ],
+      "rows": [
+        [
+          "Widget",
+          "2",
+          "1,200.00"
+        ],
+        [
+          "Gadget | Pro",
+          "1",
+          ""
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "page": 2,
+      "header": [
+        "Note"
+      ],
+      "rows": [
+        [
+          "See page 1"
+        ]
+      ]
+    }
+  ]
+}

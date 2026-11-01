@@ -18,6 +18,7 @@ from docassay.adapters.base import (
     AdapterError,
     RawResult,
 )
+from docassay.adapters.file import FileAdapter
 from docassay.models.document import Document, Source
 
 # Built-ins in the Adapters doc order. Variants follow the protocol comment.
@@ -112,7 +113,7 @@ def valid_ids() -> str:
 
 def _factories() -> dict[str, _Factory]:
     found: dict[str, _Factory] = {
-        adapter_id: _Factory(adapter_id, variants, _pending(adapter_id, variants))
+        adapter_id: _Factory(adapter_id, variants, _builtin_factory(adapter_id, variants))
         for adapter_id, variants in BUILTINS.items()
     }
     for point in entry_points(group="docassay.adapters"):
@@ -124,6 +125,16 @@ def _factories() -> dict[str, _Factory]:
         build = loaded if callable(loaded) else _refuse(adapter_id)
         found[adapter_id] = _Factory(adapter_id, variants, build)
     return found
+
+
+def _builtin_factory(adapter_id: str, variants: tuple[str, ...]) -> Factory:
+    if adapter_id == "file":
+
+        def build_file(variant: str | None, options: dict[str, Any]) -> Adapter:
+            return FileAdapter(variant, options)
+
+        return build_file
+    return _pending(adapter_id, variants)
 
 
 def _pending(adapter_id: str, variants: tuple[str, ...]) -> Factory:

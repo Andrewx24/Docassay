@@ -15,6 +15,7 @@ import {
   type Adapter,
   type RawResult,
 } from "./base.js";
+import { FileAdapter } from "./file.js";
 import type { Document, Source } from "../models/document.js";
 
 /** Built-ins in the Adapters doc order. Variants follow the protocol comment. */
@@ -144,6 +145,14 @@ export function validIds(): string {
 }
 
 function factoryFor(adapterId: string): AdapterFactory | undefined {
+  if (adapterId === "file") {
+    const variants = BUILTINS.file ?? [];
+    return Object.assign(
+      (variant: string | null, options: Record<string, unknown>) =>
+        new FileAdapter(variant, options),
+      { id: "file", variants },
+    );
+  }
   if (adapterId in BUILTINS) {
     const variants = BUILTINS[adapterId] ?? [];
     const pending: AdapterFactory = Object.assign(
