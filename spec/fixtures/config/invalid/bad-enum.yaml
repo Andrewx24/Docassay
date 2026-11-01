@@ -1,0 +1,7 @@
+version: 1
+golden: golden
+normalize:
+  date_order: ymd
+  decimal: ";"
+parsers:
+  - id: docling

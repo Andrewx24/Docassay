@@ -1,0 +1,18 @@
+version: 1
+golden: golden/
+cache: .docassay/cache
+baseline: .docassay/baseline.json
+parsers:
+  - id: docling
+  - id: llamaparse:agentic
+    options: {version: "2026-09-24"}
+  - id: file
+    name: my-pipeline
+    options: {dir: out/parsed}
+thresholds:
+  default: {drop: 0.02}
+  tables: {drop: 0.01, min: 0.80}
+normalize:
+  date_order: mdy
+  decimal: "."
+tokenizer: words

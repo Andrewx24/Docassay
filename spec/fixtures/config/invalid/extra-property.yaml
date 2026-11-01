@@ -1,0 +1,8 @@
+version: 1
+golden: golden
+extra: 1
+another: 2
+parsers:
+  - id: docling
+thresholds:
+  nope: {drop: 0.1}

@@ -1,0 +1,12 @@
+version: 1
+golden: golden
+cache: cache
+baseline: base.json
+tokenizer: words
+normalize:
+  date_order: mdy
+  decimal: ","
+thresholds:
+  default: {drop: 0}
+parsers:
+  - id: docling

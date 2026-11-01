@@ -7,6 +7,9 @@
  * console.log(version);
  * ```
  */
+export { ConfigError, loadConfig } from "./config.js";
+export { version } from "./version.js";
+export type { Config } from "./models/config.js";
 export {
   AdapterConfigError,
   AdapterError,

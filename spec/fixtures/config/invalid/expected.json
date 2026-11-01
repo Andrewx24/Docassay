@@ -1,0 +1,225 @@
+{
+  "bad-enum.yaml": [
+    {
+      "line": 4,
+      "column": 15,
+      "message": "must be one of mdy, dmy"
+    },
+    {
+      "line": 5,
+      "column": 12,
+      "message": "must be one of ., ,"
+    }
+  ],
+  "bad-id.yaml": [
+    {
+      "line": 4,
+      "column": 9,
+      "message": "must match the parser id pattern"
+    }
+  ],
+  "bad-tokenizer.yaml": [
+    {
+      "line": 3,
+      "column": 12,
+      "message": "must be \"words\" or tiktoken:<encoding>"
+    }
+  ],
+  "bad-yaml.yaml": [
+    {
+      "line": 2,
+      "column": 1,
+      "messagePrefix": "invalid YAML:"
+    }
+  ],
+  "comment-only.yaml": [
+    {
+      "line": 1,
+      "column": 1,
+      "message": "config must be a mapping"
+    }
+  ],
+  "drop-range.yaml": [
+    {
+      "line": 4,
+      "column": 19,
+      "message": "must be >= 0"
+    },
+    {
+      "line": 5,
+      "column": 17,
+      "message": "must be <= 1"
+    }
+  ],
+  "duplicate-id.yaml": [
+    {
+      "line": 5,
+      "column": 9,
+      "message": "duplicate display name \"reducto\""
+    }
+  ],
+  "duplicate-key.yaml": [
+    {
+      "line": 2,
+      "column": 1,
+      "message": "duplicate key \"version\""
+    },
+    {
+      "line": 8,
+      "column": 7,
+      "message": "duplicate key \"a\""
+    }
+  ],
+  "duplicate-name.yaml": [
+    {
+      "line": 6,
+      "column": 11,
+      "message": "duplicate display name \"docling\""
+    }
+  ],
+  "empty-name.yaml": [
+    {
+      "line": 5,
+      "column": 11,
+      "message": "must not be empty"
+    }
+  ],
+  "empty-values.yaml": [
+    {
+      "line": 2,
+      "column": 9,
+      "message": "must not be empty"
+    },
+    {
+      "line": 3,
+      "column": 10,
+      "message": "must have at least 1 items"
+    }
+  ],
+  "extra-property.yaml": [
+    {
+      "line": 3,
+      "column": 1,
+      "message": "unknown property \"extra\""
+    },
+    {
+      "line": 4,
+      "column": 1,
+      "message": "unknown property \"another\""
+    },
+    {
+      "line": 8,
+      "column": 3,
+      "message": "unknown property \"nope\""
+    }
+  ],
+  "many.yaml": [
+    {
+      "line": 1,
+      "column": 10,
+      "message": "must be 1"
+    },
+    {
+      "line": 2,
+      "column": 9,
+      "message": "must not be empty"
+    },
+    {
+      "line": 3,
+      "column": 12,
+      "message": "must be \"words\" or tiktoken:<encoding>"
+    },
+    {
+      "line": 4,
+      "column": 10,
+      "message": "must have at least 1 items"
+    }
+  ],
+  "missing-fields.yaml": [
+    {
+      "line": 1,
+      "column": 1,
+      "message": "missing property \"golden\""
+    },
+    {
+      "line": 1,
+      "column": 1,
+      "message": "missing property \"version\""
+    }
+  ],
+  "mixed.yaml": [
+    {
+      "line": 3,
+      "column": 1,
+      "message": "unknown property \"nope\""
+    },
+    {
+      "line": 5,
+      "column": 9,
+      "message": "unknown parser id \"nope\"; valid ids: docling, file, llamaparse, reducto"
+    }
+  ],
+  "missing-variant.yaml": [
+    {
+      "line": 4,
+      "column": 9,
+      "message": "missing variant for \"llamaparse\"; valid ids: docling, file, llamaparse, reducto; valid variants: fast, cost_effective, agentic, agentic_plus"
+    }
+  ],
+  "not-mapping.yaml": [
+    {
+      "line": 1,
+      "column": 1,
+      "message": "config must be a mapping"
+    }
+  ],
+  "parser-type.yaml": [
+    {
+      "line": 4,
+      "column": 5,
+      "message": "must be object"
+    }
+  ],
+  "null-cache.yaml": [
+    {
+      "line": 3,
+      "column": 8,
+      "message": "must be string"
+    }
+  ],
+  "scalar.yaml": [
+    {
+      "line": 1,
+      "column": 1,
+      "message": "config must be a mapping"
+    }
+  ],
+  "unknown-id.yaml": [
+    {
+      "line": 4,
+      "column": 9,
+      "message": "unknown parser id \"nope\"; valid ids: docling, file, llamaparse, reducto"
+    }
+  ],
+  "unknown-variant-plain.yaml": [
+    {
+      "line": 4,
+      "column": 9,
+      "message": "unknown variant \"fast\" for \"docling\"; valid ids: docling, file, llamaparse, reducto"
+    }
+  ],
+  "unknown-variant.yaml": [
+    {
+      "line": 4,
+      "column": 9,
+      "message": "unknown variant \"turbo\" for \"llamaparse\"; valid ids: docling, file, llamaparse, reducto; valid variants: fast, cost_effective, agentic, agentic_plus"
+    }
+  ],
+  "version-type.yaml": [
+    {
+      "line": 1,
+      "column": 10,
+      "message": "must be 1"
+    }
+  ]
+}

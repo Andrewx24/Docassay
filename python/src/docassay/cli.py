@@ -6,6 +6,7 @@ from typing import Annotated
 import typer
 
 from docassay import __version__
+from docassay.config import init_command
 from docassay.golden import validate_command
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
@@ -43,6 +44,18 @@ def main(
 
 
 @app.command()
+def init(
+    force: Annotated[
+        bool,
+        typer.Option("--force", help="Overwrite docassay.yaml and golden/example.yaml."),
+    ] = False,
+) -> None:
+    """Write a starter docassay.yaml and golden/example.yaml.
+
+    Example:
+        docassay init
+    """
+    raise typer.Exit(code=init_command(force=force))
 def validate(
     path: Annotated[
         Path,

@@ -1,0 +1,12 @@
+version: 1
+golden: ../golden
+cache: ./cache
+baseline: ./baseline.json
+parsers:
+  - id: file
+    name: local
+    options:
+      dir: ./out/parsed
+  - id: docling
+    options:
+      dir: should-stay
