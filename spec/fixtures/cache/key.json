@@ -1,0 +1,18 @@
+{
+  "cases": [
+    {
+      "bytes": "hello",
+      "adapterId": "llamaparse:agentic",
+      "identity": {"variant": "agentic", "dir": "out/parsed"},
+      "cache": ".docassay/cache",
+      "path": ".docassay/cache/2c/2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824/llamaparse__agentic__2624d33c4f70efbd.json"
+    },
+    {
+      "bytes": "hello",
+      "adapterId": "file",
+      "identity": {"b": 1, "a": {"d": true, "c": null}},
+      "cache": ".docassay/cache",
+      "path": ".docassay/cache/2c/2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824/file__c6bcd213f27729ac.json"
+    }
+  ]
+}

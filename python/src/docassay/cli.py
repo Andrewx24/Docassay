@@ -6,10 +6,13 @@ from typing import Annotated
 import typer
 
 from docassay import __version__
+from docassay.cache import clear_cache
 from docassay.config import init_command
 from docassay.golden import validate_command
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
+cache_app = typer.Typer(help="Manage the parser output cache.")
+app.add_typer(cache_app, name="cache")
 
 
 def _print_version(value: bool) -> None:
@@ -75,3 +78,24 @@ def validate(
         docassay validate --strict golden
     """
     raise typer.Exit(code=validate_command(path, strict=strict))
+
+
+@cache_app.command("clear")
+def cache_clear(
+    parser: Annotated[
+        str | None,
+        typer.Option("--parser", help="Delete entries for one parser id, including its variants."),
+    ] = None,
+    cache: Annotated[
+        Path,
+        typer.Option("--cache", help="Cache directory."),
+    ] = Path(".docassay/cache"),
+) -> None:
+    """Delete cached parser outputs.
+
+    Example:
+        docassay cache clear --parser llamaparse:agentic
+    """
+    removed = clear_cache(cache, parser)
+    scope = "" if parser is None else f" for {parser}"
+    typer.echo(f"removed {removed} cache file(s){scope} from {cache.as_posix()}")
