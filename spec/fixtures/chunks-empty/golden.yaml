@@ -1,0 +1,6 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  chunks:
+    heading_paths:
+      - {text: "Late fees", path: ["Terms"]}

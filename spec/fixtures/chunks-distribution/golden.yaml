@@ -1,0 +1,6 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  chunks:
+    max_tokens: 10
+    min_tokens: 1

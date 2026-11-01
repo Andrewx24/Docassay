@@ -1,0 +1,13 @@
+{
+  "scores": {
+    "chunks": 1.0
+  },
+  "failures": [],
+  "extra": {
+    "tokens": {
+      "min": 1,
+      "median": 1,
+      "max": 1
+    }
+  }
+}

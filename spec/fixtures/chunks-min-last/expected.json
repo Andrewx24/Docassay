@@ -1,0 +1,21 @@
+{
+  "scores": {
+    "chunks": 0.5
+  },
+  "failures": [
+    {
+      "metric": "chunks",
+      "check": "chunks[1].min_tokens",
+      "reason": "chunk below min_tokens",
+      "expected": 2,
+      "actual": 1
+    }
+  ],
+  "extra": {
+    "tokens": {
+      "min": 1,
+      "median": 1,
+      "max": 5
+    }
+  }
+}

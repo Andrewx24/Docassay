@@ -1,0 +1,27 @@
+{
+  "scores": {
+    "chunks": 0.0
+  },
+  "failures": [
+    {
+      "metric": "chunks",
+      "check": "tables[0]",
+      "reason": "table split without repeated header",
+      "expected": [
+        "Item",
+        "Qty"
+      ],
+      "actual": [
+        "c1",
+        "c2"
+      ]
+    }
+  ],
+  "extra": {
+    "tokens": {
+      "min": 2,
+      "median": 2.5,
+      "max": 3
+    }
+  }
+}

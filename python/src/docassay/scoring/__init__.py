@@ -28,11 +28,12 @@ class ScoreOptions:
     """Options shared by every scorer. Defaults match the config file.
 
     Example:
-        options = ScoreOptions(decimal=",", date_order="dmy")
+        options = ScoreOptions(decimal=",", date_order="dmy", tokenizer="words")
     """
 
     decimal: DecimalMark = "."
     date_order: DateOrder = "mdy"
+    tokenizer: str = "words"
 
 
 @dataclass(frozen=True)
@@ -80,6 +81,7 @@ class MetricResult:
 
     score: float
     failures: list[Failure]
+    extra: dict[str, object] | None = None
 
 
 __all__ = [
