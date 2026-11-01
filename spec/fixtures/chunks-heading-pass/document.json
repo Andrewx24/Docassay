@@ -1,0 +1,45 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/invoice.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "file",
+    "parserVersion": "file",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1
+    }
+  ],
+  "blocks": [],
+  "tables": [],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "Intro",
+      "blockIds": [],
+      "pages": [
+        1
+      ],
+      "headingPath": [
+        "Wrong"
+      ]
+    },
+    {
+      "id": "c2",
+      "text": "Late fees accrue",
+      "blockIds": [],
+      "pages": [
+        1
+      ],
+      "headingPath": [
+        "Terms",
+        "Late fees"
+      ]
+    }
+  ]
+}
