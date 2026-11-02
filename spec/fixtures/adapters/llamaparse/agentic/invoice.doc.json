@@ -1,0 +1,113 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "llamaparse:agentic",
+    "parserVersion": "2026-09-29",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "header",
+      "text": "Acme Billing",
+      "page": 1,
+      "bbox": [
+        72,
+        36,
+        192,
+        48
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "heading",
+      "text": "Invoice",
+      "page": 1,
+      "level": 1,
+      "bbox": [
+        72,
+        72,
+        272,
+        96
+      ]
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "Payment due within 30 days",
+      "page": 1,
+      "bbox": [
+        72,
+        110,
+        312,
+        124
+      ]
+    },
+    {
+      "id": "b4",
+      "type": "list_item",
+      "text": "Net 30",
+      "page": 1
+    },
+    {
+      "id": "b5",
+      "type": "list_item",
+      "text": "Wire ok",
+      "page": 1
+    },
+    {
+      "id": "b6",
+      "type": "footer",
+      "text": "Page 1",
+      "page": 1,
+      "bbox": [
+        72,
+        760,
+        112,
+        770
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        72,
+        140,
+        472,
+        200
+      ],
+      "header": [
+        "Item",
+        "Qty",
+        "Price"
+      ],
+      "rows": [
+        [
+          "Widget",
+          "2",
+          ""
+        ],
+        [
+          "Gadget",
+          "1",
+          "1,200.00"
+        ]
+      ],
+      "markdown": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |"
+    }
+  ]
+}

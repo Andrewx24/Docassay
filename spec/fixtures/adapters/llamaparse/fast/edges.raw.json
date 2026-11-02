@@ -1,0 +1,129 @@
+{
+  "job": {
+    "id": "pjb-edges-fast",
+    "project_id": "prj-docassay",
+    "status": "COMPLETED",
+    "tier": "fast",
+    "error_message": null
+  },
+  "raw_parameters": {
+    "version": "2026-06-15"
+  },
+  "items": {
+    "pages": [
+      {
+        "page_number": 1,
+        "page_width": 200,
+        "page_height": 400,
+        "success": true,
+        "items": [
+          {
+            "type": "text",
+            "value": "scaled",
+            "md": "scaled",
+            "bbox": [{ "x": 0.1, "y": 0.2, "w": 0.4, "h": 0.05 }]
+          },
+          {
+            "type": "text",
+            "value": "union",
+            "md": "union",
+            "bbox": [
+              { "x": 1, "y": 2, "w": 3, "h": 4 },
+              { "x": 10, "y": 0, "w": 1, "h": 2 }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "badbox",
+            "md": "badbox",
+            "bbox": [{ "x": true, "y": 1, "w": 1, "h": 1 }]
+          },
+          {
+            "type": "text",
+            "value": "",
+            "md": ""
+          },
+          {
+            "type": "code",
+            "value": "x = 1",
+            "language": "python",
+            "md": "```python\nx = 1\n```"
+          },
+          {
+            "type": "image",
+            "caption": "Chart",
+            "url": "https://example.com/chart.png",
+            "md": "![Chart](https://example.com/chart.png)"
+          },
+          {
+            "type": "image",
+            "caption": "",
+            "url": "https://example.com/a.png",
+            "md": "![alt](u)"
+          },
+          {
+            "type": "link",
+            "text": "",
+            "url": "https://example.com",
+            "md": "docs"
+          },
+          {
+            "type": "heading",
+            "level": true,
+            "value": "Bool",
+            "md": "Bool"
+          },
+          {
+            "type": "formula",
+            "value": "E = mc^2",
+            "md": "E = mc^2"
+          },
+          {
+            "type": "list",
+            "ordered": true,
+            "md": "1. one",
+            "items": [
+              { "type": "text", "value": "one", "md": "one" },
+              {
+                "type": "list",
+                "ordered": false,
+                "md": "- two",
+                "items": [{ "type": "text", "value": "two", "md": "two" }]
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "rows": [["H"], ["ignored"]],
+            "html": "<table><tr><th rowspan=\"2\">H</th><th>Q</th></tr><tr><td>A &amp; B</td></tr></table>",
+            "csv": "H,Q\nH,A & B",
+            "md": "| H | Q |\n| --- | --- |\n| H | A & B |",
+            "bbox": [{ "x": 10, "y": 20, "w": 20, "h": 20 }]
+          }
+        ]
+      },
+      {
+        "page_number": 2,
+        "success": false,
+        "error": "unreadable"
+      }
+    ]
+  },
+  "markdown": {
+    "pages": [
+      {
+        "page_number": 1,
+        "success": true,
+        "markdown": "scaled",
+        "header": " Running ",
+        "footer": null
+      },
+      {
+        "page_number": 2,
+        "success": false,
+        "markdown": "",
+        "footer": " End "
+      }
+    ]
+  }
+}

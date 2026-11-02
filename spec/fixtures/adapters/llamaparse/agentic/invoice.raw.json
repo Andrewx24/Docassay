@@ -1,0 +1,91 @@
+{
+  "job": {
+    "id": "pjb-invoice-agentic",
+    "project_id": "prj-docassay",
+    "status": "COMPLETED",
+    "tier": "agentic",
+    "version": "2026-09-29",
+    "error_message": null
+  },
+  "items": {
+    "pages": [
+      {
+        "page_number": 1,
+        "page_width": 612,
+        "page_height": 792,
+        "success": true,
+        "items": [
+          {
+            "type": "header",
+            "md": "Acme Billing",
+            "items": [
+              {
+                "type": "text",
+                "value": "Acme Billing",
+                "md": "Acme Billing",
+                "bbox": [{ "x": 72, "y": 36, "w": 120, "h": 12 }]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 1,
+            "value": "Invoice",
+            "md": "# Invoice",
+            "bbox": [{ "x": 72, "y": 72, "w": 200, "h": 24 }]
+          },
+          {
+            "type": "text",
+            "value": "Payment due within 30 days",
+            "md": "Payment due within 30 days",
+            "bbox": [{ "x": 72, "y": 110, "w": 240, "h": 14 }]
+          },
+          {
+            "type": "table",
+            "rows": [
+              ["Item", "Qty", "Price"],
+              ["Widget", 2, null],
+              ["Gadget", "1", "1,200.00"]
+            ],
+            "html": "<table><tr><th>Item</th><th>Qty</th><th>Price</th></tr><tr><td>Widget</td><td>2</td><td></td></tr><tr><td>Gadget</td><td>1</td><td>1,200.00</td></tr></table>",
+            "csv": "Item,Qty,Price\nWidget,2,\nGadget,1,\"1,200.00\"",
+            "md": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |",
+            "bbox": [{ "x": 72, "y": 140, "w": 400, "h": 60 }]
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "md": "- Net 30\n- Wire ok",
+            "items": [
+              { "type": "text", "value": "Net 30", "md": "Net 30" },
+              { "type": "text", "value": "Wire ok", "md": "Wire ok" }
+            ]
+          },
+          {
+            "type": "footer",
+            "md": "Page 1",
+            "items": [
+              {
+                "type": "text",
+                "value": "Page 1",
+                "md": "Page 1",
+                "bbox": [{ "x": 72, "y": 760, "w": 40, "h": 10 }]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "markdown": {
+    "pages": [
+      {
+        "page_number": 1,
+        "success": true,
+        "markdown": "# Invoice\n\nPayment due within 30 days",
+        "header": "Acme Billing",
+        "footer": "Page 1"
+      }
+    ]
+  }
+}
