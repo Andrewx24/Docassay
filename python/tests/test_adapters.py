@@ -58,10 +58,10 @@ def test_unknown_id_and_variant_are_config_errors() -> None:
 
 
 def test_builtin_is_unavailable_until_its_issue_lands() -> None:
-    adapter = resolve("docling", {"mode": "http"})
+    adapter = resolve("reducto", {"mode": "http"})
     ok, reason = adapter.available()
     assert ok is False
-    assert reason == "docling adapter is not available in this build"
+    assert reason == "reducto adapter is not available in this build"
     assert adapter.cache_identity()["options"] == {"mode": "http"}
     with pytest.raises(AdapterError):
         adapter.fetch(Path("missing.pdf"))
@@ -71,9 +71,9 @@ def test_builtin_is_unavailable_until_its_issue_lands() -> None:
     assert file_adapter.available()[0] is False
     assert "options.dir" in file_adapter.available()[1]
     with pytest.raises(AdapterUnavailable) as exc:
-        ensure_available([("docling", adapter), ("file", file_adapter)])
+        ensure_available([("reducto", adapter), ("file", file_adapter)])
     assert exc.value.exit_code == 3
-    assert "docling: docling adapter is not available in this build" in str(exc.value)
+    assert "reducto: reducto adapter is not available in this build" in str(exc.value)
     assert "options.dir" in str(exc.value)
 
 
@@ -178,7 +178,12 @@ def test_entry_points_skip_builtins_and_reject_bad_objects(
         ]
 
     monkeypatch.setattr(registry_module, "entry_points", fake_entry_points)
-    assert resolve("docling").available()[1].startswith("docling adapter is not available")
+    docling_ok, docling_reason = resolve("docling").available()
+    if importlib.util.find_spec("docling") is None:
+        assert docling_ok is False
+        assert "docling extra is not installed" in docling_reason
+    else:
+        assert docling_ok is True
     with pytest.raises(AdapterConfigError, match="not callable"):
         resolve("plain")
     listed = resolve("listed:alpha")

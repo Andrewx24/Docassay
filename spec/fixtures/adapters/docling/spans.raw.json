@@ -1,0 +1,57 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.10.0",
+  "name": "spans",
+  "pages": {
+    "1": {
+      "page_no": 1,
+      "size": { "width": 100, "height": 100 }
+    }
+  },
+  "body": { "children": [{ "$ref": "#/tables/0" }] },
+  "texts": [],
+  "tables": [
+    {
+      "self_ref": "#/tables/0",
+      "label": "table",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": { "l": 1, "t": 2, "r": 3, "b": 4, "coord_origin": "TOPLEFT" }
+        }
+      ],
+      "data": {
+        "num_rows": 2,
+        "num_cols": 2,
+        "table_cells": [
+          {
+            "start_row_offset_idx": 0,
+            "end_row_offset_idx": 1,
+            "start_col_offset_idx": 0,
+            "end_col_offset_idx": 2,
+            "text": "H",
+            "column_header": true,
+            "col_span": 2,
+            "row_span": 1
+          },
+          {
+            "start_row_offset_idx": 1,
+            "end_row_offset_idx": 2,
+            "start_col_offset_idx": 0,
+            "end_col_offset_idx": 1,
+            "text": "a",
+            "column_header": false
+          },
+          {
+            "start_row_offset_idx": 1,
+            "end_row_offset_idx": 2,
+            "start_col_offset_idx": 1,
+            "end_col_offset_idx": 2,
+            "text": "b",
+            "column_header": false
+          }
+        ]
+      }
+    }
+  ]
+}

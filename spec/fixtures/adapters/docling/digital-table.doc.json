@@ -1,0 +1,196 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "docling",
+    "parserVersion": "2.87.0",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "header",
+      "text": "Optimized Table Tokenization for Table Structure Recognition",
+      "page": 1,
+      "bbox": [
+        194.48,
+        93.66,
+        447.54,
+        102.04
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "header",
+      "text": "9",
+      "page": 1,
+      "bbox": [
+        475.98,
+        93.66,
+        480.59,
+        102.04
+      ]
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "order to compute the TED score. Inference timing results for all experiments were obtained from the same machine on a single core with AMD EPYC 7763 CPU @2.45 GHz.",
+      "page": 1,
+      "bbox": [
+        134.76,
+        118.87,
+        480.6,
+        152.08
+      ]
+    },
+    {
+      "id": "b4",
+      "type": "heading",
+      "text": "5.1 Hyper Parameter Optimization",
+      "page": 1,
+      "level": 1,
+      "bbox": [
+        134.76,
+        169.16,
+        318.45,
+        178.38
+      ]
+    },
+    {
+      "id": "b5",
+      "type": "paragraph",
+      "text": "We have chosen the PubTabNet data set to perform HPO, since it includes a highly diverse set of tables. Also we report TED scores separately for simple and complex tables (tables with cell spans). Results are presented in Table. 1. It is evident that with OTSL, our model achieves the same TED score and slightly better mAP scores in comparison to HTML. However OTSL yields a 2x speed up in the inference runtime over HTML.",
+      "page": 1,
+      "bbox": [
+        134.76,
+        185.53,
+        480.6,
+        255.07
+      ]
+    },
+    {
+      "id": "b6",
+      "type": "caption",
+      "text": "Table 1. HPO performed in OTSL and HTML representation on the same transformer-based TableFormer [9] architecture, trained only on PubTabNet [22]. Effects of reducing the # of layers in encoder and decoder stages of the model show that smaller models trained on OTSL perform better, especially in recognizing complex table structures, and maintain a much higher mAP score than the HTML counterpart.",
+      "page": 1,
+      "bbox": [
+        134.76,
+        273.74,
+        480.6,
+        327.24
+      ]
+    },
+    {
+      "id": "b7",
+      "type": "heading",
+      "text": "5.2 Quantitative Results",
+      "page": 1,
+      "level": 1,
+      "bbox": [
+        134.76,
+        508.12,
+        264.41,
+        517.35
+      ]
+    },
+    {
+      "id": "b8",
+      "type": "paragraph",
+      "text": "We picked the model parameter configuration that produced the best prediction quality (enc=6, dec=6, heads=8) with PubTabNet alone, then independently trained and evaluated it on three publicly available data sets: PubTabNet (395k samples), FinTabNet (113k samples) and PubTables-1M (about 1M samples). Performance results are presented in Table. 2. It is clearly evident that the model trained on OTSL outperforms HTML across the board, keeping high TEDs and mAP scores even on difficult financial tables (FinTabNet) that contain sparse and large tables.",
+      "page": 1,
+      "bbox": [
+        134.76,
+        524.49,
+        480.72,
+        617.47
+      ]
+    },
+    {
+      "id": "b9",
+      "type": "paragraph",
+      "text": "Additionally, the results show that OTSL has an advantage over HTML when applied on a bigger data set like PubTables-1M and achieves significantly improved scores. Finally, OTSL achieves faster inference due to fewer decoding steps which is a result of the reduced sequence representation.",
+      "page": 1,
+      "bbox": [
+        134.76,
+        620.13,
+        480.6,
+        665.29
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        139.41,
+        337,
+        475.01,
+        469.81
+      ],
+      "header": [
+        "# enc-layers",
+        "# dec-layers",
+        "Language",
+        "TEDs simple",
+        "TEDs complex",
+        "TEDs all",
+        "mAP (0.75)",
+        "Inference time (secs)"
+      ],
+      "rows": [
+        [
+          "6",
+          "6",
+          "OTSL HTML",
+          "0.965 0.969",
+          "0.934 0.927",
+          "0.955 0.955",
+          "0.88 0.857",
+          "2.73 5.39"
+        ],
+        [
+          "4",
+          "4",
+          "OTSL HTML",
+          "0.938 0.952",
+          "0.904 0.909",
+          "0.927 0.938",
+          "0.853 0.843",
+          "1.97 3.77"
+        ],
+        [
+          "2",
+          "4",
+          "OTSL HTML",
+          "0.923 0.945",
+          "0.897 0.901",
+          "0.915 0.931",
+          "0.859 0.834",
+          "1.91 3.81"
+        ],
+        [
+          "4",
+          "2",
+          "OTSL HTML",
+          "0.952 0.944",
+          "0.92 0.903",
+          "0.942 0.931",
+          "0.857 0.824",
+          "1.22 2"
+        ]
+      ]
+    }
+  ]
+}

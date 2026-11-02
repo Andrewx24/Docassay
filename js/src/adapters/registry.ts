@@ -15,6 +15,7 @@ import {
   type Adapter,
   type RawResult,
 } from "./base.js";
+import { DoclingAdapter } from "./docling.js";
 import { FileAdapter } from "./file.js";
 import type { Document, Source } from "../models/document.js";
 
@@ -151,6 +152,14 @@ function factoryFor(adapterId: string): AdapterFactory | undefined {
       (variant: string | null, options: Record<string, unknown>) =>
         new FileAdapter(variant, options),
       { id: "file", variants },
+    );
+  }
+  if (adapterId === "docling") {
+    const variants = BUILTINS.docling ?? [];
+    return Object.assign(
+      (variant: string | null, options: Record<string, unknown>) =>
+        new DoclingAdapter(variant, options),
+      { id: "docling", variants },
     );
   }
   if (adapterId in BUILTINS) {
