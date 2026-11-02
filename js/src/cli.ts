@@ -7,6 +7,7 @@ import { Command } from "commander";
 import { clearCache } from "./cache.js";
 import { initCommand } from "./config.js";
 import { validateCommand } from "./golden.js";
+import { runCommand } from "./runner.js";
 import { version } from "./version.js";
 
 /**
@@ -54,7 +55,56 @@ export function createProgram(): Command {
       process.stdout.write(`removed ${removed} cache file(s)${scope} from ${options.cache}\n`);
     });
 
+  program
+    .command("run")
+    .description("Parse (or read the cache), score, and print a scorecard.")
+    .option("-c, --config <path>", "Config file.", "docassay.yaml")
+    .option("-p, --parser <id>", "Limit to one parser. Repeatable.", collect, [])
+    .option("--tag <tag>", "Limit to golden files with this tag. Repeatable.", collect, [])
+    .option("--format <fmt>", "terminal, json, md, or html.", "terminal")
+    .option("-o, --out <path>", "Write the report to a file.")
+    .option("--no-cache", "Ignore the cache for this run (still writes to it).")
+    .option("--refresh", "Re-parse and overwrite cache entries.")
+    .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
+    .option("-v, --verbose", "Print failures for every document.")
+    .action(async (options: RunFlags) => {
+      try {
+        const concurrency = Number(options.concurrency);
+        const code = await runCommand(options.config, {
+          parsers: options.parser,
+          tags: options.tag,
+          format: options.format,
+          out: options.out,
+          noCache: options.noCache === true,
+          refresh: options.refresh === true,
+          concurrency: Number.isInteger(concurrency) ? concurrency : 0,
+          verbose: options.verbose === true,
+        });
+        if (code !== 0) process.exitCode = code;
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        process.stderr.write(`${message}\n`);
+        process.exitCode = 2;
+      }
+    });
+
   return program;
+}
+
+interface RunFlags {
+  config: string;
+  parser: string[];
+  tag: string[];
+  format: string;
+  out?: string;
+  noCache?: boolean;
+  refresh?: boolean;
+  concurrency: string;
+  verbose?: boolean;
+}
+
+function collect(value: string, previous: string[]): string[] {
+  return [...previous, value];
 }
 
 declare const __filename: string | undefined;

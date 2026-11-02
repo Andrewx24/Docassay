@@ -9,6 +9,7 @@ from docassay import __version__
 from docassay.cache import clear_cache
 from docassay.config import init_command
 from docassay.golden import validate_command
+from docassay.runner import run_command
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
 cache_app = typer.Typer(help="Manage the parser output cache.")
@@ -99,3 +100,62 @@ def cache_clear(
     removed = clear_cache(cache, parser)
     scope = "" if parser is None else f" for {parser}"
     typer.echo(f"removed {removed} cache file(s){scope} from {cache.as_posix()}")
+
+
+@app.command()
+def run(
+    config: Annotated[
+        Path,
+        typer.Option("-c", "--config", help="Config file."),
+    ] = Path("docassay.yaml"),
+    parser: Annotated[
+        list[str] | None,
+        typer.Option("-p", "--parser", help="Limit to one parser. Repeatable."),
+    ] = None,
+    tag: Annotated[
+        list[str] | None,
+        typer.Option("--tag", help="Limit to golden files with this tag. Repeatable."),
+    ] = None,
+    fmt: Annotated[
+        str,
+        typer.Option("--format", help="terminal, json, md, or html."),
+    ] = "terminal",
+    out: Annotated[
+        Path | None,
+        typer.Option("-o", "--out", help="Write the report to a file."),
+    ] = None,
+    no_cache: Annotated[
+        bool,
+        typer.Option("--no-cache", help="Ignore the cache for this run (still writes to it)."),
+    ] = False,
+    refresh: Annotated[
+        bool,
+        typer.Option("--refresh", help="Re-parse and overwrite cache entries."),
+    ] = False,
+    concurrency: Annotated[
+        int,
+        typer.Option("--concurrency", help="Parallel parse calls per parser."),
+    ] = 4,
+    verbose: Annotated[
+        bool,
+        typer.Option("-v", "--verbose", help="Print failures for every document."),
+    ] = False,
+) -> None:
+    """Parse (or read the cache), score, and print a scorecard.
+
+    Example:
+        docassay run -c docassay.yaml --format json
+    """
+    raise typer.Exit(
+        code=run_command(
+            config,
+            parsers=parser or [],
+            tags=tag or [],
+            fmt=fmt,
+            out=out,
+            no_cache=no_cache,
+            refresh=refresh,
+            concurrency=concurrency,
+            verbose=verbose,
+        )
+    )
