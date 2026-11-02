@@ -1,0 +1,15 @@
+file: files/invoice.pdf
+id: header-in-rows
+expect:
+  tables:
+  - page: 1
+    header:
+    - Item
+    - Qty
+    - Price
+    rows: 1
+    cols: 3
+    cells:
+    - row: 0
+      col: Price
+      value: '1200'

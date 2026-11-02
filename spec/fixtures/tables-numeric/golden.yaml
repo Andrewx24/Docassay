@@ -1,0 +1,11 @@
+file: files/invoice.pdf
+id: numeric
+expect:
+  tables:
+  - page: 1
+    header:
+    - Amount
+    cells:
+    - row: 0
+      col: Amount
+      value: 1,200.00

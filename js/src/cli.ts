@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { Command } from "commander";
 
 import { initCommand } from "./config.js";
+import { validateCommand } from "./golden.js";
 import { version } from "./version.js";
 
 /**
@@ -30,43 +31,6 @@ export function createProgram(): Command {
       process.exitCode = initCommand(undefined, options.force === true);
     });
 
-  return program;
-}
-
-function moduleFilename(): string {
-  if (typeof import.meta.url === "string" && import.meta.url.length > 0) {
-    return fileURLToPath(import.meta.url);
-  }
-  if (typeof __filename === "string" && __filename.length > 0) return __filename;
-  return process.argv[1] ?? process.cwd();
-}
-
-const invoked = process.argv[1] ? path.resolve(process.argv[1]) : "";
-if (invoked === path.resolve(moduleFilename())) {
-import { validateCommand } from "./golden.js";
-import { version } from "./version.js";
-
-declare const __filename: string;
-
-function modulePath(): string {
-  if (import.meta.url) return fileURLToPath(import.meta.url);
-  return __filename;
-}
-
-/**
- * Build the `docassay` command.
- *
- * @example
- * ```ts
- * createProgram().parse(["node", "docassay", "--version"]);
- * ```
- */
-export function createProgram(): Command {
-  const program = new Command();
-  program
-    .name("docassay")
-    .description("Score document parsers against labeled golden files.")
-    .version(version, "--version", "Print the version and exit.");
   program
     .command("validate")
     .description("Check golden files against the schema.")
@@ -76,10 +40,20 @@ export function createProgram(): Command {
       const code = validateCommand(filePath, { strict: options.strict === true });
       if (code !== 0) process.exitCode = code;
     });
+
   return program;
 }
 
-const entry = process.argv[1];
-if (entry && path.resolve(modulePath()) === path.resolve(entry)) {
+declare const __filename: string | undefined;
+
+function moduleFilename(): string {
+  const url = import.meta.url;
+  if (typeof url === "string" && url.length > 0) return fileURLToPath(url);
+  if (typeof __filename === "string" && __filename.length > 0) return __filename;
+  return process.argv[1] ?? process.cwd();
+}
+
+const invoked = process.argv[1] ? path.resolve(process.argv[1]) : "";
+if (invoked !== "" && invoked === path.resolve(moduleFilename())) {
   createProgram().parse();
 }

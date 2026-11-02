@@ -1,0 +1,11 @@
+file: files/invoice.pdf
+id: decimal
+expect:
+  tables:
+  - page: 1
+    header:
+    - Amount
+    cells:
+    - row: 0
+      col: 0
+      value: '1200'

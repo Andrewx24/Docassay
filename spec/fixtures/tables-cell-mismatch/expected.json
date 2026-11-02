@@ -1,0 +1,15 @@
+{
+  "scores": {
+    "tables": 0.5
+  },
+  "failures": [
+    {
+      "metric": "tables",
+      "check": "tables[0].cells[0]",
+      "reason": "value not found in matched table",
+      "expected": "Gadget",
+      "actual": "Widget",
+      "page": 1
+    }
+  ]
+}

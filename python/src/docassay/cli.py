@@ -56,6 +56,9 @@ def init(
         docassay init
     """
     raise typer.Exit(code=init_command(force=force))
+
+
+@app.command()
 def validate(
     path: Annotated[
         Path,

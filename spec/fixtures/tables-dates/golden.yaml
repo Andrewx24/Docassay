@@ -1,0 +1,11 @@
+file: files/invoice.pdf
+id: dates
+expect:
+  tables:
+  - page: 1
+    header:
+    - Due
+    cells:
+    - row: 0
+      col: 0
+      value: 01/11/2026

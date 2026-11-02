@@ -1,0 +1,18 @@
+file: files/invoice.pdf
+id: ragged
+expect:
+  tables:
+  - page: 1
+    header:
+    - A
+    - B
+    - C
+    rows: 2
+    cols: 3
+    cells:
+    - row: 0
+      col: 2
+      value: x
+    - row: 1
+      col: 2
+      value: '5'
