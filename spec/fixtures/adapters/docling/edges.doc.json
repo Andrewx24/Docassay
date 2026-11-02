@@ -1,0 +1,62 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "docling",
+    "parserVersion": "2.87.0",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 200,
+      "height": 400
+    },
+    {
+      "number": 2
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "other",
+      "text": "sig",
+      "page": 1,
+      "bbox": [
+        20,
+        80,
+        100,
+        100
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "formula",
+      "text": "x",
+      "page": 2
+    },
+    {
+      "id": "b3",
+      "type": "code",
+      "text": "print(1)",
+      "page": 1
+    },
+    {
+      "id": "b4",
+      "type": "footer",
+      "text": "foot",
+      "page": 1,
+      "bbox": [
+        1,
+        380,
+        30,
+        390
+      ]
+    }
+  ],
+  "tables": []
+}

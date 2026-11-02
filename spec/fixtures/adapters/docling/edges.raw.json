@@ -1,0 +1,68 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.10.0",
+  "name": "edges",
+  "pages": {
+    "1": {
+      "page_no": 1,
+      "size": { "width": 200, "height": 400 }
+    }
+  },
+  "furniture": { "children": [{ "$ref": "#/texts/2" }] },
+  "body": {
+    "children": [
+      { "$ref": "#/texts/0" },
+      { "$ref": "#/texts/1" },
+      { "$ref": "#/groups/0" }
+    ]
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "label": "list",
+      "children": [{ "$ref": "#/texts/3" }]
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "label": "handwritten_text",
+      "text": "sig",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": { "l": 0.1, "t": 0.2, "r": 0.5, "b": 0.25, "coord_origin": "TOPLEFT" }
+        }
+      ]
+    },
+    {
+      "self_ref": "#/texts/1",
+      "label": "formula",
+      "text": "x",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": { "l": 10, "t": 30, "r": 40, "b": 20, "coord_origin": "BOTTOMLEFT" }
+        }
+      ]
+    },
+    {
+      "self_ref": "#/texts/2",
+      "label": "page_footer",
+      "text": "foot",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": { "l": 1, "t": 20, "r": 30, "b": 10, "coord_origin": "BOTTOMLEFT" }
+        }
+      ]
+    },
+    {
+      "self_ref": "#/texts/3",
+      "label": "code",
+      "text": "print(1)",
+      "prov": []
+    }
+  ],
+  "tables": []
+}
