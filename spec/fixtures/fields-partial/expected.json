@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "fields": 0.6667
+  },
+  "failures": [
+    {
+      "metric": "fields",
+      "check": "fields[total]",
+      "reason": "value does not match",
+      "expected": 10.0,
+      "actual": "11"
+    }
+  ]
+}

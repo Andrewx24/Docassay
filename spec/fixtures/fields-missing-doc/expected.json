@@ -1,0 +1,21 @@
+{
+  "scores": {
+    "fields": 0.0
+  },
+  "failures": [
+    {
+      "metric": "fields",
+      "check": "fields[total]",
+      "reason": "parser returned no fields",
+      "expected": 10.0,
+      "actual": null
+    },
+    {
+      "metric": "fields",
+      "check": "fields[note]",
+      "reason": "parser returned no fields",
+      "expected": null,
+      "actual": null
+    }
+  ]
+}

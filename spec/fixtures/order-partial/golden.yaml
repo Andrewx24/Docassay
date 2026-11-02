@@ -1,0 +1,6 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  reading_order:
+    - ["alpha", "beta"]
+    - ["beta", "gamma"]

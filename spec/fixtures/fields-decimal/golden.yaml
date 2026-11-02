@@ -1,0 +1,5 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  fields:
+    total: 1200
