@@ -18,6 +18,7 @@ import {
 import { DoclingAdapter } from "./docling.js";
 import { FileAdapter } from "./file.js";
 import { LlamaParseAdapter } from "./llamaparse.js";
+import { ReductoAdapter } from "./reducto.js";
 import type { Document, Source } from "../models/document.js";
 
 /** Built-ins in the Adapters doc order. Variants follow the protocol comment. */
@@ -169,6 +170,14 @@ function factoryFor(adapterId: string): AdapterFactory | undefined {
       (variant: string | null, options: Record<string, unknown>) =>
         new LlamaParseAdapter(variant, options),
       { id: "llamaparse", variants },
+    );
+  }
+  if (adapterId === "reducto") {
+    const variants = BUILTINS.reducto ?? [];
+    return Object.assign(
+      (variant: string | null, options: Record<string, unknown>) =>
+        new ReductoAdapter(variant, options),
+      { id: "reducto", variants },
     );
   }
   if (adapterId in BUILTINS) {

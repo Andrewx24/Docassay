@@ -50,35 +50,43 @@ describe("adapters", () => {
     }
   });
 
-  it("treats unimplemented built-ins as unavailable", async () => {
-    const adapter = resolve("reducto", { mode: "http" });
-    await expect(adapter.available()).resolves.toEqual({
-      ok: false,
-      reason: "reducto adapter is not available in this build",
-    });
-    expect(adapter.cacheIdentity().options).toEqual({ mode: "http" });
-    await expect(adapter.fetch("missing.pdf")).rejects.toBeInstanceOf(AdapterError);
-    expect(() =>
-      adapter.toDocument(
-        { payload: {}, parserVersion: "x", latencyMs: 0 },
-        { path: "a", sha256: "ab".repeat(32), mime: "text/plain" },
-      ),
-    ).toThrow(AdapterError);
-    const file = resolve("file");
-    await expect(file.available()).resolves.toMatchObject({ ok: false });
+  it("blocks a run when reducto credentials are missing", async () => {
+    const saved = process.env.REDUCTO_API_KEY;
+    delete process.env.REDUCTO_API_KEY;
     try {
-      await ensureAvailable([
-        ["reducto", adapter],
-        ["file", file],
-      ]);
-      expect.fail("expected the run to abort");
-    } catch (err) {
-      expect(err).toBeInstanceOf(AdapterUnavailable);
-      if (err instanceof AdapterUnavailable) {
-        expect(err.exitCode).toBe(3);
-        expect(err.message).toContain("reducto: reducto adapter is not available in this build");
-        expect(err.message).toContain("options.dir");
+      const adapter = resolve("reducto", { mode: "http" });
+      await expect(adapter.available()).resolves.toEqual({
+        ok: false,
+        reason: expect.stringContaining("REDUCTO_API_KEY"),
+      });
+      expect(adapter.cacheIdentity().model).toBe("r-1");
+      expect(adapter.cacheIdentity().options).toEqual({ mode: "http" });
+      await expect(adapter.fetch("missing.pdf")).rejects.toBeInstanceOf(AdapterError);
+      expect(() =>
+        adapter.toDocument(
+          { payload: [], parserVersion: "r-1", latencyMs: 0 },
+          { path: "a", sha256: "ab".repeat(32), mime: "text/plain" },
+        ),
+      ).toThrow(AdapterError);
+      const file = resolve("file");
+      await expect(file.available()).resolves.toMatchObject({ ok: false });
+      try {
+        await ensureAvailable([
+          ["reducto", adapter],
+          ["file", file],
+        ]);
+        expect.fail("expected the run to abort");
+      } catch (err) {
+        expect(err).toBeInstanceOf(AdapterUnavailable);
+        if (err instanceof AdapterUnavailable) {
+          expect(err.exitCode).toBe(3);
+          expect(err.message).toContain("REDUCTO_API_KEY");
+          expect(err.message).toContain("options.dir");
+        }
       }
+    } finally {
+      if (saved === undefined) delete process.env.REDUCTO_API_KEY;
+      else process.env.REDUCTO_API_KEY = saved;
     }
   });
 

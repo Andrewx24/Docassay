@@ -21,6 +21,7 @@ from docassay.adapters.base import (
 from docassay.adapters.docling import DoclingAdapter
 from docassay.adapters.file import FileAdapter
 from docassay.adapters.llamaparse import LlamaParseAdapter
+from docassay.adapters.reducto import ReductoAdapter
 from docassay.models.document import Document, Source
 
 # Built-ins in the Adapters doc order. Variants follow the protocol comment.
@@ -148,6 +149,12 @@ def _builtin_factory(adapter_id: str, variants: tuple[str, ...]) -> Factory:
             return LlamaParseAdapter(variant, options)
 
         return build_llamaparse
+    if adapter_id == "reducto":
+
+        def build_reducto(variant: str | None, options: dict[str, Any]) -> Adapter:
+            return ReductoAdapter(variant, options)
+
+        return build_reducto
     return _pending(adapter_id, variants)
 
 
