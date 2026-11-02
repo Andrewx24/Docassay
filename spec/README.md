@@ -5,7 +5,7 @@ JSON Schemas (draft 2020-12) shared by the Python and TypeScript packages, plus 
 - `document.schema.json`, `golden.schema.json`, `config.schema.json`, `scorecard.schema.json`, `baseline.schema.json` (`specVersion` 1.0.0)
 - `examples/` — one valid example per schema, JSON and YAML
 - `invalid/` — examples that must fail validation
-- `fixtures/` — parity corpus, added in ALI-321: `<case>/{document.json, golden.yaml, expected.json}`
+- `fixtures/` — parity corpus: `<case>/{document.json, golden.yaml, expected.json}`. `scripts/parity.sh` (ALI-321) scores each case in Python and TypeScript.
 
 Check the schemas:
 
