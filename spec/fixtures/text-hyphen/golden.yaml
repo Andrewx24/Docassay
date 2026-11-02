@@ -1,0 +1,5 @@
+file: files/invoice.pdf
+id: invoice
+expect:
+  text_contains:
+    - "continued"

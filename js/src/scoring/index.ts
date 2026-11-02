@@ -43,3 +43,6 @@ export interface MetricResult {
 
 export { scoreTables } from "./tables.js";
 export { scoreChunks } from "./chunks.js";
+export { documentText, scoreText } from "./text.js";
+export { scoreOrder } from "./order.js";
+export { scoreFields } from "./fields.js";

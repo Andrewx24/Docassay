@@ -1,0 +1,14 @@
+{
+  "scores": {
+    "text": 0.0
+  },
+  "failures": [
+    {
+      "metric": "text",
+      "check": "text_contains[0]",
+      "reason": "text not found",
+      "expected": "nowhere",
+      "actual": "Alpha\n\n\n\nBeta\n\nItem | Qty\nWidget | 2\n\nOnly"
+    }
+  ]
+}
