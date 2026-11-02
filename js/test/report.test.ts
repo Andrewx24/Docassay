@@ -70,6 +70,61 @@ describe("reports", () => {
     expect(text).not.toContain("Failures");
   });
 
+  it("matches the CLI page table", () => {
+    const page = structuredClone(card);
+    const docling = page.parsers[0];
+    const llama = page.parsers[1];
+    if (docling === undefined || llama === undefined) throw new Error("missing parser");
+    llama.costUsd = 0.25;
+    docling.documents.push({
+      id: "10k-segment-table",
+      file: "files/table.pdf",
+      scores: { order: 0.5, overall: 0.5 },
+      failures: [{ metric: "order", check: "order[0]", reason: "out of order" }],
+    });
+    llama.documents.push({
+      id: "10k-segment-table",
+      file: "files/table.pdf",
+      scores: { order: 1, overall: 1 },
+      failures: [],
+    });
+    page.parsers.push({
+      parser: "reducto",
+      adapter: "reducto",
+      parserVersion: "1",
+      summary: { tables: 0.95, text: 0.99, order: 0.96, fields: 0.98, chunks: 0.91, overall: 0.96 },
+      costUsd: 0.2,
+      latencyMsP95: 9100,
+      documents: [
+        {
+          id: "scan-lease-2019",
+          file: "files/scan.pdf",
+          scores: { tables: 1, overall: 1 },
+          failures: [],
+        },
+        {
+          id: "10k-segment-table",
+          file: "files/table.pdf",
+          scores: { order: 1, overall: 1 },
+          failures: [],
+        },
+      ],
+    });
+    const lines = renderTerminal(page, [20, 20, 20]).split("\n").slice(2, 10).join("\n");
+    expect(lines).toBe(
+      [
+        "parser              tables  text  order  fields  chunks  overall  $/1k pages  p95",
+        "llamaparse:agentic  0.94    0.99  0.95   0.96    —       0.96     12.50       48.0s",
+        "reducto             0.95    0.99  0.96   0.98    0.91    0.96     10.00        9.1s",
+        "docling             0.81    0.97  0.92   —       —       0.90      0.00        6.1s",
+        "",
+        "Worst documents",
+        "  scan-lease-2019    tables 0.42 (docling), 0.58 (llamaparse:agentic)",
+        "  10k-segment-table  order 0.50 (docling)",
+      ].join("\n"),
+    );
+  });
+
   it("prints failures only when verbose and stays quiet when every score is 1", () => {
     const verbose = renderTerminal(card, [2, 2], true);
     expect(verbose).toContain("no table found");

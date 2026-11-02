@@ -1,5 +1,6 @@
 """Terminal, JSON, Markdown, and HTML scorecards."""
 
+import copy
 import json
 from datetime import datetime, timezone
 
@@ -84,6 +85,69 @@ CARD = {
 
 def _card() -> Scorecard:
     return Scorecard.model_validate(CARD)
+
+
+def test_terminal_matches_the_cli_page() -> None:
+    page = copy.deepcopy(CARD)
+    page["parsers"][1]["costUsd"] = 0.25
+    page["parsers"].append(
+        {
+            "parser": "reducto",
+            "adapter": "reducto",
+            "parserVersion": "1",
+            "summary": {
+                "tables": 0.95,
+                "text": 0.99,
+                "order": 0.96,
+                "fields": 0.98,
+                "chunks": 0.91,
+                "overall": 0.96,
+            },
+            "costUsd": 0.2,
+            "latencyMsP95": 9100,
+            "documents": [
+                {
+                    "id": "scan-lease-2019",
+                    "file": "files/scan.pdf",
+                    "scores": {"tables": 1, "overall": 1},
+                    "failures": [],
+                },
+                {
+                    "id": "10k-segment-table",
+                    "file": "files/table.pdf",
+                    "scores": {"order": 1, "overall": 1},
+                    "failures": [],
+                },
+            ],
+        }
+    )
+    page["parsers"][0]["documents"].append(
+        {
+            "id": "10k-segment-table",
+            "file": "files/table.pdf",
+            "scores": {"order": 0.5, "overall": 0.5},
+            "failures": [{"metric": "order", "check": "order[0]", "reason": "out of order"}],
+        }
+    )
+    page["parsers"][1]["documents"].append(
+        {
+            "id": "10k-segment-table",
+            "file": "files/table.pdf",
+            "scores": {"order": 1, "overall": 1},
+            "failures": [],
+        }
+    )
+    text = render_terminal(Scorecard.model_validate(page), [20, 20, 20])
+    assert "\n".join(text.splitlines()[2:10]) == (
+        "parser              tables  text  order  fields  chunks  overall  $/1k pages  p95\n"
+        "llamaparse:agentic  0.94    0.99  0.95   0.96    —       0.96     12.50       48.0s\n"
+        "reducto             0.95    0.99  0.96   0.98    0.91    0.96     10.00        9.1s\n"
+        "docling             0.81    0.97  0.92   —       —       0.90      0.00        6.1s\n"
+        "\n"
+        "Worst documents\n"
+        "  scan-lease-2019    tables 0.42 (docling), 0.58 (llamaparse:agentic)\n"
+        "  10k-segment-table  order 0.50 (docling)"
+    )
 
 
 def test_terminal_layout_sorts_and_marks_missing_metrics() -> None:
