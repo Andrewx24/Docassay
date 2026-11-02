@@ -1,0 +1,122 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/invoice.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "file",
+    "parserVersion": "file",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1
+    },
+    {
+      "number": 2
+    },
+    {
+      "number": 3
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "heading",
+      "text": "A",
+      "page": 1,
+      "level": 1
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "text": "Body still body",
+      "page": 3
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "| not a table still text",
+      "page": 3
+    },
+    {
+      "id": "b4",
+      "type": "paragraph",
+      "text": "####### seven",
+      "page": 3
+    },
+    {
+      "id": "b5",
+      "type": "heading",
+      "text": "Tight##",
+      "page": 3,
+      "level": 2
+    },
+    {
+      "id": "b6",
+      "type": "paragraph",
+      "text": "<!-- page: 0 -->",
+      "page": 3
+    },
+    {
+      "id": "b7",
+      "type": "paragraph",
+      "text": "<!-- note: 1 -->",
+      "page": 3
+    },
+    {
+      "id": "b8",
+      "type": "paragraph",
+      "text": "1.No space",
+      "page": 3
+    },
+    {
+      "id": "b9",
+      "type": "list_item",
+      "text": "indented",
+      "page": 3
+    },
+    {
+      "id": "b10",
+      "type": "paragraph",
+      "text": "| A | B | | --- | | after",
+      "page": 3
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 3,
+      "header": [
+        "H",
+        ""
+      ],
+      "rows": [
+        [
+          "only",
+          ""
+        ],
+        [
+          "a",
+          "b"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "page": 3,
+      "header": [
+        "tail",
+        ""
+      ],
+      "rows": [
+        [
+          "end",
+          ""
+        ]
+      ]
+    }
+  ]
+}

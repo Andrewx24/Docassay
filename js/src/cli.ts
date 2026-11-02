@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { Command } from "commander";
 
+import { clearCache } from "./cache.js";
 import { initCommand } from "./config.js";
 import { validateCommand } from "./golden.js";
 import { version } from "./version.js";
@@ -39,6 +40,18 @@ export function createProgram(): Command {
     .action((filePath: string, options: { strict?: boolean }) => {
       const code = validateCommand(filePath, { strict: options.strict === true });
       if (code !== 0) process.exitCode = code;
+    });
+
+  const cache = program.command("cache").description("Manage the parser output cache.");
+  cache
+    .command("clear")
+    .description("Delete cached parser outputs.")
+    .option("--parser <id>", "Delete entries for one parser id, including its variants.")
+    .option("--cache <dir>", "Cache directory.", ".docassay/cache")
+    .action((options: { parser?: string; cache: string }) => {
+      const removed = clearCache(options.cache, options.parser);
+      const scope = options.parser === undefined ? "" : ` for ${options.parser}`;
+      process.stdout.write(`removed ${removed} cache file(s)${scope} from ${options.cache}\n`);
     });
 
   return program;

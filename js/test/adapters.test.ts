@@ -65,6 +65,7 @@ describe("adapters", () => {
       ),
     ).toThrow(AdapterError);
     const file = resolve("file");
+    await expect(file.available()).resolves.toMatchObject({ ok: false });
     try {
       await ensureAvailable([
         ["docling", adapter],
@@ -76,7 +77,7 @@ describe("adapters", () => {
       if (err instanceof AdapterUnavailable) {
         expect(err.exitCode).toBe(3);
         expect(err.message).toContain("docling: docling adapter is not available in this build");
-        expect(err.message).toContain("file: file adapter is not available in this build");
+        expect(err.message).toContain("options.dir");
       }
     }
   });
