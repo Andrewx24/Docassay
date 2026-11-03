@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { realpathSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -207,7 +208,29 @@ function moduleFilename(): string {
   return process.argv[1] ?? process.cwd();
 }
 
-const invoked = process.argv[1] ? path.resolve(process.argv[1]) : "";
-if (invoked !== "" && invoked === path.resolve(moduleFilename())) {
+/**
+ * True when this file is the process entry point, including a symlinked bin.
+ *
+ * `npm install -g` points `argv` at a symlink. `import.meta.url` is the real
+ * file. Both paths are resolved before they are compared.
+ *
+ * @example
+ * ```ts
+ * runsAsCli(process.argv[1], fileURLToPath(import.meta.url));
+ * ```
+ */
+export function runsAsCli(argvPath: string | undefined, modulePath: string): boolean {
+  if (argvPath === undefined || argvPath === "") return false;
+  const resolvedArgv = path.resolve(argvPath);
+  const resolvedModule = path.resolve(modulePath);
+  if (resolvedArgv === resolvedModule) return true;
+  try {
+    return realpathSync(resolvedArgv) === realpathSync(resolvedModule);
+  } catch {
+    return false;
+  }
+}
+
+if (runsAsCli(process.argv[1], moduleFilename())) {
   createProgram().parse();
 }

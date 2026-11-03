@@ -1,0 +1,53 @@
+{
+  "createdAt": "2026-11-03T13:50:06Z",
+  "docassayVersion": "0.0.0",
+  "parsers": [
+    {
+      "adapter": "file",
+      "costUsd": 0,
+      "documents": [
+        {
+          "file": "../files/invoice-acme.pdf",
+          "id": "invoice-acme",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/lease.pdf",
+          "id": "lease",
+          "scores": {
+            "order": 1,
+            "overall": 0.75,
+            "text": 0.5
+          }
+        },
+        {
+          "file": "../files/memo.pdf",
+          "id": "memo",
+          "scores": {
+            "overall": 0.5,
+            "tables": 0,
+            "text": 1
+          }
+        }
+      ],
+      "latencyMsP50": 0,
+      "latencyMsP95": 0,
+      "parser": "file",
+      "parserVersion": "file",
+      "summary": {
+        "order": 1,
+        "overall": 0.75,
+        "tables": 0.5,
+        "text": 0.8333
+      }
+    }
+  ],
+  "pinnedAt": "2026-11-03T13:50:06Z",
+  "runId": "run_2ed320397f780e62",
+  "specVersion": "1.0.0"
+}

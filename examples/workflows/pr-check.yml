@@ -1,0 +1,21 @@
+name: docassay
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Andrewx24/Docassay/action@v0
+        with:
+          command: check
+          python-or-node: python
+          config: docassay.yaml
+          comment: true
+          version: "0.1.0"

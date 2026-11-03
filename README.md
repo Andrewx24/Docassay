@@ -49,6 +49,8 @@ cd docs && npm install && npm start
 | `python/` | PyPI package (Poetry) |
 | `js/` | npm package (TypeScript) |
 | `golden/` | Public example golden set |
+| `action/` | GitHub Action that runs `docassay check` and comments on the pull request |
+| `examples/workflows/` | Pull request and nightly drift workflow examples |
 | `docs/` | Docusaurus documentation site |
 
 ## License
