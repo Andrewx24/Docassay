@@ -9,7 +9,7 @@ const version = (
 ).version;
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/verify.ts", "src/cli.ts"],
+  entry: ["src/index.ts", "src/verify.ts", "src/cli.ts", "src/parity.ts"],
   format: ["esm", "cjs"],
   dts: true,
   clean: true,

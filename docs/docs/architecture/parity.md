@@ -13,7 +13,7 @@ The Python and TypeScript packages must give the same score for the same input. 
 | --- | --- | --- |
 | Generated types | `scripts/gen-types.sh` builds both model sets from `spec/`; CI fails on diff | A field added in one language only |
 | Shared fixtures | `spec/fixtures/` is loaded by both test suites | Scoring and normalization differences |
-| Parity job | `scripts/parity.sh` runs both CLIs on the fixtures with `--format json` and diffs | Differences in aggregation, reporting, CLI behavior |
+| Parity job | `scripts/parity.sh` scores each fixture in both languages and diffs `docassay run --format json` on `golden/` | Differences in scoring, aggregation, reporting, CLI behavior |
 
 ## Fixture format
 
@@ -32,6 +32,15 @@ spec/fixtures/
 ```
 
 Both test suites iterate over every folder. Scores must match `expected.json` to **4 decimal places**, and failures must match on `metric`, `check` and `reason`.
+
+## Harness
+
+`scripts/parity.sh` compares the two packages and exits 1 when they differ. It finishes in under a minute and makes no network calls.
+
+1. Every `spec/fixtures/<case>/` that contains `document.json` is scored by `python -m docassay._parity <case>` and `node js/dist/parity.js <case>`. The JSON (`scores`, including `overall`, `failures`, and chunk `extra`) must match. Numbers match when `round4` gives the same value.
+2. `docassay run -c golden/docassay.yaml --format json` runs in both languages. The scorecards must match except `runId` and `createdAt`.
+
+A mismatch prints the case, the JSON path, the Python value, and the TypeScript value. Build the TypeScript package (`npm run build` in `js/`) before running the script so `js/dist/parity.js` exists.
 
 ## Rules for writing parity-safe code
 
