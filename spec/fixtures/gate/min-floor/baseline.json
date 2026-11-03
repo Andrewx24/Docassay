@@ -1,0 +1,26 @@
+{
+  "specVersion": "1.0.0",
+  "docassayVersion": "0.0.0",
+  "runId": "run_0123456789abcdef",
+  "createdAt": "2026-11-01T00:00:00Z",
+  "parsers": [
+    {
+      "parser": "docling",
+      "adapter": "docling",
+      "parserVersion": "1",
+      "summary": {
+        "tables": 0.9
+      },
+      "documents": [
+        {
+          "id": "invoice-acme",
+          "file": "files/invoice-acme.pdf",
+          "scores": {
+            "tables": 0.7
+          }
+        }
+      ]
+    }
+  ],
+  "pinnedAt": "2026-11-01T00:00:00Z"
+}

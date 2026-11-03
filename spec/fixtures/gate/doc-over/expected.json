@@ -1,0 +1,4 @@
+{
+  "exitCode": 1,
+  "text": "FAIL  reducto · invoice-acme · tables 1.0000 → 0.8500 (−0.1500, allowed −0.0100)\n      tables[0].cells[1]: expected \"1,200.00\", got \"1,200.00 Tax\"\n\n1 regression · 0 warnings · run `docassay baseline` after an intended change\n"
+}

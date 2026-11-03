@@ -1,0 +1,52 @@
+{
+  "specVersion": "1.0.0",
+  "docassayVersion": "0.0.0",
+  "runId": "run_0123456789abcdef",
+  "createdAt": "2026-11-01T00:00:00Z",
+  "parsers": [
+    {
+      "parser": "reducto",
+      "adapter": "reducto",
+      "parserVersion": "1",
+      "summary": {
+        "tables": 1
+      },
+      "documents": [
+        {
+          "id": "invoice-acme",
+          "file": "files/invoice-acme.pdf",
+          "scores": {
+            "tables": 0.85
+          },
+          "failures": [
+            {
+              "metric": "tables",
+              "check": "tables[0].cells[1]",
+              "expected": "1,200.00",
+              "actual": "1,200.00 Tax",
+              "reason": "value not found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "parser": "docling",
+      "adapter": "docling",
+      "parserVersion": "1",
+      "summary": {
+        "order": 0.88
+      },
+      "documents": [
+        {
+          "id": "invoice-acme",
+          "file": "files/invoice-acme.pdf",
+          "scores": {
+            "order": 0.92
+          },
+          "failures": []
+        }
+      ]
+    }
+  ]
+}

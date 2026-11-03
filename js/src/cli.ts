@@ -6,6 +6,7 @@ import { Command } from "commander";
 
 import { clearCache } from "./cache.js";
 import { initCommand } from "./config.js";
+import { baselineCommand, checkCommand } from "./gate.js";
 import { validateCommand } from "./golden.js";
 import { labelCommand } from "./label.js";
 import { runCommand } from "./runner.js";
@@ -62,6 +63,40 @@ export function createProgram(): Command {
       if (code !== 0) process.exitCode = code;
     });
 
+  program
+    .command("baseline")
+    .description("Run the suite and write the baseline file.")
+    .option("-c, --config <path>", "Config file.", "docassay.yaml")
+    .option("--baseline <path>", "Baseline file to write. Default: the config baseline.")
+    .option("-p, --parser <id>", "Limit to one parser. Repeatable.", collect, [])
+    .option("--tag <tag>", "Limit to golden files with this tag. Repeatable.", collect, [])
+    .option("--no-cache", "Ignore the cache for this run (still writes to it).")
+    .option("--refresh", "Re-parse and overwrite cache entries.")
+    .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
+    .action(async (options: GateFlags) => {
+      const code = await baselineCommand(options.config, gateOptions(options));
+      if (code !== 0) process.exitCode = code;
+    });
+
+  program
+    .command("check")
+    .description("Re-run the suite and fail when a score regresses.")
+    .option("-c, --config <path>", "Config file.", "docassay.yaml")
+    .option("--baseline <path>", "Baseline file to compare. Default: the config baseline.")
+    .option("--summary-only", "Skip per-document checks.")
+    .option("-p, --parser <id>", "Limit to one parser. Repeatable.", collect, [])
+    .option("--tag <tag>", "Limit to golden files with this tag. Repeatable.", collect, [])
+    .option("--no-cache", "Ignore the cache for this run (still writes to it).")
+    .option("--refresh", "Re-parse and overwrite cache entries.")
+    .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
+    .action(async (options: GateFlags) => {
+      const code = await checkCommand(options.config, {
+        ...gateOptions(options),
+        summaryOnly: options.summaryOnly === true,
+      });
+      if (code !== 0) process.exitCode = code;
+    });
+
   const cache = program.command("cache").description("Manage the parser output cache.");
   cache
     .command("clear")
@@ -108,6 +143,36 @@ export function createProgram(): Command {
     });
 
   return program;
+}
+
+interface GateFlags {
+  config: string;
+  baseline?: string;
+  summaryOnly?: boolean;
+  parser: string[];
+  tag: string[];
+  noCache?: boolean;
+  refresh?: boolean;
+  concurrency: string;
+}
+
+function gateOptions(options: GateFlags): {
+  baseline?: string;
+  parsers: string[];
+  tags: string[];
+  noCache?: boolean;
+  refresh?: boolean;
+  concurrency: number;
+} {
+  const concurrency = Number(options.concurrency);
+  return {
+    baseline: options.baseline,
+    parsers: options.parser,
+    tags: options.tag,
+    noCache: options.noCache === true,
+    refresh: options.refresh === true,
+    concurrency: Number.isInteger(concurrency) ? concurrency : 0,
+  };
 }
 
 interface LabelFlags {

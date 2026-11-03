@@ -1,0 +1,4 @@
+{
+  "exitCode": 1,
+  "text": "FAIL  docling · invoice-acme · error\n      document now errors: parse failed\n\n1 regression · 0 warnings · run `docassay baseline` after an intended change\n"
+}
