@@ -1,0 +1,139 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "llamaparse:fast",
+    "parserVersion": "2026-06-15",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 200,
+      "height": 400
+    },
+    {
+      "number": 2
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "header",
+      "text": "Running",
+      "page": 1
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "text": "scaled",
+      "page": 1,
+      "bbox": [
+        20,
+        80,
+        100,
+        100
+      ]
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "union",
+      "page": 1,
+      "bbox": [
+        1,
+        0,
+        11,
+        6
+      ]
+    },
+    {
+      "id": "b4",
+      "type": "paragraph",
+      "text": "badbox",
+      "page": 1
+    },
+    {
+      "id": "b5",
+      "type": "code",
+      "text": "x = 1",
+      "page": 1
+    },
+    {
+      "id": "b6",
+      "type": "caption",
+      "text": "Chart",
+      "page": 1
+    },
+    {
+      "id": "b7",
+      "type": "other",
+      "text": "![alt](u)",
+      "page": 1
+    },
+    {
+      "id": "b8",
+      "type": "other",
+      "text": "docs",
+      "page": 1
+    },
+    {
+      "id": "b9",
+      "type": "heading",
+      "text": "Bool",
+      "page": 1,
+      "level": 1
+    },
+    {
+      "id": "b10",
+      "type": "other",
+      "text": "E = mc^2",
+      "page": 1
+    },
+    {
+      "id": "b11",
+      "type": "list_item",
+      "text": "one",
+      "page": 1
+    },
+    {
+      "id": "b12",
+      "type": "list_item",
+      "text": "two",
+      "page": 1
+    },
+    {
+      "id": "b13",
+      "type": "footer",
+      "text": "End",
+      "page": 2
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "header": [
+        "H",
+        "Q"
+      ],
+      "rows": [
+        [
+          "H",
+          "A & B"
+        ]
+      ],
+      "markdown": "| H | Q |\n| --- | --- |\n| H | A & B |"
+    }
+  ]
+}

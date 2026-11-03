@@ -51,3 +51,4 @@ mypy_path = "src"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = ["live: calls Docling or another parser; set LIVE=1"]

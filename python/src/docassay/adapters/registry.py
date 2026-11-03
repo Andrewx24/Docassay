@@ -18,7 +18,9 @@ from docassay.adapters.base import (
     AdapterError,
     RawResult,
 )
+from docassay.adapters.docling import DoclingAdapter
 from docassay.adapters.file import FileAdapter
+from docassay.adapters.llamaparse import LlamaParseAdapter
 from docassay.models.document import Document, Source
 
 # Built-ins in the Adapters doc order. Variants follow the protocol comment.
@@ -134,6 +136,18 @@ def _builtin_factory(adapter_id: str, variants: tuple[str, ...]) -> Factory:
             return FileAdapter(variant, options)
 
         return build_file
+    if adapter_id == "docling":
+
+        def build_docling(variant: str | None, options: dict[str, Any]) -> Adapter:
+            return DoclingAdapter(variant, options)
+
+        return build_docling
+    if adapter_id == "llamaparse":
+
+        def build_llamaparse(variant: str | None, options: dict[str, Any]) -> Adapter:
+            return LlamaParseAdapter(variant, options)
+
+        return build_llamaparse
     return _pending(adapter_id, variants)
 
 

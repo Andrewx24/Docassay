@@ -51,10 +51,10 @@ describe("adapters", () => {
   });
 
   it("treats unimplemented built-ins as unavailable", async () => {
-    const adapter = resolve("docling", { mode: "http" });
+    const adapter = resolve("reducto", { mode: "http" });
     await expect(adapter.available()).resolves.toEqual({
       ok: false,
-      reason: "docling adapter is not available in this build",
+      reason: "reducto adapter is not available in this build",
     });
     expect(adapter.cacheIdentity().options).toEqual({ mode: "http" });
     await expect(adapter.fetch("missing.pdf")).rejects.toBeInstanceOf(AdapterError);
@@ -68,7 +68,7 @@ describe("adapters", () => {
     await expect(file.available()).resolves.toMatchObject({ ok: false });
     try {
       await ensureAvailable([
-        ["docling", adapter],
+        ["reducto", adapter],
         ["file", file],
       ]);
       expect.fail("expected the run to abort");
@@ -76,7 +76,7 @@ describe("adapters", () => {
       expect(err).toBeInstanceOf(AdapterUnavailable);
       if (err instanceof AdapterUnavailable) {
         expect(err.exitCode).toBe(3);
-        expect(err.message).toContain("docling: docling adapter is not available in this build");
+        expect(err.message).toContain("reducto: reducto adapter is not available in this build");
         expect(err.message).toContain("options.dir");
       }
     }
