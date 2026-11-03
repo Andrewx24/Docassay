@@ -1,0 +1,4 @@
+{
+  "exitCode": 1,
+  "text": "FAIL  docling · invoice-acme · tables 0.7000 → 0.7000 (below floor 0.8000)\n\n1 regression · 0 warnings · run `docassay baseline` after an intended change\n"
+}
