@@ -54,6 +54,17 @@ sequenceDiagram
 
 The draft is produced from a parser, so it inherits that parser's mistakes. That is acceptable only because a human reviews it; `docassay validate --strict` refuses files that still contain `# TODO verify`.
 
+## Draft rules
+
+The same Document, file path, and id produce the same YAML in both languages.
+
+- **Tables.** Keep up to three tables with the largest size. Size is the header length plus the lengths of the body rows. Size zero is skipped. Equal sizes keep the earlier table. Each table records `page`, `header` when the parser found one, `rows` (body-row count), `cols` (the longer of the header and the longest body row), and up to two cells on the middle body row (`row count // 2`). Those columns are the ones nearest the center `(width - 1) / 2`. A tie keeps the lower index, and the cells are written in column order. The column label is the header cell when that text is non-empty and unique; otherwise it is the column index.
+- **text_contains.** Up to three snippets, in this order, skipping duplicates: the last non-empty snippet on the second-to-last page that has text, when the document has two or more such pages; the first footnote or caption in reading order; the last non-empty snippet on the last page that has text. A snippet is trimmed with the explicit whitespace set from [Normalization](normalization.md). Longer than 80 characters, it is cut back to the last whitespace at or before 80, or hard-cut at 80 when there is no whitespace.
+- **reading_order.** Up to two pairs of different strings. With two or more pages, the first pair is the last text on the first page and the first text on the next page. With three or more pages, the next pair is the last text on the second-to-last page and the first text on the last page. If fewer than two pairs were chosen, the first block and the last block are used. On a single page, the pairs are first-to-last and first-to-middle (`count // 2`).
+- **fields.** Copy parser fields in insertion order, value only. Integral numbers are written as integers. Strings are JSON-quoted. A field key stays bare only when it matches `[A-Za-z][A-Za-z0-9_]*`; every other key is quoted.
+- **Comments.** Every drafted value ends with ` # TODO verify`. The `file` and `id` lines do not. Empty sections are omitted. Saving from the review page rewrites the file with the same renderer and drops the comments.
+- **Review page.** `docassay label <golden.yaml> --review` binds to `127.0.0.1` and shows the source file in an iframe loaded from `/source` on that same origin. The page does not load a CDN. Saving writes the golden file and stops the server.
+
 ## Validation
 
 `docassay validate` checks every golden file against `golden.schema.json` and also checks:
