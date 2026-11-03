@@ -1,0 +1,41 @@
+file: "../files/lease.pdf"
+id: "lease"
+expect:
+  tables:
+    - page: 1 # TODO verify
+      header:
+        - "Item" # TODO verify
+        - "Qty" # TODO verify
+        - "Price" # TODO verify
+      rows: 3 # TODO verify
+      cols: 3 # TODO verify
+      cells:
+        - row: 1 # TODO verify
+          col: "Item" # TODO verify
+          value: "Widget" # TODO verify
+        - row: 1 # TODO verify
+          col: "Qty" # TODO verify
+          value: "2" # TODO verify
+    - page: 1 # TODO verify
+      header:
+        - "A" # TODO verify
+      rows: 1 # TODO verify
+      cols: 1 # TODO verify
+      cells:
+        - row: 0 # TODO verify
+          col: "A" # TODO verify
+          value: "x" # TODO verify
+  text_contains:
+    - "End of page one before the break." # TODO verify
+    - "See schedule A." # TODO verify
+    - "Last page closing sentence." # TODO verify
+  reading_order:
+    - - "End of page one before the break." # TODO verify
+      - "Figure 1. Site plan." # TODO verify
+    - - "Alpha sentence near the start of the lease." # TODO verify
+      - "Last page closing sentence." # TODO verify
+  fields:
+    vendor: "Acme Corp" # TODO verify
+    total: 1200 # TODO verify
+    paid: false # TODO verify
+    note: null # TODO verify

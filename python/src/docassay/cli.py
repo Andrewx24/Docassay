@@ -9,6 +9,7 @@ from docassay import __version__
 from docassay.cache import clear_cache
 from docassay.config import init_command
 from docassay.golden import validate_command
+from docassay.label import label_command
 from docassay.runner import run_command
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
@@ -79,6 +80,37 @@ def validate(
         docassay validate --strict golden
     """
     raise typer.Exit(code=validate_command(path, strict=strict))
+
+
+@app.command()
+def label(
+    path: Annotated[
+        Path,
+        typer.Argument(help="Source file to draft, or a golden file with --review."),
+    ],
+    parser: Annotated[
+        str | None,
+        typer.Option("--from", help="Parser id that drafts the golden file."),
+    ] = None,
+    out: Annotated[
+        Path | None,
+        typer.Option("--out", help="Golden file to write. Default: golden/<stem>.yaml."),
+    ] = None,
+    review: Annotated[
+        bool,
+        typer.Option("--review", help="Open the local review page for a golden file."),
+    ] = False,
+    config: Annotated[
+        Path,
+        typer.Option("-c", "--config", help="Config file."),
+    ] = Path("docassay.yaml"),
+) -> None:
+    """Draft a golden file from a parser, or open the review page.
+
+    Example:
+        docassay label files/lease.pdf --from docling
+    """
+    raise typer.Exit(code=label_command(path, parser=parser, out=out, review=review, config=config))
 
 
 @cache_app.command("clear")

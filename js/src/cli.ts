@@ -7,6 +7,7 @@ import { Command } from "commander";
 import { clearCache } from "./cache.js";
 import { initCommand } from "./config.js";
 import { validateCommand } from "./golden.js";
+import { labelCommand } from "./label.js";
 import { runCommand } from "./runner.js";
 import { version } from "./version.js";
 
@@ -40,6 +41,24 @@ export function createProgram(): Command {
     .option("--strict", "fail if a file still contains # TODO verify")
     .action((filePath: string, options: { strict?: boolean }) => {
       const code = validateCommand(filePath, { strict: options.strict === true });
+      if (code !== 0) process.exitCode = code;
+    });
+
+  program
+    .command("label")
+    .description("Draft a golden file from a parser, or open the review page.")
+    .argument("<file>", "Source file to draft, or a golden file with --review.")
+    .option("--from <parser>", "Parser id that drafts the golden file.")
+    .option("--out <path>", "Golden file to write. Default: golden/<stem>.yaml.")
+    .option("--review", "Open the local review page for a golden file.")
+    .option("-c, --config <path>", "Config file.", "docassay.yaml")
+    .action(async (filePath: string, options: LabelFlags) => {
+      const code = await labelCommand(filePath, {
+        parser: options.from,
+        out: options.out,
+        review: options.review === true,
+        config: options.config,
+      });
       if (code !== 0) process.exitCode = code;
     });
 
@@ -89,6 +108,13 @@ export function createProgram(): Command {
     });
 
   return program;
+}
+
+interface LabelFlags {
+  from?: string;
+  out?: string;
+  review?: boolean;
+  config: string;
 }
 
 interface RunFlags {
