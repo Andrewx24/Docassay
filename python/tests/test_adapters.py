@@ -18,6 +18,7 @@ from docassay.adapters import (
     run_parser,
     valid_ids,
 )
+from docassay.adapters.base import RawResult
 from docassay.adapters.runner_support import build_source, detect_mime
 
 DUMMY_ROOT = Path(__file__).resolve().parent / "dummy_adapter"
@@ -57,23 +58,29 @@ def test_unknown_id_and_variant_are_config_errors() -> None:
     assert "valid variants" not in str(plain.value)
 
 
-def test_builtin_is_unavailable_until_its_issue_lands() -> None:
+def test_missing_credentials_block_a_run(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("REDUCTO_API_KEY", raising=False)
     adapter = resolve("reducto", {"mode": "http"})
     ok, reason = adapter.available()
     assert ok is False
-    assert reason == "reducto adapter is not available in this build"
-    assert adapter.cache_identity()["options"] == {"mode": "http"}
-    with pytest.raises(AdapterError):
+    assert "REDUCTO_API_KEY" in reason
+    identity = adapter.cache_identity()
+    assert identity["model"] == "r-1"
+    assert identity["options"] == {"mode": "http"}
+    with pytest.raises(AdapterError, match="path not found"):
         adapter.fetch(Path("missing.pdf"))
     with pytest.raises(AdapterError):
-        adapter.to_document(object(), object())  # type: ignore[arg-type]
+        adapter.to_document(
+            RawResult(payload=[], parser_version="r-1", latency_ms=0),
+            object(),  # type: ignore[arg-type]
+        )
     file_adapter = resolve("file")
     assert file_adapter.available()[0] is False
     assert "options.dir" in file_adapter.available()[1]
     with pytest.raises(AdapterUnavailable) as exc:
         ensure_available([("reducto", adapter), ("file", file_adapter)])
     assert exc.value.exit_code == 3
-    assert "reducto: reducto adapter is not available in this build" in str(exc.value)
+    assert "REDUCTO_API_KEY" in str(exc.value)
     assert "options.dir" in str(exc.value)
 
 

@@ -1,0 +1,213 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "reducto",
+    "parserVersion": "r-1",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "title",
+      "text": "Invoice",
+      "page": 1,
+      "bbox": [
+        61.2,
+        39.6,
+        244.8,
+        71.28
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "other",
+      "text": "Bill To: Acme Corp",
+      "page": 1,
+      "bbox": [
+        61.2,
+        79.2,
+        306,
+        102.96
+      ]
+    },
+    {
+      "id": "b3",
+      "type": "heading",
+      "text": "## Terms",
+      "page": 1,
+      "level": 2,
+      "bbox": [
+        61.2,
+        126.72,
+        183.6,
+        142.56
+      ]
+    },
+    {
+      "id": "b4",
+      "type": "paragraph",
+      "text": "Payment due within 30 days",
+      "page": 1,
+      "bbox": [
+        61.2,
+        158.4,
+        367.2,
+        182.16
+      ]
+    },
+    {
+      "id": "b5",
+      "type": "list_item",
+      "text": "• Net 30",
+      "page": 1,
+      "bbox": [
+        61.2,
+        435.6,
+        183.6,
+        451.44
+      ]
+    },
+    {
+      "id": "b6",
+      "type": "header",
+      "text": "Acme Billing",
+      "page": 1,
+      "bbox": [
+        61.2,
+        7.92,
+        244.8,
+        23.76
+      ]
+    },
+    {
+      "id": "b7",
+      "type": "footer",
+      "text": "Page 1",
+      "page": 1,
+      "bbox": [
+        244.8,
+        752.4,
+        367.2,
+        768.24
+      ]
+    },
+    {
+      "id": "b8",
+      "type": "caption",
+      "text": "Chart of spend",
+      "page": 1,
+      "bbox": [
+        367.2,
+        435.6,
+        550.8,
+        514.8
+      ]
+    },
+    {
+      "id": "b9",
+      "type": "heading",
+      "text": "## Late fees",
+      "page": 1,
+      "level": 2,
+      "bbox": [
+        61.2,
+        554.4,
+        244.8,
+        570.24
+      ]
+    },
+    {
+      "id": "b10",
+      "type": "paragraph",
+      "text": "Late fees accrue",
+      "page": 1,
+      "bbox": [
+        61.2,
+        586.08,
+        306,
+        601.92
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        61.2,
+        237.6,
+        550.8,
+        396
+      ],
+      "header": [
+        "Item",
+        "Qty",
+        "Price"
+      ],
+      "rows": [
+        [
+          "Widget",
+          "2",
+          ""
+        ],
+        [
+          "Gadget",
+          "1",
+          "1,200.00"
+        ]
+      ],
+      "markdown": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "# Invoice\n\nBill To: Acme Corp\n\n## Terms\n\nPayment due within 30 days",
+      "blockIds": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "t1",
+        "b5",
+        "b6",
+        "b7",
+        "b8"
+      ],
+      "pages": [
+        1
+      ],
+      "headingPath": [
+        "Invoice",
+        "## Terms"
+      ]
+    },
+    {
+      "id": "c2",
+      "text": "## Late fees\n\nLate fees accrue",
+      "blockIds": [
+        "b9",
+        "b10"
+      ],
+      "pages": [
+        1
+      ],
+      "headingPath": [
+        "Invoice",
+        "## Late fees"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "reducto",
+    "parserVersion": "r-1",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 200,
+      "height": 400
+    },
+    {
+      "number": 2
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "paragraph",
+      "text": "Scaled",
+      "page": 1,
+      "bbox": [
+        20,
+        80,
+        100,
+        100
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "other",
+      "text": "☑ Agree",
+      "page": 1
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "Page two",
+      "page": 2
+    },
+    {
+      "id": "b4",
+      "type": "footer",
+      "text": "End",
+      "page": 2
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        0,
+        0,
+        100,
+        80
+      ],
+      "header": [
+        "H",
+        "Q"
+      ],
+      "rows": [
+        [
+          "H",
+          "A & B"
+        ],
+        [
+          "H",
+          ""
+        ]
+      ],
+      "markdown": "<table><tr><th>H</th><th>Q</th></tr><tr><td rowspan=\"2\">H</td><td>A &amp; B</td></tr></table>"
+    },
+    {
+      "id": "t2",
+      "page": 1,
+      "bbox": [
+        40,
+        200,
+        100,
+        240
+      ],
+      "header": [
+        "A",
+        "B",
+        ""
+      ],
+      "rows": [
+        [
+          "one",
+          "two",
+          "three"
+        ]
+      ],
+      "markdown": "| A | B |\n| --- | --- |\n| one | two | three |"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "edges",
+      "blockIds": [
+        "b1",
+        "t1",
+        "b2",
+        "t2",
+        "b3",
+        "b4"
+      ],
+      "pages": [
+        1,
+        2
+      ]
+    }
+  ]
+}

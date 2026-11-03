@@ -1,0 +1,129 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "reducto",
+    "parserVersion": "r-1",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "title",
+      "text": "Invoice",
+      "page": 1,
+      "bbox": [
+        61.2,
+        39.6,
+        244.8,
+        71.28
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "other",
+      "text": "Bill To: Acme Corp",
+      "page": 1,
+      "bbox": [
+        61.2,
+        79.2,
+        306,
+        102.96
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        61.2,
+        237.6,
+        550.8,
+        396
+      ],
+      "header": [
+        "Item",
+        "Qty",
+        "Price"
+      ],
+      "rows": [
+        [
+          "Widget",
+          "2",
+          ""
+        ],
+        [
+          "Gadget",
+          "1",
+          "1,200.00"
+        ]
+      ],
+      "markdown": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |"
+    }
+  ],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "# Invoice\n\nBill To: Acme Corp",
+      "blockIds": [
+        "b1",
+        "b2",
+        "t1"
+      ],
+      "pages": [
+        1
+      ],
+      "headingPath": [
+        "Invoice"
+      ]
+    }
+  ],
+  "fields": {
+    "vendor": {
+      "value": "Acme Corp",
+      "confidence": 0.95,
+      "citations": [
+        {
+          "page": 1,
+          "blockId": "b2",
+          "bbox": [
+            61.2,
+            79.2,
+            306,
+            102.96
+          ],
+          "text": "Bill To: Acme Corp"
+        }
+      ]
+    },
+    "total": {
+      "value": 1200,
+      "confidence": 0.91,
+      "citations": [
+        {
+          "page": 1,
+          "blockId": "t1",
+          "bbox": [
+            61.2,
+            237.6,
+            550.8,
+            396
+          ],
+          "text": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "reducto",
+    "parserVersion": "r-1",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "paragraph",
+      "text": "Acme",
+      "page": 1
+    }
+  ],
+  "tables": [],
+  "chunks": [
+    {
+      "id": "c1",
+      "text": "Acme",
+      "blockIds": [
+        "b1"
+      ],
+      "pages": [
+        1
+      ]
+    }
+  ],
+  "fields": {
+    "bill_to.name": {
+      "value": "Acme",
+      "confidence": 0.5,
+      "citations": [
+        {
+          "page": 1,
+          "blockId": "b1",
+          "text": "Acme"
+        }
+      ]
+    },
+    "bill_to.city": {
+      "value": "NYC"
+    },
+    "items.0.sku": {
+      "value": "W"
+    },
+    "items.0.qty": {
+      "value": 2
+    },
+    "paid": {
+      "value": false,
+      "citations": [
+        {
+          "page": 2,
+          "text": "no"
+        }
+      ]
+    },
+    "notes": {
+      "value": "{\"extra\":true}"
+    }
+  }
+}

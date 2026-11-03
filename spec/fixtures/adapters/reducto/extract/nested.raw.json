@@ -1,0 +1,55 @@
+{
+  "parse": {
+    "job_id": "job_nested",
+    "usage": { "num_pages": 1, "credits": 2.0 },
+    "result": {
+      "type": "full",
+      "chunks": [
+        {
+          "content": "Acme",
+          "blocks": [
+            {
+              "type": "Text",
+              "content": "Acme",
+              "bbox": { "left": 0.2, "top": 0.2, "width": 0.2, "height": 0.05, "page": 1, "original_page": 1 }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "extract": {
+    "job_id": "job_extract_nested",
+    "result": {
+      "bill_to": {
+        "name": {
+          "value": "Acme",
+          "citations": [
+            {
+              "content": "Acme",
+              "bbox": { "left": 0.2, "top": 0.2, "width": 0.2, "height": 0.05, "page": 1, "original_page": 1 },
+              "granular_confidence": { "extract_confidence": 1.2, "parse_confidence": 0.5 }
+            }
+          ]
+        },
+        "city": { "value": "NYC", "citations": [] }
+      },
+      "items": [
+        {
+          "sku": { "value": "W", "citations": [] },
+          "qty": { "value": 2, "citations": [] }
+        }
+      ],
+      "paid": {
+        "value": false,
+        "citations": [
+          {
+            "content": "no",
+            "bbox": { "left": 0.1, "top": 0.1, "width": 0.1, "height": 0.1, "page": 2, "original_page": 2 }
+          }
+        ]
+      },
+      "notes": { "value": { "extra": true }, "citations": [] }
+    }
+  }
+}

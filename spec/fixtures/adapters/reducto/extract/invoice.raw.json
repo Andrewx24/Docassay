@@ -1,0 +1,70 @@
+{
+  "parse": {
+    "job_id": "job_invoice",
+    "duration": 1.2,
+    "usage": { "num_pages": 1, "credits": 2.0 },
+    "result": {
+      "type": "full",
+      "chunks": [
+        {
+          "content": "# Invoice\n\nBill To: Acme Corp",
+          "blocks": [
+            {
+              "type": "Title",
+              "content": "Invoice",
+              "bbox": { "left": 0.1, "top": 0.05, "width": 0.3, "height": 0.04, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Key Value",
+              "content": "Bill To: Acme Corp",
+              "bbox": { "left": 0.1, "top": 0.1, "width": 0.4, "height": 0.03, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Table",
+              "content": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |",
+              "bbox": { "left": 0.1, "top": 0.3, "width": 0.8, "height": 0.2, "page": 1, "original_page": 1 }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "extract": {
+    "job_id": "job_extract_invoice",
+    "result": {
+      "vendor": {
+        "value": "Acme Corp",
+        "citations": [
+          {
+            "type": "Key Value",
+            "content": "Bill To: Acme Corp",
+            "bbox": { "left": 0.1, "top": 0.1, "width": 0.4, "height": 0.03, "page": 1, "original_page": 1 },
+            "granular_confidence": { "extract_confidence": 0.95, "parse_confidence": 0.9 },
+            "parentBlock": {
+              "type": "Key Value",
+              "content": "Bill To: Acme Corp",
+              "bbox": { "left": 0.1, "top": 0.1, "width": 0.4, "height": 0.03, "page": 1, "original_page": 1 }
+            }
+          }
+        ]
+      },
+      "total": {
+        "value": 1200,
+        "citations": [
+          {
+            "type": "Table",
+            "content": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |",
+            "bbox": { "left": 0.1, "top": 0.3, "width": 0.8, "height": 0.2, "page": 1, "original_page": 1 },
+            "granular_confidence": { "extract_confidence": null, "parse_confidence": 0.91 },
+            "parentBlock": {
+              "content": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |",
+              "bbox": { "left": 0.1, "top": 0.3, "width": 0.8, "height": 0.2, "page": 1, "original_page": 1 }
+            }
+          }
+        ]
+      }
+    },
+    "usage": { "num_pages": 1, "num_fields": 2, "credits": 6.0 }
+  },
+  "pages": [{ "number": 1, "width": 612, "height": 792 }]
+}

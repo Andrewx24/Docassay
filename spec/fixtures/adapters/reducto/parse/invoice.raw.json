@@ -1,0 +1,78 @@
+{
+  "parse": {
+    "job_id": "job_invoice",
+    "duration": 1.2,
+    "usage": { "num_pages": 1, "credits": 2.0 },
+    "result": {
+      "type": "full",
+      "chunks": [
+        {
+          "content": "# Invoice\n\nBill To: Acme Corp\n\n## Terms\n\nPayment due within 30 days",
+          "blocks": [
+            {
+              "type": "Title",
+              "content": "Invoice",
+              "bbox": { "left": 0.1, "top": 0.05, "width": 0.3, "height": 0.04, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Key Value",
+              "content": "Bill To: Acme Corp",
+              "bbox": { "left": 0.1, "top": 0.1, "width": 0.4, "height": 0.03, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Section Header",
+              "content": "## Terms",
+              "bbox": { "left": 0.1, "top": 0.16, "width": 0.2, "height": 0.02, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Text",
+              "content": "Payment due within 30 days",
+              "bbox": { "left": 0.1, "top": 0.2, "width": 0.5, "height": 0.03, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Table",
+              "content": "| Item | Qty | Price |\n| --- | --- | --- |\n| Widget | 2 |  |\n| Gadget | 1 | 1,200.00 |",
+              "bbox": { "left": 0.1, "top": 0.3, "width": 0.8, "height": 0.2, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "List Item",
+              "content": "• Net 30",
+              "bbox": { "left": 0.1, "top": 0.55, "width": 0.2, "height": 0.02, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Header",
+              "content": "Acme Billing",
+              "bbox": { "left": 0.1, "top": 0.01, "width": 0.3, "height": 0.02, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Footer",
+              "content": "Page 1",
+              "bbox": { "left": 0.4, "top": 0.95, "width": 0.2, "height": 0.02, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Figure",
+              "content": "Chart of spend",
+              "bbox": { "left": 0.6, "top": 0.55, "width": 0.3, "height": 0.1, "page": 1, "original_page": 1 }
+            }
+          ]
+        },
+        {
+          "content": "## Late fees\n\nLate fees accrue",
+          "blocks": [
+            {
+              "type": "Section Header",
+              "content": "## Late fees",
+              "bbox": { "left": 0.1, "top": 0.7, "width": 0.3, "height": 0.02, "page": 1, "original_page": 1 }
+            },
+            {
+              "type": "Text",
+              "content": "Late fees accrue",
+              "bbox": { "left": 0.1, "top": 0.74, "width": 0.4, "height": 0.02, "page": 1, "original_page": 1 }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "pages": [{ "number": 1, "width": 612, "height": 792 }]
+}
