@@ -79,3 +79,5 @@ flowchart LR
 ```
 
 Both registries publish from the same commit. No long-lived tokens: PyPI uses trusted publishing (OIDC) and npm uses provenance with an automation token stored as a repository secret until npm OIDC is configured.
+
+The workflow, the dry run, and the owner setup are in `RELEASING.md` at the repository root.

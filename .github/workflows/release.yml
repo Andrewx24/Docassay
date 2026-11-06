@@ -1,0 +1,109 @@
+name: Release
+
+# A v* tag publishes to PyPI and npm, then opens a GitHub release.
+# workflow_dispatch with dry_run (the default) publishes to TestPyPI and
+# runs npm publish --dry-run. Production publishes only from a tag.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Publish to TestPyPI and run npm publish --dry-run
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Production publish requires a tag
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == false
+        run: |
+          echo "Production publishes run from a v* tag."
+          echo "Dispatch this workflow with dry_run true, or push the tag."
+          exit 1
+
+      - name: Tag matches /VERSION
+        if: github.event_name == 'push'
+        run: ./scripts/check-release-version.sh --tag "${{ github.ref_name }}"
+
+      - name: Package versions match VERSION
+        if: github.event_name == 'workflow_dispatch'
+        run: ./scripts/check-release-version.sh
+
+  ci:
+    needs: version
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: snok/install-poetry@v1
+        with:
+          version: "2.5.1"
+          virtualenvs-create: false
+
+      - name: Build the Python package
+        working-directory: python
+        run: poetry build
+
+      - name: Publish to PyPI
+        if: github.event_name == 'push'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/dist
+
+      - name: Publish to TestPyPI
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: python/dist
+          skip-existing: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: js/package-lock.json
+
+      - name: Build the TypeScript package
+        working-directory: js
+        run: npm ci && npm run build
+
+      - name: Publish to npm
+        if: github.event_name == 'push'
+        working-directory: js
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Dry-run the npm publish
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        working-directory: js
+        run: npm publish --dry-run --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: GitHub release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" --generate-notes --title "${{ github.ref_name }}"
