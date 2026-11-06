@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { Command } from "commander";
 
+import { BuiltinError, builtinSetsPath, configForGoldenFlag } from "./builtin.js";
 import { clearCache } from "./cache.js";
 import { initCommand } from "./config.js";
 import { baselineCommand, checkCommand } from "./gate.js";
@@ -41,8 +42,15 @@ export function createProgram(): Command {
     .description("Check golden files against the schema.")
     .argument("[path]", "golden set directory or one golden file", "golden")
     .option("--strict", "fail if a file still contains # TODO verify")
-    .action((filePath: string, options: { strict?: boolean }) => {
-      const code = validateCommand(filePath, { strict: options.strict === true });
+    .option("--golden <name>", "Pass builtin to validate the packaged golden set.")
+    .action((filePath: string, options: { strict?: boolean; golden?: string }) => {
+      let target = filePath;
+      if (options.golden !== undefined) {
+        const resolved = resolveGoldenFlag(filePath, options.golden);
+        if (resolved === undefined) return;
+        target = builtinSetsPath();
+      }
+      const code = validateCommand(target, { strict: options.strict === true });
       if (code !== 0) process.exitCode = code;
     });
 
@@ -74,8 +82,11 @@ export function createProgram(): Command {
     .option("--no-cache", "Ignore the cache for this run (still writes to it).")
     .option("--refresh", "Re-parse and overwrite cache entries.")
     .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
+    .option("--golden <name>", "Pass builtin to use the packaged golden set.")
     .action(async (options: GateFlags) => {
-      const code = await baselineCommand(options.config, gateOptions(options));
+      const config = resolveGoldenFlag(options.config, options.golden);
+      if (config === undefined) return;
+      const code = await baselineCommand(config, gateOptions(options));
       if (code !== 0) process.exitCode = code;
     });
 
@@ -90,8 +101,11 @@ export function createProgram(): Command {
     .option("--no-cache", "Ignore the cache for this run (still writes to it).")
     .option("--refresh", "Re-parse and overwrite cache entries.")
     .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
+    .option("--golden <name>", "Pass builtin to use the packaged golden set.")
     .action(async (options: GateFlags) => {
-      const code = await checkCommand(options.config, {
+      const config = resolveGoldenFlag(options.config, options.golden);
+      if (config === undefined) return;
+      const code = await checkCommand(config, {
         ...gateOptions(options),
         summaryOnly: options.summaryOnly === true,
       });
@@ -122,10 +136,13 @@ export function createProgram(): Command {
     .option("--refresh", "Re-parse and overwrite cache entries.")
     .option("--concurrency <n>", "Parallel parse calls per parser.", "4")
     .option("-v, --verbose", "Print failures for every document.")
+    .option("--golden <name>", "Pass builtin to use the packaged golden set.")
     .action(async (options: RunFlags) => {
+      const config = resolveGoldenFlag(options.config, options.golden);
+      if (config === undefined) return;
       try {
         const concurrency = Number(options.concurrency);
-        const code = await runCommand(options.config, {
+        const code = await runCommand(config, {
           parsers: options.parser,
           tags: options.tag,
           format: options.format,
@@ -146,8 +163,20 @@ export function createProgram(): Command {
   return program;
 }
 
+function resolveGoldenFlag(config: string, golden: string | undefined): string | undefined {
+  try {
+    return configForGoldenFlag(config, golden);
+  } catch (err) {
+    const message = err instanceof BuiltinError ? err.message : String(err);
+    process.stdout.write(`${message}\n`);
+    process.exitCode = 2;
+    return undefined;
+  }
+}
+
 interface GateFlags {
   config: string;
+  golden?: string;
   baseline?: string;
   summaryOnly?: boolean;
   parser: string[];
@@ -185,6 +214,7 @@ interface LabelFlags {
 
 interface RunFlags {
   config: string;
+  golden?: string;
   parser: string[];
   tag: string[];
   format: string;

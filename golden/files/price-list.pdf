@@ -1,0 +1,65 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 512 >>
+stream
+BT
+/F1 11 Tf
+72 740 Td
+(Price list) Tj
+0 -16 Td
+(Generated price list for the public set.) Tj
+0 -16 Td
+(Sku | Name | Price) Tj
+0 -16 Td
+(A1 | Bolt | 1.25) Tj
+0 -16 Td
+(A2 | Nut | 2.50) Tj
+0 -16 Td
+(A3 | Washer | 3.75) Tj
+0 -16 Td
+(A4 | Screw | 5.00) Tj
+0 -16 Td
+(A5 | Hinge | 6.25) Tj
+0 -16 Td
+(A6 | Latch | 7.50) Tj
+0 -16 Td
+(A7 | Hook | 8.75) Tj
+0 -16 Td
+(A8 | Clip | 10.00) Tj
+0 -16 Td
+(A9 | Pin | 11.25) Tj
+0 -16 Td
+(A10 | Rivet | 12.50) Tj
+0 -16 Td
+(A11 | Stud | 13.75) Tj
+0 -16 Td
+(A12 | Cap | 15.00) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000000810 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+880
+%%EOF

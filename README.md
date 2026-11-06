@@ -29,7 +29,7 @@ printf '%s\n' '%PDF-1.1' > golden/files/example.pdf
 docassay run
 ```
 
-The public example in [`golden/`](golden/) scores three documents with the `file` adapter:
+The public example in [`golden/`](golden/) scores 20 documents with the `file` adapter:
 
 ![Scorecard from docassay run -c golden/docassay.yaml](docs/static/img/golden-scorecard.png)
 

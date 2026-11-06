@@ -1,0 +1,13 @@
+id: timesheet
+file: ../files/timesheet.xlsx
+tags: [xlsx]
+expect:
+  text_contains:
+    - "generated week"
+  tables:
+    - page: 1
+      header: ["Day", "Hours"]
+      rows: 4
+      cols: 2
+      cells:
+        - {row: 2, col: Hours, value: "7"}

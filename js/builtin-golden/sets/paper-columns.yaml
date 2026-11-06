@@ -1,0 +1,9 @@
+id: paper-columns
+file: ../files/paper-columns.pdf
+tags: [multi-column, pdf]
+expect:
+  text_contains:
+    - "Column north"
+    - "Column south"
+  reading_order:
+    - ["Column north", "Column south"]
