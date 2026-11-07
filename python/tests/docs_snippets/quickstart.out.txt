@@ -1,0 +1,6 @@
+wrote docassay.yaml
+wrote golden/example.yaml
+docassay 0.0.0 · 1 document · 1 parser
+
+parser       tables  text  order  fields  chunks  overall  $/1k pages  p95
+my-pipeline  —       1.00  —      —       —       1.00     0.00        0.0s

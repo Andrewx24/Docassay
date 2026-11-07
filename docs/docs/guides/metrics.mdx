@@ -1,0 +1,50 @@
+---
+title: Metrics explained
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Metrics explained
+
+Each metric is a number from 0 to 1: the share of labeled checks that passed. A metric that no golden file labels is `—` on the scorecard. `overall` is the mean of the metrics that were labeled for that parser.
+
+| Metric | A point is lost when |
+| --- | --- |
+| tables | The header, the shape, or a labeled cell does not match. |
+| text | A `text_contains` string is missing. |
+| order | A reading-order pair is reversed or one side is missing. |
+| fields | An extracted field is missing or not equal to the label. |
+| chunks | A chunk breaks a token bound, splits a table you protected, or loses a heading path. |
+
+Cost per 1,000 pages and p95 latency are reported next to the scores. They are not part of `overall`.
+
+Comparisons go through normalization, so these three calls are the behavior users should expect. `$1,200.00` matches `1200`, `Nov. 1 2026` matches `2026-11-01`, and `Acme` does not match `Acme Corp`.
+
+<Tabs groupId="lang">
+  <TabItem value="python" label="Python">
+
+```python title="python/tests/docs_snippets/values.py"
+from docassay.normalize import values_equal
+
+same_number = values_equal("$1,200.00", "1200")
+same_date = values_equal("Nov. 1 2026", "2026-11-01")
+different_text = values_equal("Acme", "Acme Corp")
+```
+
+  </TabItem>
+  <TabItem value="node" label="TypeScript">
+
+```ts title="js/test/docs-snippets/values.ts"
+import { valuesEqual } from "../../src/normalize/index.js";
+
+export const sameNumber = valuesEqual("$1,200.00", "1200");
+export const sameDate = valuesEqual("Nov. 1 2026", "2026-11-01");
+export const differentText = valuesEqual("Acme", "Acme Corp");
+```
+
+  </TabItem>
+</Tabs>
+
+`sameNumber` and `sameDate` are true. `differentText` is false. The formulas, weights, and failure reasons are specified in [Scoring](../architecture/scoring.md). The character rules are in [Normalization](../architecture/normalization.md).

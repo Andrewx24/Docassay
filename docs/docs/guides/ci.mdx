@@ -1,0 +1,45 @@
+---
+title: CI setup
+sidebar_position: 5
+---
+
+# CI setup
+
+Commit a baseline, then fail the pull request when a score drops.
+
+```bash title="python/tests/docs_snippets/ci.sh"
+set -euo pipefail
+docassay check -c golden/docassay.yaml
+```
+
+
+`docassay baseline` writes `.docassay/baseline.json` (or the path in your config). `docassay check` re-runs the suite and exits 1 when a metric falls past its `drop` or under its `min`. Warnings, including a new parser, do not fail the run. The algorithm and the failure text are on the [CI gate](../architecture/ci-gate.md) page.
+
+On GitHub, the composite action in this repository installs docassay and can update one pull request comment. The workflow below is the copy in `examples/workflows/pr-check.yml`. Give the job `pull-requests: write` so the comment can be posted. `version: "0.1.0"` is the release pin; until that release is published, a checkout of this repo can use `uses: ./action` and `version: local`.
+
+```yaml title="examples/workflows/pr-check.yml"
+name: docassay
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Andrewx24/Docassay/action@v0
+        with:
+          command: check
+          python-or-node: python
+          config: docassay.yaml
+          comment: true
+          version: "0.1.0"
+```
+
+
+A nightly `check --refresh` calls the live parsers and opens an issue when scores drift. That workflow is `examples/workflows/nightly-drift.yml`, described on the [CI gate](../architecture/ci-gate.md) page. It does not fail a pull request.

@@ -1,0 +1,62 @@
+---
+title: Quickstart
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Quickstart
+
+Install docassay, point it at one labeled document, and print a scorecard. The same commands exist in both packages.
+
+<Tabs groupId="package">
+  <TabItem value="python" label="Python">
+
+```bash title="python/tests/docs_snippets/install-pip.txt"
+pip install docassay
+```
+
+  </TabItem>
+  <TabItem value="node" label="Node">
+
+```bash title="python/tests/docs_snippets/install-npm.txt"
+npm install docassay
+```
+
+  </TabItem>
+</Tabs>
+
+`docassay init` writes `docassay.yaml` and `golden/example.yaml`. The golden file asks for one sentence. Put that sentence in the file adapter's markdown output, and put any readable file at the path the golden file names (`golden/files/example.pdf`, next to the YAML). Then run:
+
+```bash title="python/tests/docs_snippets/quickstart.sh"
+set -euo pipefail
+docassay init
+mkdir -p golden/files out/parsed
+printf '%s\n' 'Replace this with a sentence from the document' > out/parsed/example.md
+printf '%s\n' '%PDF-1.1' > golden/files/example.pdf
+docassay run
+```
+
+
+The run prints:
+
+```text title="python/tests/docs_snippets/quickstart.out.txt"
+wrote docassay.yaml
+wrote golden/example.yaml
+docassay 0.0.0 · 1 document · 1 parser
+
+parser       tables  text  order  fields  chunks  overall  $/1k pages  p95
+my-pipeline  —       1.00  —      —       —       1.00     0.00        0.0s
+```
+
+
+`—` means that metric is not labeled. This file only labels text, so text and overall are 1.
+
+## The public example
+
+The repository's [`golden/`](https://github.com/Andrewx24/Docassay/tree/main/golden) set scores three documents with the `file` adapter. This is that scorecard:
+
+![Scorecard from docassay run -c golden/docassay.yaml](/img/golden-scorecard.png)
+
+Next: [write golden files](golden-files.mdx) that label the cells and sentences you care about, then [keep the score in CI](ci.mdx).

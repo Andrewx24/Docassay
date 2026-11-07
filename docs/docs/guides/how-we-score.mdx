@@ -1,0 +1,46 @@
+---
+title: How we score
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# How we score
+
+docassay does not parse documents. An adapter turns a parser's output into one [Document](../architecture/spec.md). Scorers then compare that Document to the golden file. The same input produces the same score in Python and TypeScript.
+
+Three rules make a score something you can re-run:
+
+1. **Normalize, then compare.** Text, numbers, and dates go through the functions in [Normalization](../architecture/normalization.md). There is no fuzzy match in v0.1.
+2. **Score only what you labeled.** Each metric is the mean of its labeled checks. The formulas and the failure attached to a score below 1 are in [Scoring](../architecture/scoring.md).
+3. **Round on the way out.** Scores stay full precision until a scorecard or a check prints them, at 4 decimal places.
+
+A higher score never fails `docassay check`. A drop past the threshold in `docassay.yaml`, or a score under a configured floor, does.
+
+The comparison the metrics use:
+
+<Tabs groupId="lang">
+  <TabItem value="python" label="Python">
+
+```python title="python/tests/docs_snippets/values.py"
+from docassay.normalize import values_equal
+
+same_number = values_equal("$1,200.00", "1200")
+same_date = values_equal("Nov. 1 2026", "2026-11-01")
+different_text = values_equal("Acme", "Acme Corp")
+```
+
+  </TabItem>
+  <TabItem value="node" label="TypeScript">
+
+```ts title="js/test/docs-snippets/values.ts"
+import { valuesEqual } from "../../src/normalize/index.js";
+
+export const sameNumber = valuesEqual("$1,200.00", "1200");
+export const sameDate = valuesEqual("Nov. 1 2026", "2026-11-01");
+export const differentText = valuesEqual("Acme", "Acme Corp");
+```
+
+  </TabItem>
+</Tabs>
