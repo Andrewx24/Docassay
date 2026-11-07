@@ -1,0 +1,9 @@
+id: lease
+file: ../files/lease.pdf
+tags: [lease]
+expect:
+  text_contains:
+    - "The rent is due"
+    - "security deposit"
+  reading_order:
+    - ["Lease", "rent"]

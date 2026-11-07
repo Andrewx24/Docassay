@@ -1,0 +1,13 @@
+id: price-list
+file: ../files/price-list.pdf
+tags: [dense-table, pdf]
+expect:
+  text_contains:
+    - "Generated price list"
+  tables:
+    - page: 1
+      header: ["Sku", "Name", "Price"]
+      rows: 12
+      cols: 3
+      cells:
+        - {row: 6, col: Name, value: "Hook"}

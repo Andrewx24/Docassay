@@ -1,0 +1,13 @@
+id: packing-slip
+file: ../files/packing-slip.pdf
+tags: [pdf]
+expect:
+  text_contains:
+    - "order 900"
+  tables:
+    - page: 1
+      header: ["Item", "Qty"]
+      rows: 2
+      cols: 2
+      cells:
+        - {row: 0, col: Item, value: "Crate"}

@@ -1,0 +1,6 @@
+id: memo-q3
+file: ../files/memo-q3.docx
+tags: [docx]
+expect:
+  text_contains:
+    - "q3 notes"

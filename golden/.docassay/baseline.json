@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-11-03T13:50:06Z",
+  "createdAt": "2026-11-06T13:40:55Z",
   "docassayVersion": "0.0.0",
   "parsers": [
     {
@@ -7,12 +7,39 @@
       "costUsd": 0,
       "documents": [
         {
+          "file": "../files/catalog.pdf",
+          "id": "catalog",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/form-facsimile.pdf",
+          "id": "form-facsimile",
+          "scores": {
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
           "file": "../files/invoice-acme.pdf",
           "id": "invoice-acme",
           "scores": {
             "order": 1,
             "overall": 1,
             "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/invoice-beta.docx",
+          "id": "invoice-beta",
+          "scores": {
+            "order": 1,
+            "overall": 1,
             "text": 1
           }
         },
@@ -26,11 +53,134 @@
           }
         },
         {
+          "file": "../files/ledger.xlsx",
+          "id": "ledger",
+          "scores": {
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
           "file": "../files/memo.pdf",
           "id": "memo",
           "scores": {
             "overall": 0.5,
             "tables": 0,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/memo-q3.docx",
+          "id": "memo-q3",
+          "scores": {
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/newsletter.pdf",
+          "id": "newsletter",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/packing-list.xlsx",
+          "id": "packing-list",
+          "scores": {
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/packing-slip.pdf",
+          "id": "packing-slip",
+          "scores": {
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/paper-columns.pdf",
+          "id": "paper-columns",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/policy.docx",
+          "id": "policy",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/price-list.pdf",
+          "id": "price-list",
+          "scores": {
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/scan-contract.pdf",
+          "id": "scan-contract",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/scan-form.pdf",
+          "id": "scan-form",
+          "scores": {
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/scan-receipt.pdf",
+          "id": "scan-receipt",
+          "scores": {
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/statement.pdf",
+          "id": "statement",
+          "scores": {
+            "order": 1,
+            "overall": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/timesheet.xlsx",
+          "id": "timesheet",
+          "scores": {
+            "overall": 1,
+            "tables": 1,
+            "text": 1
+          }
+        },
+        {
+          "file": "../files/two-column.pdf",
+          "id": "two-column",
+          "scores": {
+            "order": 1,
+            "overall": 1,
             "text": 1
           }
         }
@@ -41,13 +191,13 @@
       "parserVersion": "file",
       "summary": {
         "order": 1,
-        "overall": 0.75,
-        "tables": 0.5,
-        "text": 0.8333
+        "overall": 0.9625,
+        "tables": 0.875,
+        "text": 0.975
       }
     }
   ],
-  "pinnedAt": "2026-11-03T13:50:06Z",
-  "runId": "run_2ed320397f780e62",
+  "pinnedAt": "2026-11-06T13:40:55Z",
+  "runId": "run_b3df98ca7bf72da0",
   "specVersion": "1.0.0"
 }

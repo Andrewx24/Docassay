@@ -1,0 +1,8 @@
+id: scan-contract
+file: ../files/scan-contract.pdf
+tags: [scan, pdf]
+expect:
+  text_contains:
+    - "synthetic scan records the deposit"
+  reading_order:
+    - ["records the deposit", "page one"]

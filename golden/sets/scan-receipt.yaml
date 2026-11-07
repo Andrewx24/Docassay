@@ -1,0 +1,6 @@
+id: scan-receipt
+file: ../files/scan-receipt.pdf
+tags: [scan, pdf]
+expect:
+  text_contains:
+    - "Warehouse receipt 4401"

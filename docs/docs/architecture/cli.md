@@ -31,6 +31,7 @@ Both packages install a `docassay` command with **identical commands, flags, out
 | `--refresh` | off | Re-parse and overwrite cache entries |
 | `--concurrency <n>` | 4 | Parallel parse calls per parser |
 | `-v, --verbose` | off | Print failures for every document |
+| `--golden builtin` | off | On `run`, `validate`, `baseline`, and `check`, use the golden set packaged with docassay |
 
 ## Exit codes
 

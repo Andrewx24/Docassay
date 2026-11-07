@@ -1,0 +1,6 @@
+id: form-facsimile
+file: ../files/form-facsimile.pdf
+tags: [form, pdf]
+expect:
+  text_contains:
+    - "Generated form facsimile"
