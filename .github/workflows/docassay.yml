@@ -1,0 +1,51 @@
+name: docassay
+
+# Self-test for action/: install the checkout and check golden/ with the file adapter.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: docassay-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comment-script:
+    name: comment script
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create a comment, then edit it
+        run: bash action/test.sh
+
+  python:
+    name: check (python, file adapter)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./action
+        with:
+          command: check
+          python-or-node: python
+          config: golden/docassay.yaml
+          version: local
+          comment: true
+
+  node:
+    name: check (node, file adapter)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./action
+        with:
+          command: check
+          python-or-node: node
+          config: golden/docassay.yaml
+          version: local
+          comment: false

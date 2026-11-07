@@ -56,6 +56,8 @@ Docassay/
 ├── golden/                    # public example golden set (20 docs at v0.1)
 │   ├── files/
 │   └── *.yaml
+├── action/                    # composite GitHub Action (Andrewx24/Docassay/action@v0)
+├── examples/workflows/        # pr-check.yml and nightly-drift.yml
 ├── docs/                      # this Docusaurus site
 ├── scripts/
 │   ├── gen-types.sh           # spec/ → python/src/docassay/models + js/src/models
