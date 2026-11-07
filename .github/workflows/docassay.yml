@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create a comment, then edit it
-        run: bash action/test-comment.sh
+        run: bash action/test.sh
 
   python:
     name: check (python, file adapter)
