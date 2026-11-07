@@ -200,7 +200,8 @@ def test_init_on_a_file_returns_config_error(
 def test_cli_init(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.chdir(tmp_path)
     runner = CliRunner()
-    help_result = runner.invoke(app, ["init", "--help"])
+    # Rich styles each hyphen when CI is set, so "--force" is not contiguous.
+    help_result = runner.invoke(app, ["init", "--help"], env={"NO_COLOR": "1", "TERM": "dumb"})
     assert help_result.exit_code == 0
     assert "--force" in help_result.stdout
     created = runner.invoke(app, ["init"])
