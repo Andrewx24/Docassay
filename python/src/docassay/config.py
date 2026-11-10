@@ -477,7 +477,8 @@ def _schema_message(error: ValidationError) -> str:
     if keyword == "required":
         message = error.message
         if message.startswith("'") and "' " in message:
-            return f'missing property "{message.split("'", 2)[1]}"'
+            missing = message.split("'", 2)[1]
+            return f'missing property "{missing}"'
         return 'missing property "version"'
     if keyword == "const":
         return f"must be {error.validator_value}"
