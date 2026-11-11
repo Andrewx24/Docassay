@@ -360,7 +360,7 @@ def test_label_review_command_prints_the_url(
     def run() -> None:
         holder["code"] = label_command(target, review=True, open_browser=False)
 
-    thread = threading.Thread(target=run)
+    thread = threading.Thread(target=run, daemon=True)
     thread.start()
     deadline = time.time() + 2
     while "server" not in holder and time.time() < deadline:

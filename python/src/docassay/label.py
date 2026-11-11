@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import sys
 import threading
 import webbrowser
@@ -31,7 +30,7 @@ from pydantic import ValidationError
 from docassay.adapters.base import AdapterConfigError, AdapterError, AdapterUnavailable
 from docassay.adapters.registry import resolve
 from docassay.adapters.runner_support import run_parser
-from docassay.config import ConfigError, load_config
+from docassay.config import ConfigError, _posix_relative, load_config
 from docassay.golden import CoreLoader
 from docassay.models.document import Document
 from docassay.models.golden import GoldenFile
@@ -234,6 +233,10 @@ def start_review(golden_path: Path, *, open_browser: bool = True) -> ReviewServe
             del fmt, args
 
     httpd = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    # handle_request returns as soon as it starts the handler thread, then
+    # blocks in accept again. A short timeout lets the loop notice shutdown.
+    httpd.daemon_threads = True
+    httpd.timeout = 0.2
     thread = threading.Thread(target=_serve_until_done, args=(httpd, state), daemon=True)
     thread.start()
     server = ReviewServer(httpd, thread, state)
@@ -690,7 +693,7 @@ def _write_draft(source: Path, parser: str, out: Path | None, config: Path) -> P
     document = run_parser(adapter, source, parser)
     target = out if out is not None else Path("golden") / f"{source.stem}.yaml"
     target.parent.mkdir(parents=True, exist_ok=True)
-    file_ref = Path(os.path.relpath(source.resolve(), target.resolve().parent)).as_posix()
+    file_ref = _posix_relative(source.resolve(), target.resolve().parent)
     target.write_text(draft_yaml(document, file_ref=file_ref, doc_id=source.stem), encoding="utf-8")
     return target
 
