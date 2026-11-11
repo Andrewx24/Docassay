@@ -122,7 +122,7 @@ def test_mime_uses_magic_then_extension(tmp_path: Path) -> None:
     assert detect_mime(webp.read_bytes(), webp) == "image/webp"
 
     plain = tmp_path / "notes.md"
-    plain.write_text("# hi\n", encoding="utf-8")
+    plain.write_bytes(b"# hi\n")
     source = build_source(plain, "notes.md")
     assert source.mime == "text/markdown"
     assert source.sha256 == hashlib.sha256(b"# hi\n").hexdigest()
