@@ -1,0 +1,61 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 429 >>
+stream
+BT
+/F1 11 Tf
+72 740 Td
+(Catalog) Tj
+0 -16 Td
+(Catalog of generated parts.) Tj
+0 -16 Td
+(Sku | Name | Qty) Tj
+0 -16 Td
+(B1 | Bracket | 1.25) Tj
+0 -16 Td
+(B2 | Plate | 2.50) Tj
+0 -16 Td
+(B3 | Rod | 3.75) Tj
+0 -16 Td
+(B4 | Tube | 5.00) Tj
+0 -16 Td
+(B5 | Sheet | 6.25) Tj
+0 -16 Td
+(B6 | Bar | 7.50) Tj
+0 -16 Td
+(B7 | Coil | 8.75) Tj
+0 -16 Td
+(B8 | Gear | 10.00) Tj
+0 -16 Td
+(B9 | Shaft | 11.25) Tj
+0 -16 Td
+(B10 | Bush | 12.50) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000000727 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+797
+%%EOF

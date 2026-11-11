@@ -6,12 +6,22 @@ from typing import Annotated
 import typer
 
 from docassay import __version__
+from docassay.builtin import BuiltinError, builtin_sets_path, config_for_golden_flag
 from docassay.cache import clear_cache
 from docassay.config import init_command
 from docassay.gate import baseline_command, check_command
 from docassay.golden import validate_command
 from docassay.label import label_command
 from docassay.runner import run_command
+
+
+def _config_from_flag(config: Path, golden: str | None) -> Path | None:
+    try:
+        return config_for_golden_flag(config, golden)
+    except BuiltinError as err:
+        print(err)
+        return None
+
 
 app = typer.Typer(add_completion=False, invoke_without_command=True)
 cache_app = typer.Typer(help="Manage the parser output cache.")
@@ -74,12 +84,21 @@ def validate(
         bool,
         typer.Option("--strict", help="Fail if a file still contains # TODO verify."),
     ] = False,
+    golden: Annotated[
+        str | None,
+        typer.Option("--golden", help="Pass builtin to validate the packaged golden set."),
+    ] = None,
 ) -> None:
     """Check golden files against the schema.
 
     Example:
         docassay validate --strict golden
     """
+    if golden is not None:
+        resolved = _config_from_flag(path, golden)
+        if resolved is None:
+            raise typer.Exit(code=2)
+        path = builtin_sets_path()
     raise typer.Exit(code=validate_command(path, strict=strict))
 
 
@@ -144,15 +163,22 @@ def baseline(
         int,
         typer.Option("--concurrency", help="Parallel parse calls per parser."),
     ] = 4,
+    golden: Annotated[
+        str | None,
+        typer.Option("--golden", help="Pass builtin to use the packaged golden set."),
+    ] = None,
 ) -> None:
     """Run the suite and write the baseline file.
 
     Example:
         docassay baseline -c docassay.yaml
     """
+    resolved = _config_from_flag(config, golden)
+    if resolved is None:
+        raise typer.Exit(code=2)
     raise typer.Exit(
         code=baseline_command(
-            config,
+            resolved,
             baseline=baseline_path,
             parsers=parser or [],
             tags=tag or [],
@@ -197,15 +223,22 @@ def check(
         int,
         typer.Option("--concurrency", help="Parallel parse calls per parser."),
     ] = 4,
+    golden: Annotated[
+        str | None,
+        typer.Option("--golden", help="Pass builtin to use the packaged golden set."),
+    ] = None,
 ) -> None:
     """Re-run the suite and fail when a score regresses.
 
     Example:
         docassay check --summary-only
     """
+    resolved = _config_from_flag(config, golden)
+    if resolved is None:
+        raise typer.Exit(code=2)
     raise typer.Exit(
         code=check_command(
-            config,
+            resolved,
             baseline=baseline_path,
             summary_only=summary_only,
             parsers=parser or [],
@@ -276,15 +309,22 @@ def run(
         bool,
         typer.Option("-v", "--verbose", help="Print failures for every document."),
     ] = False,
+    golden: Annotated[
+        str | None,
+        typer.Option("--golden", help="Pass builtin to use the packaged golden set."),
+    ] = None,
 ) -> None:
     """Parse (or read the cache), score, and print a scorecard.
 
     Example:
-        docassay run -c docassay.yaml --format json
+        docassay run --golden builtin
     """
+    resolved = _config_from_flag(config, golden)
+    if resolved is None:
+        raise typer.Exit(code=2)
     raise typer.Exit(
         code=run_command(
-            config,
+            resolved,
             parsers=parser or [],
             tags=tag or [],
             fmt=fmt,

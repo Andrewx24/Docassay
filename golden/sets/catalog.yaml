@@ -1,0 +1,15 @@
+id: catalog
+file: ../files/catalog.pdf
+tags: [dense-table, pdf]
+expect:
+  text_contains:
+    - "Catalog of generated parts"
+  reading_order:
+    - ["Catalog of generated parts", "Sheet"]
+  tables:
+    - page: 2
+      header: ["Sku", "Name", "Qty"]
+      rows: 10
+      cols: 3
+      cells:
+        - {row: 4, col: Name, value: "Sheet"}

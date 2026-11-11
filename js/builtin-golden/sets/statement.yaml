@@ -1,0 +1,9 @@
+id: statement
+file: ../files/statement.pdf
+tags: [pdf]
+expect:
+  text_contains:
+    - "Opening balance"
+    - "Closing balance"
+  reading_order:
+    - ["page one", "page two"]

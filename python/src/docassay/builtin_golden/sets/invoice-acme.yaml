@@ -1,0 +1,16 @@
+id: invoice-acme
+file: ../files/invoice-acme.pdf
+tags: [invoice]
+expect:
+  text_contains:
+    - "Acme Corp"
+    - "Total due $10.00"
+  reading_order:
+    - ["Invoice", "Widget"]
+  tables:
+    - page: 1
+      header: ["Item", "Qty"]
+      rows: 1
+      cols: 2
+      cells:
+        - {row: 0, col: Item, value: Widget}

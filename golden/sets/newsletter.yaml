@@ -1,0 +1,9 @@
+id: newsletter
+file: ../files/newsletter.pdf
+tags: [multi-column, pdf]
+expect:
+  text_contains:
+    - "city desk"
+    - "sports desk"
+  reading_order:
+    - ["city desk", "sports desk"]

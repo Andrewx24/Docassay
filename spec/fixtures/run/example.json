@@ -9,20 +9,50 @@
       "adapter": "file",
       "parserVersion": "file",
       "summary": {
-        "tables": 0.5,
-        "text": 0.8333,
+        "tables": 0.875,
+        "text": 0.975,
         "order": 1,
-        "overall": 0.75
+        "overall": 0.9625
       },
       "costUsd": 0,
       "latencyMsP50": 0,
       "latencyMsP95": 0,
       "documents": [
         {
+          "id": "catalog",
+          "file": "../files/catalog.pdf",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "form-facsimile",
+          "file": "../files/form-facsimile.pdf",
+          "scores": {
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
           "id": "invoice-acme",
           "file": "../files/invoice-acme.pdf",
           "scores": {
             "tables": 1,
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "invoice-beta",
+          "file": "../files/invoice-beta.docx",
+          "scores": {
             "text": 1,
             "order": 1,
             "overall": 1
@@ -48,6 +78,16 @@
           ]
         },
         {
+          "id": "ledger",
+          "file": "../files/ledger.xlsx",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
           "id": "memo",
           "file": "../files/memo.pdf",
           "scores": {
@@ -63,6 +103,133 @@
               "page": 1
             }
           ]
+        },
+        {
+          "id": "memo-q3",
+          "file": "../files/memo-q3.docx",
+          "scores": {
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "newsletter",
+          "file": "../files/newsletter.pdf",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "packing-list",
+          "file": "../files/packing-list.xlsx",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "packing-slip",
+          "file": "../files/packing-slip.pdf",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "paper-columns",
+          "file": "../files/paper-columns.pdf",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "policy",
+          "file": "../files/policy.docx",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "price-list",
+          "file": "../files/price-list.pdf",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "scan-contract",
+          "file": "../files/scan-contract.pdf",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "scan-form",
+          "file": "../files/scan-form.pdf",
+          "scores": {
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "scan-receipt",
+          "file": "../files/scan-receipt.pdf",
+          "scores": {
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "statement",
+          "file": "../files/statement.pdf",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "timesheet",
+          "file": "../files/timesheet.xlsx",
+          "scores": {
+            "tables": 1,
+            "text": 1,
+            "overall": 1
+          },
+          "failures": []
+        },
+        {
+          "id": "two-column",
+          "file": "../files/two-column.pdf",
+          "scores": {
+            "text": 1,
+            "order": 1,
+            "overall": 1
+          },
+          "failures": []
         }
       ]
     }

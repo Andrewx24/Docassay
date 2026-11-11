@@ -1,0 +1,9 @@
+id: invoice-beta
+file: ../files/invoice-beta.docx
+tags: [docx]
+expect:
+  text_contains:
+    - "Invoice beta"
+    - "Amount due 42.00"
+  reading_order:
+    - ["Invoice beta", "Amount due"]
