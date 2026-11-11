@@ -16,7 +16,7 @@ SOURCE = ROOT / "python" / "src" / "docassay" / "normalize"
 
 
 def _load(name: str) -> list[dict[str, Any]]:
-    data = json.loads((FIXTURES / name).read_text())
+    data = json.loads((FIXTURES / name).read_text(encoding="utf-8"))
     assert isinstance(data, list)
     return data
 
@@ -67,6 +67,6 @@ def test_normalize_sources_avoid_ambiguous_regex() -> None:
     needles = [chr(92) + name for name in ("s", "w", "b", "d")]
     needles.append("isspace")
     for path in SOURCE.glob("*.py"):
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         for needle in needles:
             assert needle not in text, f"{path.name} contains {needle}"

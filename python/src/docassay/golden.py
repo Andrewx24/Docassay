@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,6 +20,7 @@ from jsonschema.exceptions import ValidationError
 from jsonschema.validators import Draft202012Validator
 from pydantic import ValidationError as ModelError
 
+from docassay.config import _posix_relative
 from docassay.models.golden import GoldenFile
 
 _VALIDATOR: Draft202012Validator | None = None
@@ -129,10 +129,12 @@ def _issue_key(issue: GoldenIssue) -> tuple[str, int, int, str]:
 def display_path(path: Path) -> str:
     """Return ``path`` relative to the working directory, with ``/`` separators.
 
+    A path on another Windows drive stays absolute.
+
     Example:
         display_path(Path("golden") / "a.yaml")
     """
-    return Path(os.path.relpath(path.resolve(), Path.cwd().resolve())).as_posix()
+    return _posix_relative(path.resolve(), Path.cwd().resolve())
 
 
 def load_golden(path: str | Path) -> list[GoldenFile]:
@@ -411,7 +413,7 @@ def _apply_identity(
         data["id"] = golden_path.stem
     if original_file:
         absolute = (golden_path.parent / original_file).resolve()
-        data["file"] = Path(os.path.relpath(absolute, set_dir.resolve())).as_posix()
+        data["file"] = _posix_relative(absolute, set_dir.resolve())
 
 
 def _position(node: yaml.Node | None) -> tuple[int, int]:

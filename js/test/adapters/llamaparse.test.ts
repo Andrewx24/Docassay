@@ -310,7 +310,9 @@ describe("llamaparse", () => {
     const configuration = calls[0]?.form?.get("configuration");
     expect(JSON.parse(String(configuration))).toEqual({ tier: "agentic", version: "latest", lang: "en" });
     const file = calls[0]?.form?.get("file");
-    expect(file instanceof File ? file.name : "").toBe("sample.pdf");
+    const fileName =
+      file !== null && typeof file === "object" && "name" in file && typeof file.name === "string" ? file.name : "";
+    expect(fileName).toBe("sample.pdf");
     expect(calls[1]?.url).toBe("https://example.test/api/v2/parse/pjb%201?expand=items,markdown,job_metadata");
     expect(clock.slept).toEqual([1, 2]);
     expect(adapter.toDocument(raw, SOURCE).meta.parser).toBe("llamaparse:agentic");

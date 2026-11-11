@@ -14,7 +14,7 @@ EXAMPLE = ROOT / "spec" / "examples" / "document.example.json"
 
 
 def test_version_matches_version_file() -> None:
-    expected = (ROOT / "VERSION").read_text().strip()
+    expected = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     assert version("docassay") == expected
     result = CliRunner().invoke(app, ["--version"])
     assert result.exit_code == 0
@@ -22,6 +22,6 @@ def test_version_matches_version_file() -> None:
 
 
 def test_document_example_round_trip() -> None:
-    raw = json.loads(EXAMPLE.read_text())
+    raw = json.loads(EXAMPLE.read_text(encoding="utf-8"))
     dumped = Document.model_validate(raw).model_dump(mode="json", by_alias=True, exclude_unset=True)
     assert dumped == raw

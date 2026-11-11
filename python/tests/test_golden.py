@@ -1,6 +1,7 @@
 """Golden-set loader and `docassay validate`."""
 
 import math
+import os
 from pathlib import Path
 
 import pytest
@@ -10,6 +11,7 @@ from docassay.cli import app
 from docassay.golden import (
     GoldenError,
     canonical_golden_json,
+    display_path,
     load_golden,
     validate_command,
 )
@@ -165,6 +167,20 @@ def test_schema_messages_and_edges(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     empty = tmp_path / "empty"
     empty.mkdir()
     assert load_golden(empty) == []
+
+
+def test_display_path_stays_absolute_when_drives_differ(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = tmp_path / "a.yaml"
+    target.write_text("file: files/doc.pdf\n", encoding="utf-8")
+
+    def boom(path: str, start: str) -> str:
+        del path, start
+        raise ValueError("path is on mount 'C:', start on mount 'D:'")
+
+    monkeypatch.setattr(os.path, "relpath", boom)
+    assert display_path(target) == target.resolve().as_posix()
 
 
 def test_empty_directory_is_success(tmp_path: Path) -> None:

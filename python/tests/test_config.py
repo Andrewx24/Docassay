@@ -2,6 +2,7 @@
 
 import json
 import math
+import os
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,7 @@ from docassay.config import (
     GOLDEN_TEMPLATE,
     ConfigError,
     canonical_config_json,
+    display_path,
     init_command,
     load_config,
 )
@@ -55,6 +57,20 @@ def test_invalid_fixtures_report_every_issue() -> None:
                 assert isinstance(prefix, str)
                 assert issue.message.startswith(prefix)
             assert str(issue) in rendered
+
+
+def test_display_path_stays_absolute_when_drives_differ(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = tmp_path / "docassay.yaml"
+    target.write_text("version: 1\n", encoding="utf-8")
+
+    def boom(path: str, start: str) -> str:
+        del path, start
+        raise ValueError("path is on mount 'C:', start on mount 'D:'")
+
+    monkeypatch.setattr(os.path, "relpath", boom)
+    assert display_path(target) == target.resolve().as_posix()
 
 
 def test_missing_directory_and_utf8(tmp_path: Path) -> None:
@@ -200,7 +216,8 @@ def test_init_on_a_file_returns_config_error(
 def test_cli_init(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.chdir(tmp_path)
     runner = CliRunner()
-    help_result = runner.invoke(app, ["init", "--help"])
+    # Rich styles each hyphen when CI is set, so "--force" is not contiguous.
+    help_result = runner.invoke(app, ["init", "--help"], env={"NO_COLOR": "1", "TERM": "dumb"})
     assert help_result.exit_code == 0
     assert "--force" in help_result.stdout
     created = runner.invoke(app, ["init"])

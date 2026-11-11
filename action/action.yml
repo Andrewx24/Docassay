@@ -1,0 +1,67 @@
+name: docassay
+description: Install docassay and run check or run. Optionally post the Markdown scorecard on the pull request.
+
+branding:
+  icon: check-square
+  color: blue
+
+inputs:
+  command:
+    description: "run or check"
+    required: false
+    default: check
+  python-or-node:
+    description: "Which package to install: python or node"
+    required: false
+    default: python
+  config:
+    description: "Path to docassay.yaml, relative to the workspace."
+    required: false
+    default: docassay.yaml
+  comment:
+    description: "On a pull request, post or edit one comment marked <!-- docassay-report -->."
+    required: false
+    default: "false"
+  version:
+    description: "Release to install, such as 0.1.0. Use local to install this checkout. Empty installs the latest published release."
+    required: false
+    default: ""
+  args:
+    description: "Extra arguments, such as --refresh or --summary-only. Split on spaces."
+    required: false
+    default: ""
+
+outputs:
+  exit_code:
+    description: Exit code from the docassay command. Comment failures use 2 when the command itself succeeded.
+    value: ${{ steps.docassay.outputs.exit_code }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      if: inputs.python-or-node == 'python'
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Set up Node
+      if: inputs.python-or-node == 'node'
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Install and run docassay
+      id: docassay
+      shell: bash
+      env:
+        INPUT_COMMAND: ${{ inputs.command }}
+        INPUT_RUNTIME: ${{ inputs.python-or-node }}
+        INPUT_CONFIG: ${{ inputs.config }}
+        INPUT_COMMENT: ${{ inputs.comment }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_ARGS: ${{ inputs.args }}
+        INPUT_ACTION_PATH: ${{ github.action_path }}
+        GITHUB_TOKEN: ${{ github.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: bash "$INPUT_ACTION_PATH/run.sh"
