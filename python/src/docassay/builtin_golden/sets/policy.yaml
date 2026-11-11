@@ -1,0 +1,9 @@
+id: policy
+file: ../files/policy.docx
+tags: [docx]
+expect:
+  text_contains:
+    - "generated policy"
+    - "30 days"
+  reading_order:
+    - ["generated policy", "30 days"]

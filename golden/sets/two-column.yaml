@@ -1,0 +1,9 @@
+id: two-column
+file: ../files/two-column.pdf
+tags: [multi-column, pdf]
+expect:
+  text_contains:
+    - "left column"
+    - "right column"
+  reading_order:
+    - ["Alpha", "Omega"]

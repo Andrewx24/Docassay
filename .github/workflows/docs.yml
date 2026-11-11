@@ -4,11 +4,21 @@ on:
   pull_request:
     paths:
       - "docs/**"
+      - "README.md"
+      - "python/tests/docs_snippets/**"
+      - "js/test/docs-snippets/**"
+      - "js/test/docs-snippets.test.ts"
+      - "examples/workflows/pr-check.yml"
       - ".github/workflows/docs.yml"
   push:
     branches: [main]
     paths:
       - "docs/**"
+      - "README.md"
+      - "python/tests/docs_snippets/**"
+      - "js/test/docs-snippets/**"
+      - "js/test/docs-snippets.test.ts"
+      - "examples/workflows/pr-check.yml"
       - ".github/workflows/docs.yml"
 
 # One deploy at a time. Do not cancel a deploy that is already in progress.

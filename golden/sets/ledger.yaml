@@ -1,0 +1,13 @@
+id: ledger
+file: ../files/ledger.xlsx
+tags: [dense-table, xlsx]
+expect:
+  text_contains:
+    - "Generated ledger"
+  tables:
+    - page: 1
+      header: ["Account", "Debit", "Credit"]
+      rows: 8
+      cols: 3
+      cells:
+        - {row: 3, col: Account, value: "4004"}

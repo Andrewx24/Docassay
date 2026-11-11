@@ -5,6 +5,19 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: [
+        'guides/quickstart',
+        'guides/golden-files',
+        'guides/metrics',
+        'guides/how-we-score',
+        'guides/ci',
+        'guides/adapter',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Architecture',
       collapsed: false,
       items: [

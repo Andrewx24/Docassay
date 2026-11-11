@@ -1,0 +1,114 @@
+---
+title: Writing an adapter
+sidebar_position: 6
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Writing an adapter
+
+An adapter is the only place that knows a vendor's JSON. Split it in two: `fetch` talks to the parser, and `to_document` / `toDocument` turns a recorded payload into a Document. Mapping stays pure, so you can test it on a saved response with no network and no API key.
+
+The adapter below reads a UTF-8 file and returns one paragraph. `available` says the adapter can run. `cache_identity` / `cacheIdentity` lists the options that would change the output.
+
+<Tabs groupId="lang">
+  <TabItem value="python" label="Python">
+
+```python title="python/tests/docs_snippets/echo_adapter.py"
+"""Minimal adapter: read a text file and return one paragraph block."""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any, ClassVar
+
+from docassay.adapters.base import AdapterError, RawResult
+from docassay.models.document import Block, Document, Meta, Source, Type
+
+
+class EchoAdapter:
+    """Map a `{text: ...}` payload to a single paragraph. `fetch` reads the file."""
+
+    id: ClassVar[str] = "echo"
+    variants: ClassVar[tuple[str, ...]] = ()
+
+    def __init__(self, variant: str | None, options: dict[str, Any]) -> None:
+        self.variant = variant
+        self.options = options
+
+    def available(self) -> tuple[bool, str]:
+        return True, ""
+
+    def cache_identity(self) -> dict[str, Any]:
+        return {"id": self.id, "variant": self.variant, "options": dict(self.options)}
+
+    def fetch(self, path: Path) -> RawResult:
+        return RawResult(
+            payload={"text": path.read_text(encoding="utf-8")},
+            parser_version="echo-1",
+            latency_ms=0,
+        )
+
+    def to_document(self, raw: RawResult, source: Source) -> Document:
+        payload = raw.payload
+        text = payload.get("text") if isinstance(payload, dict) else None
+        if not isinstance(text, str):
+            raise AdapterError("payload.text must be a string")
+        return Document(
+            spec_version="1.0.0",
+            source=source,
+            meta=Meta(parser="echo", parser_version=raw.parser_version, adapter_version="0.0.0"),
+            pages=[],
+            blocks=[Block(id="b1", type=Type.paragraph, text=text, page=1)],
+            tables=[],
+        )
+```
+
+  </TabItem>
+  <TabItem value="node" label="TypeScript">
+
+```ts title="js/test/docs-snippets/echo-adapter.ts"
+import { readFile } from "node:fs/promises";
+
+import { AdapterError, type Adapter, type RawResult } from "../../src/adapters/base.js";
+import type { Document, Source } from "../../src/models/document.js";
+
+/** Map a `{text}` payload to one paragraph. `fetch` reads the file as UTF-8. */
+export function createEcho(variant: string | null, options: Record<string, unknown>): Adapter {
+  return {
+    id: "echo",
+    variants: [],
+    available: () => Promise.resolve({ ok: true }),
+    cacheIdentity: () => ({ id: "echo", variant, options }),
+    fetch: async (filePath: string): Promise<RawResult> => ({
+      payload: { text: await readFile(filePath, "utf8") },
+      parserVersion: "echo-1",
+      latencyMs: 0,
+    }),
+    toDocument: (raw: RawResult, source: Source): Document => {
+      const payload = raw.payload;
+      const text =
+        typeof payload === "object" && payload !== null && "text" in payload
+          ? payload.text
+          : undefined;
+      if (typeof text !== "string") throw new AdapterError("payload.text must be a string");
+      return {
+        specVersion: "1.0.0",
+        source,
+        meta: { parser: "echo", parserVersion: raw.parserVersion, adapterVersion: "0.0.0" },
+        pages: [],
+        blocks: [{ id: "b1", type: "paragraph", text, page: 1 }],
+        tables: [],
+      };
+    },
+  };
+}
+```
+
+  </TabItem>
+</Tabs>
+
+Python discovers third-party adapters from the entry-point group `docassay.adapters`. Point the entry point at `EchoAdapter` (the class is callable). TypeScript callers pass `Object.assign(createEcho, { id: "echo", variants: [] })` to `registerAdapter` before `run()`. Built-in ids cannot be replaced.
+
+Mapping rules that every adapter follows — blocks, tables, boxes, errors — are in [Adapters](../architecture/adapters.md). Record at least two real vendor payloads and compare `to_document` to the Document you expect. A missing credential should fail `available()` before any document is fetched.

@@ -1,0 +1,43 @@
+---
+title: Writing golden files
+sidebar_position: 2
+---
+
+# Writing golden files
+
+A golden file is one YAML document per source file. It says what correct parser output contains. Every section under `expect` is optional, so you can label three cells instead of a whole table. Ten to thirty documents is enough.
+
+`file` is relative to the golden file. `id` defaults to the file stem. `docassay validate` checks the schema, that the source file exists, that cell columns are in the header, and that reading-order pairs are two different strings.
+
+```yaml title="python/tests/docs_snippets/invoice.yaml"
+id: invoice-acme
+file: files/invoice-acme.pdf
+tags: [invoice]
+expect:
+  text_contains:
+    - "Total due $10.00"
+  reading_order:
+    - ["Invoice", "Widget"]
+  tables:
+    - page: 1
+      header: ["Item", "Qty"]
+      rows: 1
+      cols: 2
+      cells:
+        - {row: 0, col: Item, value: Widget}
+  fields:
+    total: "10.00"
+```
+
+
+| Section | What you are asserting |
+| --- | --- |
+| `text_contains` | Each string appears somewhere in the document text. |
+| `reading_order` | The first string appears before the second. |
+| `tables` | A table on that page, with this header and these spot-checked cells. `row` is a body row, starting at 0. |
+| `fields` | An extracted value. Write it as it appears on the page. |
+| `chunks` | Token bounds and heading paths, when you score chunks. |
+
+Write amounts and dates as printed (`$1,200.00`, `Nov. 1 2026`). [Normalization](../architecture/normalization.md) decides that those match `1200` and `2026-11-01`. The rules for each section are on the [Golden sets](../architecture/golden-sets.md) page.
+
+`docassay label <file> --from <parser>` drafts a file with `# TODO verify` on every value. `docassay label <golden.yaml> --review` opens a local page so you can correct it. `docassay validate --strict` refuses a file that still has those comments.

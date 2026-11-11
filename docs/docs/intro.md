@@ -32,13 +32,11 @@ Teams pick a parser by eyeballing a few PDFs, then ship and hope. Three things t
 
 docassay ships as a Python package on PyPI (built with Poetry) and a TypeScript package on npm. Both implement one shared spec and must produce **identical scores** for identical input. See [Parity](architecture/parity.md).
 
-```bash
-pip install docassay        # or: poetry add docassay
-npm install docassay
-```
+Install and run instructions are in the [Quickstart](guides/quickstart.mdx).
 
 ## Where to go next
 
+- Using it: follow the [Quickstart](guides/quickstart.mdx), then [How we score](guides/how-we-score.mdx).
 - New to the design: read the [Architecture overview](architecture/overview.md).
 - Building it: follow the [Build plan](implementation/build-plan.md). Each step maps to a Linear issue.
 - Using a coding agent: give it the [Agent guide](implementation/agent-guide.md).
