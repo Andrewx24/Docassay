@@ -6,6 +6,7 @@ import importlib.util
 import os
 import re
 import runpy
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -28,11 +29,54 @@ def _docassay() -> str:
         text=True,
     ).strip()
     bindir = Path(python).parent
-    for name in ("docassay", "docassay.exe"):
+    # Windows also writes an extensionless script. CreateProcess cannot run it.
+    names = ("docassay.exe", "docassay") if os.name == "nt" else ("docassay",)
+    for name in names:
         candidate = bindir / name
         if candidate.is_file():
             return str(candidate)
     raise AssertionError(f"docassay is not installed next to {python}")
+
+
+def _bash() -> str:
+    """Return a bash that can run the guide scripts.
+
+    Example:
+        subprocess.run([_bash(), "quickstart.sh"], check=False)
+    """
+    if os.name == "nt":
+        roots = [
+            os.environ.get("ProgramFiles", r"C:\Program Files"),
+            os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+        ]
+        for root in roots:
+            for relative in ("Git/bin/bash.exe", "Git/usr/bin/bash.exe"):
+                candidate = Path(root) / relative
+                if candidate.is_file():
+                    return str(candidate)
+    found = shutil.which("bash")
+    if found is None:
+        raise AssertionError("bash is not installed. On Windows, install Git Bash.")
+    return found
+
+
+def _command_dir(binary: str, scratch: Path) -> Path:
+    """Return a directory whose ``docassay`` command is the real launcher.
+
+    Example:
+        env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env["PATH"]
+    """
+    if os.name != "nt":
+        return Path(binary).parent
+    exe = Path(binary)
+    if exe.suffix.lower() != ".exe":
+        sibling = exe.parent / "docassay.exe"
+        if sibling.is_file():
+            exe = sibling
+    shim = scratch / "docassay-bin"
+    shim.mkdir()
+    shutil.copy2(exe, shim / "docassay.exe")
+    return shim
 
 
 def _fences(path: Path) -> list[tuple[str, str]]:
@@ -64,9 +108,9 @@ def test_guides_and_readme_copy_snippet_files() -> None:
 def test_quickstart_scores_the_labeled_sentence(tmp_path: Path) -> None:
     binary = _docassay()
     env = os.environ.copy()
-    env["PATH"] = str(Path(binary).parent) + os.pathsep + env.get("PATH", "")
+    env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env.get("PATH", "")
     completed = subprocess.run(
-        ["bash", str(SNIPPETS / "quickstart.sh")],
+        [_bash(), str(SNIPPETS / "quickstart.sh")],
         cwd=tmp_path,
         env=env,
         capture_output=True,
@@ -131,12 +175,12 @@ def test_echo_adapter_reads_text_into_a_paragraph(tmp_path: Path) -> None:
     assert adapter.available() == (True, "")
 
 
-def test_check_snippet_passes_on_golden() -> None:
+def test_check_snippet_passes_on_golden(tmp_path: Path) -> None:
     binary = _docassay()
     env = os.environ.copy()
-    env["PATH"] = str(Path(binary).parent) + os.pathsep + env.get("PATH", "")
+    env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env.get("PATH", "")
     completed = subprocess.run(
-        ["bash", str(SNIPPETS / "ci.sh")],
+        [_bash(), str(SNIPPETS / "ci.sh")],
         cwd=ROOT,
         env=env,
         capture_output=True,

@@ -672,7 +672,9 @@ def _sources(docs: tuple[Generated, ...]) -> str:
 def _write(path: Path, data: str | bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if isinstance(data, str):
-        path.write_text(data, encoding="utf-8")
+        # newline="\n" keeps the committed LF bytes. The default follows
+        # os.linesep, so --check would fail on Windows.
+        path.write_text(data, encoding="utf-8", newline="\n")
     else:
         path.write_bytes(data)
 

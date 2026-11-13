@@ -92,12 +92,29 @@ test "$bad_runtime" -eq 2
 test "$bad_version" -eq 2
 
 # Install the checkout and require a regression to exit 1 after the comment is posted.
+# The package requires Python >=3.10,<3.14. ubuntu-latest's python3 may be newer.
+supported_python() {
+  local candidate version
+  for candidate in python3.13 python3.12 python3.11 python3.10 python3 python; do
+    if ! command -v "$candidate" >/dev/null 2>&1; then
+      continue
+    fi
+    version="$("$candidate" -c 'import sys; print("%d.%d" % sys.version_info[:2])')"
+    case "$version" in
+      3.10|3.11|3.12|3.13) printf '%s\n' "$candidate"; return 0 ;;
+    esac
+  done
+  return 1
+}
+
 py_bin=""
 if command -v poetry >/dev/null 2>&1; then
   py_bin="$(dirname "$(poetry -C "${root}/python" env info -e)")"
-elif python3 -m venv "${tmp}/ci-venv"; then
-  "${tmp}/ci-venv/bin/python" -m pip install --disable-pip-version-check --editable "${root}/python"
-  py_bin="${tmp}/ci-venv/bin"
+elif py="$(supported_python)"; then
+  if "$py" -m venv "${tmp}/ci-venv"; then
+    "${tmp}/ci-venv/bin/python" -m pip install --disable-pip-version-check --editable "${root}/python"
+    py_bin="${tmp}/ci-venv/bin"
+  fi
 fi
 if [[ -n "$py_bin" ]]; then
   bad_base="${tmp}/bad-baseline.json"
