@@ -1,0 +1,21 @@
+{
+  "scores": {
+    "chunks": 0.0
+  },
+  "failures": [
+    {
+      "metric": "chunks",
+      "check": "heading_paths[0]",
+      "reason": "text not in any chunk",
+      "expected": "Late fees",
+      "actual": null
+    }
+  ],
+  "extra": {
+    "tokens": {
+      "min": 2,
+      "median": 2,
+      "max": 2
+    }
+  }
+}

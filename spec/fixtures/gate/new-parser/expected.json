@@ -1,0 +1,4 @@
+{
+  "exitCode": 0,
+  "text": "WARN  reducto · new parser, no baseline\n\n0 regressions · 1 warning · run `docassay baseline` after an intended change\n"
+}

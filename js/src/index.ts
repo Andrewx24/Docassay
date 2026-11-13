@@ -19,5 +19,7 @@ export type { Adapter, RawResult } from "./adapters/base.js";
 export { registerAdapter, resolve } from "./adapters/registry.js";
 export { loadGolden } from "./golden.js";
 export type { Document } from "./models/document.js";
+export { RunError, run } from "./runner.js";
+export type { Scorecard } from "./models/scorecard.js";
 export { verify } from "./verify.js";
 export type { Citation, FieldCheck, VerifyResult, VerifyStatus } from "./verify.js";

@@ -1,0 +1,12 @@
+{
+  "scores": {
+    "chunks": 0.0
+  },
+  "failures": [
+    {
+      "metric": "chunks",
+      "check": "chunks",
+      "reason": "parser produced no chunks"
+    }
+  ]
+}

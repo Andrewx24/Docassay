@@ -1,0 +1,10 @@
+docassay 0.0.0 · 20 documents · 1 parser
+
+parser  tables  text  order  fields  chunks  overall  $/1k pages  p95
+file    0.88    0.98  1.00   —       —       0.96     0.00        0.0s
+
+Worst documents
+  memo   tables 0.00 (file)
+  lease  text 0.50 (file)
+
+Run with -v for every failure.

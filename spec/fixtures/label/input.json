@@ -1,0 +1,53 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/lease.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "docling",
+    "parserVersion": "2.87.0",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {"number": 1},
+    {"number": 2}
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "paragraph",
+      "text": "Alpha sentence near the start of the lease.",
+      "page": 1
+    },
+    {"id": "b2", "type": "footnote", "text": "See schedule A.", "page": 1},
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "End of page one before the break.",
+      "page": 1
+    },
+    {"id": "b4", "type": "caption", "text": "Figure 1. Site plan.", "page": 2},
+    {"id": "b5", "type": "paragraph", "text": "Last page closing sentence.", "page": 2}
+  ],
+  "tables": [
+    {"id": "t1", "page": 1, "header": ["A"], "rows": [["x"]]},
+    {
+      "id": "t2",
+      "page": 1,
+      "header": ["Item", "Qty", "Price"],
+      "rows": [
+        ["A", "1", "10"],
+        ["Widget", "2", "1,200.00"],
+        ["Z", "3", "5"]
+      ]
+    }
+  ],
+  "fields": {
+    "vendor": {"value": "Acme Corp"},
+    "total": {"value": 1200},
+    "paid": {"value": false},
+    "note": {"value": null}
+  }
+}

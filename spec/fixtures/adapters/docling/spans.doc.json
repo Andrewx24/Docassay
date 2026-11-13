@@ -1,0 +1,43 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "docling",
+    "parserVersion": "2.87.0",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 100,
+      "height": 100
+    }
+  ],
+  "blocks": [],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "bbox": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "header": [
+        "H",
+        "H"
+      ],
+      "rows": [
+        [
+          "a",
+          "b"
+        ]
+      ]
+    }
+  ]
+}

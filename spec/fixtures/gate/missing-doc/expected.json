@@ -1,0 +1,4 @@
+{
+  "exitCode": 0,
+  "text": "WARN  docling · lease · missing from this run\n\n0 regressions · 1 warning · run `docassay baseline` after an intended change\n"
+}

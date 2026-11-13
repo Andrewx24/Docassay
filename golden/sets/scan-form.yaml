@@ -1,0 +1,6 @@
+id: scan-form
+file: ../files/scan-form.pdf
+tags: [scan, pdf]
+expect:
+  text_contains:
+    - "Applicant name Jordan Lee"

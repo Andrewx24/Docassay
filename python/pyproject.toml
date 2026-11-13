@@ -5,6 +5,7 @@ description = "pytest for document ingestion"
 authors = ["Andrew Aliaj"]
 readme = "README.md"
 packages = [{ include = "docassay", from = "src" }]
+include = ["src/docassay/builtin_golden/**/*"]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
@@ -51,3 +52,4 @@ mypy_path = "src"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = ["live: calls Docling or another parser; set LIVE=1"]

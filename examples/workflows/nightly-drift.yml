@@ -1,0 +1,52 @@
+name: Nightly vendor drift
+
+# Calls the live parsers. A regression opens an issue and leaves the job green.
+# Exit 2 and exit 3 still fail the job.
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: check
+        continue-on-error: true
+        uses: Andrewx24/Docassay/action@v0
+        with:
+          command: check
+          python-or-node: python
+          config: docassay.yaml
+          version: "0.1.0"
+          args: --refresh
+
+      - name: Open or update the drift issue
+        if: steps.check.outputs.exit_code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          body="$(cat <<'EOF'
+          `docassay check --refresh` found a regression. The parsers were called live, so this can be a vendor-side change. Re-run locally, then run `docassay baseline` if the change is intended.
+
+          The failure lines are in this workflow run.
+          EOF
+          )"
+          existing="$(gh issue list --state open --search 'docassay: vendor drift in:title' --json number --jq '.[0].number')"
+          if [[ -n "$existing" ]]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "docassay: vendor drift" --body "$body"
+          fi
+
+      - name: Fail on setup or parser errors
+        if: steps.check.outputs.exit_code != '0' && steps.check.outputs.exit_code != '1'
+        run: exit "${{ steps.check.outputs.exit_code }}"

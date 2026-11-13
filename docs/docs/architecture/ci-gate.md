@@ -66,6 +66,8 @@ flowchart LR
     command: check            # or run
     python-or-node: python    # which package to install
     comment: true             # post/update the Markdown scorecard on the PR
+    version: "0.1.0"          # local installs this checkout
+    args: --summary-only      # nightly drift uses --refresh
 ```
 
-The action posts one comment and edits it on later pushes, identified by a hidden marker `<!-- docassay-report -->`.
+The action posts one comment and edits it on later pushes, identified by a hidden marker `<!-- docassay-report -->`. The step still exits with the CLI's code, so a regression fails the pull request after the comment is written. Copy-paste workflows live in `examples/workflows/`. Publishing the action to the Marketplace is an owner step after v0.1.0.

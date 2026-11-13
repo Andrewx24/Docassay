@@ -1,0 +1,13 @@
+id: packing-list
+file: ../files/packing-list.xlsx
+tags: [xlsx]
+expect:
+  text_contains:
+    - "generated shipment"
+  tables:
+    - page: 1
+      header: ["Item", "Qty"]
+      rows: 5
+      cols: 2
+      cells:
+        - {row: 1, col: Item, value: "Tape"}

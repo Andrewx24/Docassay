@@ -1,0 +1,63 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/invoice.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "file",
+    "parserVersion": "file",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "paragraph",
+      "text": "Alpha",
+      "page": 1
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "text": "",
+      "page": 1
+    },
+    {
+      "id": "b3",
+      "type": "paragraph",
+      "text": "Beta",
+      "page": 1
+    }
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "page": 1,
+      "header": [
+        "Item",
+        "Qty"
+      ],
+      "rows": [
+        [
+          "Widget",
+          "2"
+        ]
+      ]
+    },
+    {
+      "id": "t2",
+      "page": 1,
+      "rows": [
+        [
+          "Only"
+        ]
+      ]
+    }
+  ]
+}

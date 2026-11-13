@@ -10,8 +10,17 @@ from importlib.metadata import version
 
 from docassay.config import ConfigError, load_config
 from docassay.golden import load_golden
+from docassay.runner import RunError, run
 from docassay.verify import verify
 
 __version__ = version("docassay")
 
-__all__ = ["ConfigError", "__version__", "load_config", "load_golden", "verify"]
+__all__ = [
+    "ConfigError",
+    "RunError",
+    "__version__",
+    "load_config",
+    "load_golden",
+    "run",
+    "verify",
+]

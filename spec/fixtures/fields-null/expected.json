@@ -1,0 +1,21 @@
+{
+  "scores": {
+    "fields": 0.6
+  },
+  "failures": [
+    {
+      "metric": "fields",
+      "check": "fields[bad]",
+      "reason": "value does not match",
+      "expected": null,
+      "actual": "x"
+    },
+    {
+      "metric": "fields",
+      "check": "fields[flag]",
+      "reason": "value does not match",
+      "expected": null,
+      "actual": false
+    }
+  ]
+}

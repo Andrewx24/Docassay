@@ -170,13 +170,32 @@ def _issue_key(issue: ConfigIssue) -> tuple[str, int, int, str]:
     return (issue.path, issue.line, issue.column, issue.message)
 
 
+def _posix_relative(path: Path, start: Path) -> str:
+    """Return ``path`` relative to ``start``, using ``/``.
+
+    Windows raises when the paths are on different drives. The absolute path
+    is the useful form in that case.
+
+    Example:
+        _posix_relative(Path("golden/a.yaml").resolve(), Path(".").resolve())
+    """
+    try:
+        relative = os.path.relpath(path, start)
+    except ValueError:
+        return Path(path).as_posix()
+    text = Path(relative).as_posix()
+    return "." if text == "" else text
+
+
 def display_path(path: Path) -> str:
     """Return ``path`` relative to the working directory, using ``/``.
+
+    A path on another Windows drive stays absolute.
 
     Example:
         display_path(Path("docassay.yaml"))
     """
-    return Path(os.path.relpath(path.resolve(), Path.cwd().resolve())).as_posix()
+    return _posix_relative(path.resolve(), Path.cwd().resolve())
 
 
 def load_config(path: str | Path) -> Config:
@@ -329,8 +348,7 @@ def _resolve_paths(data: dict[object, object], config_path: Path) -> None:
 def _relative_to_config(config_path: Path, value: str) -> str:
     base = config_path.parent.resolve()
     absolute = (config_path.parent / value).resolve()
-    relative = Path(os.path.relpath(absolute, base)).as_posix()
-    return relative if relative else "."
+    return _posix_relative(absolute, base)
 
 
 def _parser_issues(data: dict[object, object], node: yaml.Node, shown: str) -> list[ConfigIssue]:
@@ -477,7 +495,8 @@ def _schema_message(error: ValidationError) -> str:
     if keyword == "required":
         message = error.message
         if message.startswith("'") and "' " in message:
-            return f'missing property "{message.split("'", 2)[1]}"'
+            missing = message.split("'", 2)[1]
+            return f'missing property "{missing}"'
         return 'missing property "version"'
     if keyword == "const":
         return f"must be {error.validator_value}"

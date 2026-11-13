@@ -1,0 +1,35 @@
+{
+  "specVersion": "1.0.0",
+  "source": {
+    "path": "files/sample.pdf",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mime": "application/pdf"
+  },
+  "meta": {
+    "parser": "docling",
+    "parserVersion": "2.87.0",
+    "adapterVersion": "0.0.0"
+  },
+  "pages": [
+    {
+      "number": 1,
+      "width": 595.2,
+      "height": 841.92
+    }
+  ],
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "paragraph",
+      "text": "Docling bundles PDF document conversion to JSON and Markdown in an easy self contained package",
+      "page": 1,
+      "bbox": [
+        72.33,
+        78,
+        503.33,
+        150.33
+      ]
+    }
+  ],
+  "tables": []
+}

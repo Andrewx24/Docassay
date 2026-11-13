@@ -1,0 +1,11 @@
+id: memo
+file: ../files/memo.pdf
+tags: [memo]
+expect:
+  text_contains:
+    - "Please review the notes."
+  tables:
+    - page: 1
+      header: ["A", "B"]
+      rows: 1
+      cols: 2

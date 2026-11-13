@@ -1,0 +1,23 @@
+{
+  "scores": {
+    "chunks": 0.0
+  },
+  "failures": [
+    {
+      "metric": "chunks",
+      "check": "heading_paths[0]",
+      "reason": "heading path does not match",
+      "expected": [
+        "Terms"
+      ],
+      "actual": null
+    }
+  ],
+  "extra": {
+    "tokens": {
+      "min": 3,
+      "median": 3,
+      "max": 3
+    }
+  }
+}

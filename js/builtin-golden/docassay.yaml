@@ -1,0 +1,13 @@
+# Mini golden set for `docassay run`. The file adapter reads parsed/*.md.
+version: 1
+golden: sets
+cache: .docassay/cache
+baseline: .docassay/baseline.json
+parsers:
+  - id: file
+    name: file
+    options: {dir: parsed}
+normalize:
+  date_order: mdy
+  decimal: "."
+tokenizer: words

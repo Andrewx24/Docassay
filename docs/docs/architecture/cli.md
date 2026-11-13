@@ -31,6 +31,7 @@ Both packages install a `docassay` command with **identical commands, flags, out
 | `--refresh` | off | Re-parse and overwrite cache entries |
 | `--concurrency <n>` | 4 | Parallel parse calls per parser |
 | `-v, --verbose` | off | Print failures for every document |
+| `--golden builtin` | off | On `run`, `validate`, `baseline`, and `check`, use the golden set packaged with docassay |
 
 ## Exit codes
 
@@ -46,14 +47,14 @@ Both packages install a `docassay` command with **identical commands, flags, out
 ```text
 docassay 0.1.0 · 20 documents · 3 parsers
 
-parser               tables  text   order  fields  chunks  overall  $/1k pages  p95
-llamaparse:agentic   0.94    0.99   0.95   0.96    —       0.96     12.50       48.0s
-reducto              0.95    0.99   0.96   0.98    0.91    0.96     10.00        9.1s
-docling              0.81    0.97   0.92   —       —       0.90      0.00        6.1s
+parser              tables  text  order  fields  chunks  overall  $/1k pages  p95
+llamaparse:agentic  0.94    0.99  0.95   0.96    —       0.96     12.50       48.0s
+reducto             0.95    0.99  0.96   0.98    0.91    0.96     10.00        9.1s
+docling             0.81    0.97  0.92   —       —       0.90      0.00        6.1s
 
 Worst documents
-  scan-lease-2019     tables 0.42 (docling), 0.58 (llamaparse:agentic)
-  10k-segment-table   order 0.50 (docling)
+  scan-lease-2019    tables 0.42 (docling), 0.58 (llamaparse:agentic)
+  10k-segment-table  order 0.50 (docling)
 
 Run with -v for every failure.
 ```
