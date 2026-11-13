@@ -502,6 +502,9 @@ def _zip(parts: dict[str, str]) -> bytes:
         for name in sorted(parts):
             info = zipfile.ZipInfo(filename=name, date_time=ZIP_DATE)
             info.compress_type = zipfile.ZIP_STORED
+            # create_system follows the host. Pin Unix so Windows matches the
+            # committed archives.
+            info.create_system = 3
             info.external_attr = 0o644 << 16
             archive.writestr(info, parts[name])
     return buffer.getvalue()

@@ -23,18 +23,30 @@ FENCE = re.compile(r"```([^\n]*)\n(.*?)```", re.DOTALL)
 TITLE = re.compile(r'title="([^"]+)"')
 
 
-def _docassay() -> str:
-    python = subprocess.check_output(
+def _poetry_python() -> str:
+    return subprocess.check_output(
         ["poetry", "-C", str(ROOT / "python"), "env", "info", "-e"],
         text=True,
     ).strip()
+
+
+def _docassay_argv() -> list[str]:
+    """Return a command that runs the installed docassay console script.
+
+    Example:
+        subprocess.run([*_docassay_argv(), "--version"], check=False)
+    """
+    python = _poetry_python()
     bindir = Path(python).parent
-    # Windows also writes an extensionless script. CreateProcess cannot run it.
-    names = ("docassay.exe", "docassay") if os.name == "nt" else ("docassay",)
-    for name in names:
-        candidate = bindir / name
-        if candidate.is_file():
-            return str(candidate)
+    exe = bindir / "docassay.exe"
+    script = bindir / "docassay"
+    if exe.is_file() and os.name == "nt":
+        return [str(exe)]
+    if os.name == "nt" and script.is_file():
+        # The extensionless file is a Python script. CreateProcess cannot run it.
+        return [python, str(script)]
+    if script.is_file():
+        return [str(script)]
     raise AssertionError(f"docassay is not installed next to {python}")
 
 
@@ -60,22 +72,23 @@ def _bash() -> str:
     return found
 
 
-def _command_dir(binary: str, scratch: Path) -> Path:
-    """Return a directory whose ``docassay`` command is the real launcher.
+def _command_dir(scratch: Path) -> Path:
+    """Return a directory whose ``docassay`` command Git Bash can execute.
 
     Example:
-        env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env["PATH"]
+        env["PATH"] = str(_command_dir(tmp_path)) + os.pathsep + env["PATH"]
     """
+    argv = _docassay_argv()
     if os.name != "nt":
-        return Path(binary).parent
-    exe = Path(binary)
-    if exe.suffix.lower() != ".exe":
-        sibling = exe.parent / "docassay.exe"
-        if sibling.is_file():
-            exe = sibling
+        return Path(argv[0]).parent
     shim = scratch / "docassay-bin"
     shim.mkdir()
-    shutil.copy2(exe, shim / "docassay.exe")
+    quoted = " ".join(f'"{Path(part).as_posix()}"' for part in argv)
+    (shim / "docassay").write_text(
+        f'#!/bin/sh\nexec {quoted} "$@"\n',
+        encoding="utf-8",
+        newline="\n",
+    )
     return shim
 
 
@@ -106,9 +119,8 @@ def test_guides_and_readme_copy_snippet_files() -> None:
 
 
 def test_quickstart_scores_the_labeled_sentence(tmp_path: Path) -> None:
-    binary = _docassay()
     env = os.environ.copy()
-    env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env.get("PATH", "")
+    env["PATH"] = str(_command_dir(tmp_path)) + os.pathsep + env.get("PATH", "")
     completed = subprocess.run(
         [_bash(), str(SNIPPETS / "quickstart.sh")],
         cwd=tmp_path,
@@ -123,7 +135,7 @@ def test_quickstart_scores_the_labeled_sentence(tmp_path: Path) -> None:
 
 def test_golden_scorecard_matches_the_committed_text() -> None:
     completed = subprocess.run(
-        [_docassay(), "run", "-c", str(ROOT / "golden" / "docassay.yaml")],
+        [*_docassay_argv(), "run", "-c", str(ROOT / "golden" / "docassay.yaml")],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -176,9 +188,8 @@ def test_echo_adapter_reads_text_into_a_paragraph(tmp_path: Path) -> None:
 
 
 def test_check_snippet_passes_on_golden(tmp_path: Path) -> None:
-    binary = _docassay()
     env = os.environ.copy()
-    env["PATH"] = str(_command_dir(binary, tmp_path)) + os.pathsep + env.get("PATH", "")
+    env["PATH"] = str(_command_dir(tmp_path)) + os.pathsep + env.get("PATH", "")
     completed = subprocess.run(
         [_bash(), str(SNIPPETS / "ci.sh")],
         cwd=ROOT,
